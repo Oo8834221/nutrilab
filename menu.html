@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<HEAD>
+<TITLE>食育實驗室 — 導覽選單</TITLE>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap');
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  :root {
+    --green-deep:   #2d6a4f;
+    --green-mid:    #40916c;
+    --green-light:  #74c69d;
+    --cream:        #f8f5ef;
+    --orange:       #f4833e;
+    --orange-light: #ffd166;
+    --text-dark:    #1a3a2a;
+    --text-white:   #ffffff;
+    --shadow:       0 4px 20px rgba(45,106,79,0.18);
+  }
+
+  body {
+    background: #f0f7f4;
+    font-family: 'Noto Sans TC', 'Microsoft JhengHei', sans-serif;
+  }
+
+  /* ── 主導覽容器 ── */
+  nav.main-nav {
+    background: linear-gradient(135deg, var(--green-mid) 0%, var(--green-deep) 100%);
+    box-shadow: var(--shadow);
+    position: relative;
+    z-index: 100;
+  }
+
+  /* 裝飾線 */
+  nav.main-nav::after {
+    content: '';
+    display: block;
+    height: 3px;
+    background: linear-gradient(90deg, var(--orange-light), var(--orange), var(--green-light), var(--orange-light));
+  }
+
+  .nav-inner {
+    width: 100%;
+    display: flex;
+    align-items: stretch;
+    justify-content: space-around;
+    flex-wrap: nowrap;
+  }
+
+  /* ── 每個選單項目 ── */
+  .nav-item {
+    position: relative;
+  }
+
+  .nav-item > a.nav-link {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    padding: 8px 6px 6px;
+    color: var(--text-white);
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: 500;
+    white-space: nowrap;
+    letter-spacing: 0;
+    transition: background 0.2s, color 0.2s;
+    cursor: pointer;
+    border-bottom: 3px solid transparent;
+  }
+
+  .nav-item > a.nav-link:hover,
+  .nav-item:hover > a.nav-link {
+    background: rgba(255,255,255,0.12);
+    border-bottom-color: var(--orange-light);
+    color: var(--orange-light);
+  }
+
+  /* 有子選單的箭頭 */
+  .nav-item.has-dropdown > a.nav-link::after {
+    content: '▾';
+    font-size: 10px;
+    opacity: 0.7;
+    transition: transform 0.2s;
+  }
+  .nav-item.has-dropdown:hover > a.nav-link::after {
+    transform: rotate(180deg);
+  }
+
+  /* ── 下拉選單（absolute；由 JS 撐高 frameset 來顯示） ── */
+  .dropdown {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: var(--cream);
+    border-radius: 0 0 12px 12px;
+    box-shadow: 0 8px 30px rgba(45,106,79,0.22);
+    min-width: 160px;
+    overflow: hidden;
+    border-top: 3px solid var(--orange);
+    animation: dropIn 0.18s ease;
+    z-index: 9999;
+  }
+
+  @keyframes dropIn {
+    from { opacity: 0; transform: translateY(-6px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .dropdown.open {
+    display: block;
+  }
+
+  .dropdown a {
+    display: block;
+    padding: 10px 18px;
+    font-size: 13px;
+    color: var(--text-dark);
+    text-decoration: none;
+    border-left: 3px solid transparent;
+    transition: background 0.15s, border-color 0.15s;
+  }
+
+  .dropdown a:hover {
+    background: rgba(64,145,108,0.10);
+    border-left-color: var(--green-mid);
+    color: var(--green-deep);
+    font-weight: 700;
+  }
+
+  .dropdown a + a {
+    border-top: 1px solid rgba(45,106,79,0.08);
+  }
+
+
+</style>
+</HEAD>
+<BODY>
+
+<!-- 主導覽列 -->
+<nav class="main-nav">
+  <div class="nav-inner">
+
+    
+
+    <!-- 🗺️ 學習地圖 -->
+    <div class="nav-item has-dropdown">
+      <a class="nav-link" href="2.html" target="content">🗺️ 學習地圖</a>
+      <div class="dropdown">
+        <a href="2-1.html" target="content"> 課程大綱</a>
+        <a href="2-2.html" target="content"> 所謂的營養素？</a>
+        <a href="2-3.html" target="content"> 生命階段及營養</a>
+        <a href="2-3.html" target="content"> 維生素的種類</a>
+        <a href="2-3.html" target="content"> 消化及吸收</a>
+        <a href="2-3.html" target="content"> 疾病及營養關係</a>
+        <a href="2-3.html" target="content"> 我的健康餐盤</a>
+      </div>
+    </div>
+
+    <!-- 🥗 食育百科 -->
+    <div class="nav-item has-dropdown">
+      <a class="nav-link" href="3.html" target="content">🥗 食育百科</a>
+      <div class="dropdown">
+        <a href="3-1.html" target="content">🌾 食物的故事</a>
+        <a href="3-2.html" target="content">🧬 營養與健康</a>
+        <a href="3-3.html" target="content">🌍 飲食文化</a>
+        <a href="3-4.html" target="content">♻️ 永續飲食</a>
+      </div>
+    </div>
+
+    <!-- 🎧 營養電台 -->
+    <div class="nav-item has-dropdown">
+      <a class="nav-link" href="4.html" target="content">🎧 營養電台</a>
+      <div class="dropdown">
+        <a href="4-1.html" target="content">🎙️ 音頻講義</a>
+        <a href="4-2.html" target="content">📻 Podcast 精選</a>
+        <a href="4-3.html" target="content">🎵 食育歌謠</a>
+      </div>
+    </div>
+
+    <!-- 🎬 食育工坊 -->
+    <div class="nav-item has-dropdown">
+      <a class="nav-link" href="5.html" target="content">🎬 食育工坊</a>
+      <div class="dropdown">
+        <a href="5-1.html" target="content">🍳 料理示範</a>
+        <a href="5-2.html" target="content">🧪 食材實驗</a>
+        <a href="5-3.html" target="content">📷 影片教學</a>
+      </div>
+    </div>
+
+    <!-- 🌍 精選資源 -->
+    <div class="nav-item has-dropdown">
+      <a class="nav-link" href="6.html" target="content">🌍 精選資源</a>
+      <div class="dropdown">
+        <a href="6-1.html" target="content">🔗 推薦網站</a>
+        <a href="6-2.html" target="content">📄 教學素材</a>
+        <a href="6-3.html" target="content">🗂️ 教案下載</a>
+      </div>
+    </div>
+
+    <!-- 🎮 健康挑戰 -->
+    <div class="nav-item has-dropdown">
+      <a class="nav-link" href="7.html" target="content">🎮 健康挑戰</a>
+      <div class="dropdown">
+        <a href="7-1.html" target="content">🏅 每日挑戰</a>
+        <a href="7-2.html" target="content">🧩 闖關任務</a>
+        <a href="7-3.html" target="content">🏆 成就徽章</a>
+      </div>
+    </div>
+
+    <!-- 📋 學習檢核 -->
+    <div class="nav-item has-dropdown">
+      <a class="nav-link" href="8.html" target="content">📋 學習檢核</a>
+      <div class="dropdown">
+        <a href="8-1.html" target="content">📝 隨堂測驗</a>
+        <a href="8-2.html" target="content">📊 評量總覽</a>
+        <a href="8-3.html" target="content">✅ 自我評估</a>
+      </div>
+    </div>
+
+    <!-- 📚 延伸閱讀 -->
+    <div class="nav-item has-dropdown">
+      <a class="nav-link" href="9.html" target="content">📚 延伸閱讀</a>
+      <div class="dropdown">
+        <a href="9-1.html" target="content">📖 推薦書單</a>
+        <a href="9-2.html" target="content">🗞️ 食育專欄</a>
+        <a href="9-3.html" target="content">🔬 研究文獻</a>
+      </div>
+    </div>
+
+    
+  </div><!-- /.nav-inner -->
+</nav>
+
+
+
+<script>
+  // ── 核心原理：
+  // iframe/frame 裡的 position:fixed/absolute 都被裁切在該 frame 內。
+  // 唯一跨 frame 的方式：透過 parent.document 把 frameset 的 rows 撐高，
+  // 讓 menu frame 暫時變高，下拉選單就能顯示出來。
+  // 關閉時恢復原本高度。
+
+  var MENU_NORMAL_HEIGHT = 27;   // 平常 menu frame 高度 (px)，對應 index.html rows="68,27,*"
+  var MENU_OPEN_HEIGHT   = 200;  // 展開時高度
+
+  function setFramesetRows(menuH) {
+    try {
+      var fs = parent.document.querySelector('frameset frameset');
+      if (fs) {
+        fs.rows = '68,' + menuH + ',*';
+      }
+    } catch(e) {
+      // 若跨域限制則忽略（本機開啟不會有問題）
+    }
+  }
+
+  // 下拉選單改回 absolute（相對於已撐高的 menu frame）
+  document.querySelectorAll('.nav-item.has-dropdown').forEach(function(item) {
+    var dropdown = item.querySelector('.dropdown');
+    var leaveTimer;
+
+    item.addEventListener('mouseenter', function() {
+      clearTimeout(leaveTimer);
+      // 撐高 frameset
+      setFramesetRows(MENU_OPEN_HEIGHT);
+      dropdown.classList.add('open');
+
+      // 水平定位置中
+      var rect     = item.getBoundingClientRect();
+      var ddW      = dropdown.offsetWidth || 160;
+      var left     = rect.left + rect.width / 2 - ddW / 2;
+      var maxLeft  = window.innerWidth - ddW - 4;
+      left = Math.max(0, Math.min(left, maxLeft));
+      dropdown.style.left = left + 'px';
+    });
+
+    function closeDropdown() {
+      leaveTimer = setTimeout(function() {
+        dropdown.classList.remove('open');
+        // 恢復原本高度
+        setFramesetRows(MENU_NORMAL_HEIGHT);
+      }, 150);
+    }
+
+    item.addEventListener('mouseleave', closeDropdown);
+    dropdown.addEventListener('mouseenter', function() { clearTimeout(leaveTimer); });
+    dropdown.addEventListener('mouseleave', closeDropdown);
+  });
+</script>
+</BODY>
+</html>
+<!-- EZWEB 2026, v22 -->

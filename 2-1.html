@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<HEAD>
+<TITLE>食育實驗室 — 課程大綱</TITLE>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;700;900&family=DM+Sans:wght@400;500;600;700&display=swap');
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --white:   #ffffff;
+    --bg:      #f2fbf6;
+    --bg-card: #ffffff;
+    --border:  #d1f0df;
+    --green-dark:  #0d6e3a;
+    --green-mid:   #18a558;
+    --green-light: #43e97b;
+    --teal:        #38f9d7;
+    --text-main:   #0d2d1a;
+    --text-sub:    #4a7a60;
+    --text-muted:  #8aad9b;
+    --shadow: 0 4px 24px rgba(24,165,88,0.08);
+    --shadow-hover: 0 12px 36px rgba(24,165,88,0.16);
+    --radius: 16px;
+  }
+
+  body {
+    background: var(--bg);
+    font-family: 'Noto Sans TC', 'Microsoft JhengHei', sans-serif;
+    color: var(--text-main);
+    min-height: 100vh;
+  }
+
+  /* ── TOP BAR ── */
+  .top-bar {
+    height: 3px;
+    background: linear-gradient(90deg, #43e97b, #38f9d7, #43e97b, #0bce75, #43e97b);
+    background-size: 300% 100%;
+    animation: waveBar 4s linear infinite;
+  }
+  @keyframes waveBar {
+    0%   { background-position: 0% 50%; }
+    100% { background-position: 300% 50%; }
+  }
+
+  /* ── HERO ── */
+  .hero {
+    background: var(--white);
+    border-bottom: 1px solid var(--border);
+    padding: 48px 40px 40px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::after {
+    content: '';
+    position: absolute;
+    right: -60px; top: -60px;
+    width: 320px; height: 320px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(67,233,123,0.1) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--green-mid);
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    background: #edfaf3;
+    border: 1px solid #b7e8cb;
+    border-radius: 20px;
+    padding: 4px 12px;
+    margin-bottom: 18px;
+  }
+  .hero-eyebrow::before {
+    content: '';
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--green-light);
+    display: inline-block;
+  }
+
+  .hero-title {
+    font-size: clamp(26px, 4vw, 38px);
+    font-weight: 900;
+    color: var(--text-main);
+    letter-spacing: 3px;
+    line-height: 1.2;
+    margin-bottom: 12px;
+    position: relative; z-index: 1;
+  }
+  .hero-title span {
+    background: linear-gradient(90deg, var(--green-mid), var(--teal));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .hero-desc {
+    font-size: 14px;
+    font-weight: 300;
+    color: var(--text-sub);
+    line-height: 1.8;
+    max-width: 520px;
+    margin-bottom: 28px;
+    position: relative; z-index: 1;
+  }
+
+  .hero-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    position: relative; z-index: 1;
+  }
+  .meta-pill {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 6px 14px;
+    font-size: 12px;
+    color: var(--text-sub);
+    font-weight: 400;
+  }
+  .meta-pill svg { width: 14px; height: 14px; flex-shrink: 0; }
+
+  /* ── GRID ── */
+  .grid-section {
+    padding: 40px;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 28px;
+  }
+  .section-label {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-muted);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+  .section-line {
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+  }
+
+  /* ── CARD ── */
+  .card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    transition: transform 0.22s ease, box-shadow 0.22s ease;
+    display: flex;
+    flex-direction: column;
+    cursor: default;
+  }
+  .card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-hover);
+  }
+
+  /* colour accent bar per card */
+  .card-accent {
+    height: 4px;
+    border-radius: 0;
+  }
+  .accent-1 { background: linear-gradient(90deg, #43e97b, #38f9d7); }
+  .accent-2 { background: linear-gradient(90deg, #18a558, #43e97b); }
+  .accent-3 { background: linear-gradient(90deg, #0bce75, #00e5cc); }
+  .accent-4 { background: linear-gradient(90deg, #38f9d7, #18a558); }
+  .accent-5 { background: linear-gradient(90deg, #2dc76d, #43e97b); }
+  .accent-6 { background: linear-gradient(90deg, #00c9a7, #38f9d7); }
+  .accent-7 { background: linear-gradient(90deg, #1db954, #0bce75); }
+  .accent-8 { background: linear-gradient(90deg, #43e97b, #18a558); }
+
+  .card-body {
+    padding: 22px 22px 18px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .card-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 8px;
+  }
+
+  .card-icon {
+    width: 44px; height: 44px;
+    border-radius: 12px;
+    background: #edfaf3;
+    border: 1px solid #c0ecd3;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px;
+    flex-shrink: 0;
+  }
+
+  .card-week {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--green-mid);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    background: #edfaf3;
+    border: 1px solid #b7e8cb;
+    border-radius: 20px;
+    padding: 3px 10px;
+    white-space: nowrap;
+  }
+
+  .card-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text-main);
+    letter-spacing: 1px;
+    line-height: 1.4;
+  }
+
+  .card-desc {
+    font-size: 12.5px;
+    font-weight: 300;
+    color: var(--text-sub);
+    line-height: 1.7;
+  }
+
+  .card-points {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-top: auto;
+    padding-top: 10px;
+    border-top: 1px solid #eaf5ef;
+  }
+  .card-points li {
+    display: flex;
+    align-items: flex-start;
+    gap: 7px;
+    font-size: 12px;
+    color: var(--text-sub);
+    line-height: 1.5;
+  }
+  .card-points li::before {
+    content: '';
+    width: 5px; height: 5px;
+    border-radius: 50%;
+    background: var(--green-light);
+    flex-shrink: 0;
+    margin-top: 5px;
+  }
+
+  /* ── FOOTER NOTE ── */
+  .footer-note {
+    text-align: center;
+    padding: 20px 40px 40px;
+    font-size: 12px;
+    color: var(--text-muted);
+    letter-spacing: 1px;
+  }
+  .footer-note a {
+    color: var(--green-mid);
+    text-decoration: none;
+  }
+
+  @media (max-width: 600px) {
+    .hero { padding: 32px 20px 28px; }
+    .grid-section { padding: 24px 16px; }
+    .cards-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</HEAD>
+<BODY>
+
+<div class="top-bar"></div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-eyebrow">食育實驗室 · Nutrilab</div>
+  <h1 class="hero-title">課程大綱<br><span>營養教育與食育推廣</span></h1>
+  <p class="hero-desc">
+    透過系統化的單元設計，帶領學生從認識食物、理解營養，到建立健康飲食習慣，培養主動做出健康選擇的能力。
+  </p>
+  <div class="hero-meta">
+    <div class="meta-pill">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#18a558" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+      共 7 個單元
+    </div>
+    <div class="meta-pill">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#18a558" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+      每單元 2 小時
+    </div>
+    <div class="meta-pill">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#18a558" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      適合大學部學生
+    </div>
+    <div class="meta-pill">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#18a558" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+      中國文化大學 · 食育實驗室
+    </div>
+  </div>
+</section>
+
+<!-- CARDS GRID -->
+<section class="grid-section">
+  <div class="section-header">
+    <span class="section-label">課程單元</span>
+    <div class="section-line"></div>
+  </div>
+
+<div class="cards-grid">
+
+    <!-- 單元 1 -->
+     <div class="card">
+      <div class="card-accent accent-4"></div>
+      <div class="card-body">
+        <div class="card-top">
+          <div class="card-icon">🔬</div>
+          <span class="card-week">單元 01</span>
+        </div>
+        <div class="card-title">所謂營養素</div>
+        <p class="card-desc">系統性認識三大巨量營養素的化學結構、生理功能與每日建議攝取量，建立完整的營養素知識架構。</p>
+        <ul class="card-points">
+          <li>醣類分類：單糖、雙糖、多糖與膳食纖維</li>
+          <li>蛋白質的必需胺基酸組成與生物利用率</li>
+          <li>脂肪的種類：飽和脂肪、不飽和脂肪、反式脂肪</li>
+        </ul>
+      </div>
+    </div>
+    
+
+    <!-- 單元 2 -->
+     <div class="card">
+      <div class="card-accent accent-1"></div>
+      <div class="card-body">
+        <div class="card-top">
+          <div class="card-icon">👶</div>
+          <span class="card-week">單元 02</span>
+        </div>
+        <div class="card-title">生命階段及營養</div>
+        <p class="card-desc">從嬰幼兒到高齡長者，探討各生命階段的生理特徵與對應的營養需求，掌握不同時期的飲食建議。</p>
+        <ul class="card-points">
+          <li>嬰幼兒與青少年的生長發育營養需求</li>
+          <li>孕期、哺乳期的關鍵營養素補充</li>
+          <li>更年期與老年期的飲食調整策略</li>
+        </ul>
+      </div>
+    </div>
+    
+
+    <!-- 單元 3 -->
+    
+    <div class="card">
+      <div class="card-accent accent-6"></div>
+      <div class="card-body">
+        <div class="card-top">
+          <div class="card-icon">⚗️</div>
+          <span class="card-week">單元 03</span>
+        </div>
+        <div class="card-title">礦物質及其他</div>
+        <p class="card-desc">深入認識人體必需的礦物質，以及水、膳食纖維、植化素等其他不可忽視的重要營養成分。</p>
+        <ul class="card-points">
+          <li>鈣、磷、鎂與骨骼、肌肉健康的關係</li>
+          <li>鐵、鋅、碘、硒的生理功能與缺乏症狀</li>
+          <li>植化素、益生元、益生菌的保健功效</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- 單元 4 -->
+    <div class="card">
+      <div class="card-accent accent-3"></div>
+      <div class="card-body">
+        <div class="card-top">
+          <div class="card-icon">🥗</div>
+          <span class="card-week">單元 04</span>
+        </div>
+        <div class="card-title">食物及營養</div>
+        <p class="card-desc">從食物的本質出發，認識六大類食物的營養組成，並了解選購與烹調方式如何影響營養價值。</p>
+        <ul class="card-points">
+          <li>六大類食物的營養特性與代換份量</li>
+          <li>原型食物 vs. 加工食品的營養差異</li>
+          <li>不同烹調方式對營養素保留率的影響</li>
+        </ul>
+      </div>
+    </div>
+
+
+
+    <!-- 單元 5 -->
+     <div class="card">
+      <div class="card-accent accent-2"></div>
+      <div class="card-body">
+        <div class="card-top">
+          <div class="card-icon">🏥</div>
+          <span class="card-week">單元 05</span>
+        </div>
+        <div class="card-title">疾病及營養關係</div>
+        <p class="card-desc">探討慢性病、代謝症候群與飲食的雙向關係，學習以飲食輔助預防及控制常見疾病。</p>
+        <ul class="card-points">
+          <li>糖尿病、高血壓、高血脂的飲食原則</li>
+          <li>癌症風險與抗氧化飲食保護策略</li>
+          <li>腸道菌相、免疫力與飲食的關聯</li>
+        </ul>
+      </div>
+    </div>
+    
+
+
+      <!-- 單元 6 -->
+    <div class="card">
+      <div class="card-accent accent-7"></div>
+      <div class="card-body">
+        <div class="card-top">
+          <div class="card-icon">🍽️</div>
+          <span class="card-week">單元 06</span>
+        </div>
+        <div class="card-title">我的健康餐盤</div>
+        <p class="card-desc">整合全課程所學，運用健康餐盤概念設計個人化每日飲食計畫，落實「知道」到「做到」的最後一哩路。</p>
+        <ul class="card-points">
+          <li>健康餐盤的食物比例與實際應用方式</li>
+          <li>依年齡、性別與活動量調整熱量需求</li>
+          <li>實作：規劃一週個人均衡飲食計畫</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+ 
+
+<p class="footer-note">
+  食育實驗室 · Nutrilab &nbsp;｜&nbsp; 中國文化大學 &nbsp;
+  <a href="https://www.pccu.edu.tw" target="_blank">pccu.edu.tw</a>
+</p>
+
+</BODY>
+</html>

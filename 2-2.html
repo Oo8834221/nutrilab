@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>食育實驗室 — 學習路徑</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;700;900&family=DM+Sans:wght@400;500;600;700&display=swap');
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#f2fbf6;--bg-card:#ffffff;--border:#d1f0df;
+  --green-dark:#0d6e3a;--green-mid:#18a558;--green-light:#43e97b;--teal:#38f9d7;
+  --text-main:#0d2d1a;--text-sub:#4a7a60;--text-muted:#8aad9b;
+  --shadow:0 4px 24px rgba(24,165,88,0.08);--shadow-hover:0 12px 36px rgba(24,165,88,0.16);
+  --radius:16px;
+}
+body{background:var(--bg);font-family:'Noto Sans TC','Microsoft JhengHei',sans-serif;color:var(--text-main);margin:0;padding:0}
+.top-bar{height:3px;background:linear-gradient(90deg,#43e97b,#38f9d7,#43e97b,#0bce75,#43e97b);background-size:300% 100%;animation:waveBar 4s linear infinite}
+@keyframes waveBar{0%{background-position:0% 50%}100%{background-position:300% 50%}}
+.hero{background:#fff;border-bottom:1px solid var(--border);padding:36px 40px 28px;position:relative;overflow:hidden}
+.hero::after{content:'';position:absolute;right:-60px;top:-60px;width:280px;height:280px;border-radius:50%;background:radial-gradient(circle,rgba(67,233,123,0.1) 0%,transparent 70%);pointer-events:none}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:7px;font-family:'DM Sans',sans-serif;font-size:11px;font-weight:600;color:var(--green-mid);letter-spacing:2.5px;text-transform:uppercase;background:#edfaf3;border:1px solid #b7e8cb;border-radius:20px;padding:4px 12px;margin-bottom:14px}
+.hero-eyebrow::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--green-light);display:inline-block}
+.hero-title{font-size:clamp(22px,3.5vw,34px);font-weight:900;color:var(--text-main);letter-spacing:3px;line-height:1.2;margin-bottom:8px;position:relative;z-index:1}
+.hero-title span{background:linear-gradient(90deg,var(--green-mid),var(--teal));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero-desc{font-size:13px;font-weight:300;color:var(--text-sub);line-height:1.8;max-width:500px;position:relative;z-index:1;margin-bottom:20px}
+.progress-block{position:relative;z-index:1}
+.progress-header{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px}
+.progress-label{font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;color:var(--text-muted);letter-spacing:1.5px;text-transform:uppercase}
+.progress-count{font-family:'DM Sans',sans-serif;font-size:13px;font-weight:700;color:var(--green-dark)}
+.progress-track{height:8px;background:#e8f7ef;border-radius:4px;overflow:hidden}
+.progress-fill{height:100%;border-radius:4px;background:linear-gradient(90deg,#43e97b,#38f9d7);transition:width .5s cubic-bezier(.4,0,.2,1)}
+.progress-steps{display:flex;gap:4px;margin-top:6px}
+.progress-pip{flex:1;height:3px;border-radius:2px;background:#e8f7ef;transition:background .4s}
+.progress-pip.done{background:var(--green-mid)}
+.progress-pip.active{background:var(--green-light)}
+.hint{font-size:12px;color:var(--text-muted);margin-top:10px;display:flex;align-items:center;gap:6px}
+.hint::before{content:'👆';font-size:13px}
+.save-toast{position:fixed;bottom:24px;right:24px;background:var(--green-dark);color:#fff;font-size:12px;padding:8px 16px;border-radius:20px;opacity:0;transform:translateY(8px);transition:opacity .3s,transform .3s;pointer-events:none;z-index:999;font-family:'DM Sans',sans-serif;letter-spacing:.5px}
+.save-toast.show{opacity:1;transform:translateY(0)}
+.reset-btn{font-family:'DM Sans',sans-serif;font-size:11px;color:var(--text-muted);background:none;border:1px solid var(--border);border-radius:20px;padding:3px 10px;cursor:pointer;transition:all .2s;margin-top:10px}
+.reset-btn:hover{color:var(--green-mid);border-color:var(--green-light)}
+.path-section{padding:32px 40px 40px}
+.section-header{display:flex;align-items:center;gap:12px;margin-bottom:16px}
+.section-label{font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;color:var(--text-muted);letter-spacing:2px;text-transform:uppercase}
+.section-line{flex:1;height:1px;background:var(--border)}
+.legend{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:24px}
+.legend-item{display:flex;align-items:center;gap:5px;font-size:11.5px;color:var(--text-sub)}
+.ld{width:9px;height:9px;border-radius:50%}
+.ld-done{background:var(--green-mid)}
+.ld-active{background:linear-gradient(135deg,#43e97b,#38f9d7)}
+.ld-lock{background:#d0d0cc;border:1.5px solid #bbb}
+.path-wrap{position:relative;display:flex;flex-direction:column;gap:0}
+.spine{position:absolute;left:31px;top:22px;bottom:22px;width:2px;background:linear-gradient(180deg,#43e97b,#38f9d7,#18a558,#0bce75,#43e97b);background-size:100% 300%;animation:spinePulse 6s linear infinite;border-radius:2px;z-index:0}
+@keyframes spinePulse{0%{background-position:0% 0%}100%{background-position:0% 300%}}
+.path-item{display:flex;align-items:flex-start;gap:20px;position:relative;z-index:1;padding-bottom:16px}
+.path-item:last-child{padding-bottom:0}
+.node{width:44px;height:44px;border-radius:50%;background:#fff;border:2px solid #c8e8d4;display:flex;align-items:center;justify-content:center;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:700;color:var(--text-muted);position:relative;z-index:2;flex-shrink:0;transition:all .3s ease}
+.node.active{background:linear-gradient(135deg,#43e97b,#38f9d7);border-color:transparent;color:#0d6e3a;box-shadow:0 0 0 6px rgba(67,233,123,0.18)}
+.node.done{background:var(--green-mid);border-color:transparent;color:#fff;box-shadow:0 0 0 4px rgba(24,165,88,0.15)}
+.card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);flex:1;cursor:pointer;transition:transform .22s ease,box-shadow .22s ease,border-color .22s ease;user-select:none}
+.card:hover{transform:translateY(-3px);box-shadow:var(--shadow-hover)}
+.card.active-card{border-color:#43e97b}
+.card.done-card{border-color:var(--green-mid)}
+.card-accent{height:3px}
+.a1{background:linear-gradient(90deg,#43e97b,#38f9d7)}
+.a2{background:linear-gradient(90deg,#18a558,#43e97b)}
+.a3{background:linear-gradient(90deg,#0bce75,#00e5cc)}
+.a4{background:linear-gradient(90deg,#38f9d7,#18a558)}
+.a6{background:linear-gradient(90deg,#00c9a7,#38f9d7)}
+.a7{background:linear-gradient(90deg,#1db954,#0bce75)}
+.card-inner{padding:16px 18px 14px}
+.card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:8px}
+.card-left{display:flex;align-items:center;gap:10px}
+.card-icon{width:38px;height:38px;border-radius:10px;background:#edfaf3;border:1px solid #c0ecd3;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.card-titles{display:flex;flex-direction:column;gap:2px}
+.card-unit{font-family:'DM Sans',sans-serif;font-size:10px;font-weight:600;color:var(--green-mid);letter-spacing:1.5px;text-transform:uppercase}
+.card-title{font-size:14px;font-weight:700;color:var(--text-main);letter-spacing:.5px;line-height:1.3}
+.card-right{display:flex;flex-direction:column;align-items:flex-end;gap:5px}
+.badge{font-family:'DM Sans',sans-serif;font-size:10px;font-weight:600;border-radius:20px;padding:2px 9px;white-space:nowrap;cursor:pointer}
+.badge-done{background:#edfaf3;border:1px solid #b7e8cb;color:var(--green-dark)}
+.badge-active{background:rgba(67,233,123,.12);border:1px solid #b7e8cb;color:var(--green-dark)}
+.badge-none{background:#f5f5f3;border:1px solid #e0e0db;color:#aaa}
+.expand-btn{font-size:10px;color:var(--text-muted);background:none;border:none;cursor:pointer;padding:0;display:flex;align-items:center;gap:3px;transition:color .2s}
+.expand-btn:hover{color:var(--green-mid)}
+.detail{max-height:0;overflow:hidden;transition:max-height .35s cubic-bezier(.4,0,.2,1),opacity .3s;opacity:0}
+.detail.open{max-height:400px;opacity:1}
+.detail-inner{padding:0 0 12px;border-top:1px solid #eaf5ef;margin-top:10px;padding-top:12px}
+.detail-desc{font-size:12.5px;font-weight:300;color:var(--text-sub);line-height:1.7;margin-bottom:10px}
+.detail-points{list-style:none;display:flex;flex-direction:column;gap:5px}
+.detail-points li{display:flex;align-items:flex-start;gap:7px;font-size:12px;color:var(--text-sub);line-height:1.5}
+.detail-points li::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--green-light);flex-shrink:0;margin-top:5px}
+.card-meta{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.meta-tag{font-size:11px;color:var(--text-muted);background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:2px 8px}
+.footer-note{text-align:center;padding:16px 40px 32px;font-size:12px;color:var(--text-muted);letter-spacing:1px}
+.footer-note a{color:var(--green-mid);text-decoration:none}
+@media(max-width:600px){.hero{padding:24px 16px 20px}.path-section{padding:20px 16px 32px}}
+</style>
+</head>
+<body>
+<div class="top-bar"></div>
+<div class="save-toast" id="toast">✓ 進度已儲存</div>
+
+<section class="hero">
+  <div class="hero-eyebrow">食育實驗室 · Nutrilab</div>
+  <h1 class="hero-title">學習路徑<br><span>從知識到實踐的營養地圖</span></h1>
+  <p class="hero-desc">按照課程脈絡，循序漸進地建立完整的食育知識體系。點擊卡片可展開詳細內容，並自行標記學習進度。</p>
+  <div class="progress-block">
+    <div class="progress-header">
+      <span class="progress-label">整體進度</span>
+      <span class="progress-count" id="prog-count">0 / 6 單元</span>
+    </div>
+    <div class="progress-track"><div class="progress-fill" id="prog-fill" style="width:0%"></div></div>
+    <div class="progress-steps" id="prog-steps">
+      <div class="progress-pip"></div><div class="progress-pip"></div><div class="progress-pip"></div>
+      <div class="progress-pip"></div><div class="progress-pip"></div><div class="progress-pip"></div>
+    </div>
+    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px">
+      <div class="hint">點擊卡片展開內容；點擊徽章切換進度</div>
+      <button class="reset-btn" onclick="resetAll()">↺ 重置進度</button>
+    </div>
+  </div>
+</section>
+
+<section class="path-section">
+  <div class="section-header">
+    <span class="section-label">課程單元</span>
+    <div class="section-line"></div>
+  </div>
+  <div class="legend">
+    <div class="legend-item"><div class="ld ld-done"></div>已完成</div>
+    <div class="legend-item"><div class="ld ld-active"></div>進行中</div>
+    <div class="legend-item"><div class="ld ld-lock"></div>尚未開始</div>
+  </div>
+  <div class="path-wrap">
+    <div class="spine"></div>
+    <div id="units-container"></div>
+  </div>
+</section>
+
+<p class="footer-note">食育實驗室 · Nutrilab &nbsp;｜&nbsp; 中國文化大學 &nbsp;<a href="https://www.pccu.edu.tw" target="_blank">pccu.edu.tw</a></p>
+
+<script>
+const STORAGE_KEY = 'nutrilab_progress_v1';
+
+const units = [
+  {id:1,icon:'🔬',accent:'a4',title:'所謂營養素',desc:'系統性認識三大巨量營養素的化學結構、生理功能與每日建議攝取量，建立完整的營養素知識架構。',points:['醣類分類：單糖、雙糖、多糖與膳食纖維的功能差異','蛋白質的必需胺基酸組成與生物利用率評估','脂肪的種類：飽和脂肪、不飽和脂肪、反式脂肪的健康影響'],tags:['醣類','蛋白質','脂肪','2 小時']},
+  {id:2,icon:'👶',accent:'a1',title:'生命階段及營養',desc:'從嬰幼兒到高齡長者，探討各生命階段的生理特徵與對應的營養需求，掌握不同時期的飲食建議。',points:['嬰幼兒與青少年的生長發育營養需求','孕期、哺乳期的關鍵營養素補充策略','更年期與老年期的飲食調整與預防退化'],tags:['嬰幼兒','孕期','高齡','2 小時']},
+  {id:3,icon:'⚗️',accent:'a6',title:'礦物質及其他',desc:'深入認識人體必需的礦物質，以及水、膳食纖維、植化素等其他不可忽視的重要營養成分。',points:['鈣、磷、鎂與骨骼、肌肉健康的關係','鐵、鋅、碘、硒的生理功能與缺乏症狀','植化素、益生元、益生菌的保健功效'],tags:['礦物質','植化素','益生菌','2 小時']},
+  {id:4,icon:'🥗',accent:'a3',title:'食物及營養',desc:'從食物的本質出發，認識六大類食物的營養組成，並了解選購與烹調方式如何影響營養價值。',points:['六大類食物的營養特性與代換份量','原型食物 vs. 加工食品的營養差異','不同烹調方式對營養素保留率的影響'],tags:['六大類食物','原型食物','烹調','2 小時']},
+  {id:5,icon:'🏥',accent:'a2',title:'疾病及營養關係',desc:'探討慢性病、代謝症候群與飲食的雙向關係，學習以飲食輔助預防及控制常見疾病。',points:['糖尿病、高血壓、高血脂的飲食原則','癌症風險與抗氧化飲食保護策略','腸道菌相、免疫力與飲食的關聯'],tags:['糖尿病','高血壓','腸道菌相','2 小時']},
+  {id:6,icon:'🍽️',accent:'a7',title:'我的健康餐盤',desc:'整合全課程所學，運用健康餐盤概念設計個人化每日飲食計畫，落實「知道」到「做到」的最後一里路。',points:['健康餐盤的食物比例與實際應用方式','依年齡、性別與活動量調整熱量需求','實作：規劃一週個人均衡飲食計畫'],tags:['健康餐盤','熱量計算','實作','2 小時']}
+];
+
+let state = [0,0,0,0,0,0];
+let expanded = [false,false,false,false,false,false];
+
+function loadState(){
+  try {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if(saved){
+      const parsed = JSON.parse(saved);
+      if(parsed.state && parsed.state.length === 6) state = parsed.state;
+    }
+  } catch(e){}
+  render();
+}
+
+function saveState(){
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({state, savedAt: Date.now()}));
+    showToast();
+  } catch(e){ console.error('Save failed', e); }
+}
+
+let toastTimer;
+function showToast(){
+  const t = document.getElementById('toast');
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(()=>t.classList.remove('show'), 2000);
+}
+
+function statusLabel(s){
+  if(s===2) return {text:'✓ 已完成',cls:'badge-done'};
+  if(s===1) return {text:'▶ 進行中',cls:'badge-active'};
+  return {text:'○ 未開始',cls:'badge-none'};
+}
+function nodeClass(s){ return s===2?'done':s===1?'active':''; }
+function nodeLabel(i,s){ return s===2?'✓':String(i+1).padStart(2,'0'); }
+
+function render(){
+  const c = document.getElementById('units-container');
+  c.innerHTML = units.map((u,i)=>{
+    const s=state[i], sl=statusLabel(s), exp=expanded[i];
+    return `
+    <div class="path-item">
+      <div class="node ${nodeClass(s)}">${nodeLabel(i,s)}</div>
+      <div class="card ${s===2?'done-card':s===1?'active-card':''}" onclick="toggleExpand(${i})">
+        <div class="card-accent ${u.accent}"></div>
+        <div class="card-inner">
+          <div class="card-top">
+            <div class="card-left">
+              <div class="card-icon">${u.icon}</div>
+              <div class="card-titles">
+                <div class="card-unit">單元 ${String(i+1).padStart(2,'0')}</div>
+                <div class="card-title">${u.title}</div>
+              </div>
+            </div>
+            <div class="card-right">
+              <span class="badge ${sl.cls}" onclick="cycleStatus(event,${i})">${sl.text}</span>
+              <button class="expand-btn" onclick="toggleExpand(${i});event.stopPropagation()">${exp?'收起 ▲':'展開 ▼'}</button>
+            </div>
+          </div>
+          <div class="detail ${exp?'open':''}">
+            <div class="detail-inner">
+              <div class="detail-desc">${u.desc}</div>
+              <ul class="detail-points">${u.points.map(p=>`<li>${p}</li>`).join('')}</ul>
+              <div class="card-meta">${u.tags.map(t=>`<span class="meta-tag">${t}</span>`).join('')}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+  updateProgress();
+}
+
+function cycleStatus(e,i){
+  e.stopPropagation();
+  state[i]=(state[i]+1)%3;
+  render();
+  saveState();
+}
+
+function toggleExpand(i){
+  expanded[i]=!expanded[i];
+  render();
+}
+
+function updateProgress(){
+  const done=state.filter(s=>s===2).length;
+  const pct=Math.round(done/6*100);
+  document.getElementById('prog-fill').style.width=pct+'%';
+  document.getElementById('prog-count').textContent=`${done} / 6 單元完成`;
+  document.querySelectorAll('.progress-pip').forEach((p,i)=>{
+    p.classList.remove('done','active');
+    if(state[i]===2) p.classList.add('done');
+    else if(state[i]===1) p.classList.add('active');
+  });
+}
+
+function resetAll(){
+  if(!confirm('確定要重置所有學習進度嗎？')) return;
+  state=[0,0,0,0,0,0];
+  try{ localStorage.removeItem(STORAGE_KEY); } catch(e){}
+  render();
+}
+
+loadState();
+</script>
+</body>
+</html>s

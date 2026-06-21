@@ -1,0 +1,894 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>食育實驗室 — 課程說明</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700;900&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap');
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg:          #f2fbf6;
+  --bg-card:     #ffffff;
+  --border:      #d1f0df;
+  --green-dark:  #0d6e3a;
+  --green-mid:   #18a558;
+  --green-light: #43e97b;
+  --teal:        #38f9d7;
+  --text-main:   #0d2d1a;
+  --text-sub:    #4a7a60;
+  --text-muted:  #8aad9b;
+  --shadow:      0 4px 24px rgba(24,165,88,0.08);
+  --shadow-hover:0 12px 36px rgba(24,165,88,0.16);
+  --radius:      16px;
+  --nav-w:       240px;
+}
+
+body {
+  background: var(--bg);
+  font-family: 'Noto Sans TC', 'Microsoft JhengHei', sans-serif;
+  color: var(--text-main);
+  display: flex;
+  min-height: 100vh;
+}
+
+/* ── TOP BAR ── */
+.top-bar {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+  height: 3px;
+  background: linear-gradient(90deg,#43e97b,#38f9d7,#43e97b,#0bce75,#43e97b);
+  background-size: 300% 100%;
+  animation: waveBar 4s linear infinite;
+}
+@keyframes waveBar { 0%{background-position:0% 50%} 100%{background-position:300% 50%} }
+
+/* ── SIDEBAR ── */
+.sidebar {
+  position: fixed; top: 3px; left: 0; bottom: 0;
+  width: var(--nav-w);
+  background: #fff;
+  border-right: 1px solid var(--border);
+  display: flex; flex-direction: column;
+  z-index: 100;
+  overflow-y: auto;
+}
+
+.sidebar-logo {
+  padding: 28px 24px 20px;
+  border-bottom: 1px solid var(--border);
+}
+.logo-badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-family: 'DM Sans', sans-serif; font-size: 10px; font-weight: 600;
+  color: var(--green-mid); letter-spacing: 2px; text-transform: uppercase;
+  background: #edfaf3; border: 1px solid #b7e8cb;
+  border-radius: 20px; padding: 3px 10px; margin-bottom: 10px;
+}
+.logo-badge::before {
+  content: ''; width: 5px; height: 5px; border-radius: 50%;
+  background: var(--green-light); display: inline-block;
+}
+.sidebar-title {
+  font-size: 15px; font-weight: 900; color: var(--text-main);
+  letter-spacing: 2px; line-height: 1.3;
+}
+.sidebar-title span {
+  background: linear-gradient(90deg, var(--green-mid), var(--teal));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+
+.nav-list { padding: 16px 12px; flex: 1; }
+.nav-section-label {
+  font-family: 'DM Sans', sans-serif; font-size: 10px; font-weight: 600;
+  color: var(--text-muted); letter-spacing: 2px; text-transform: uppercase;
+  padding: 0 10px; margin: 16px 0 6px;
+}
+.nav-section-label:first-child { margin-top: 0; }
+
+.nav-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 9px 10px; border-radius: 10px; cursor: pointer;
+  font-size: 13px; font-weight: 400; color: var(--text-sub);
+  transition: all .18s ease; margin-bottom: 2px; text-decoration: none;
+  border: 1px solid transparent;
+}
+.nav-item:hover { background: #edfaf3; color: var(--green-dark); }
+.nav-item.active {
+  background: linear-gradient(90deg, rgba(67,233,123,.12), rgba(56,249,215,.08));
+  border-color: #c0ecd3; color: var(--green-dark); font-weight: 700;
+}
+.nav-icon {
+  width: 28px; height: 28px; border-radius: 7px;
+  background: #edfaf3; border: 1px solid #c0ecd3;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; flex-shrink: 0;
+}
+.nav-item.active .nav-icon { background: var(--green-mid); border-color: transparent; }
+
+.sidebar-footer {
+  padding: 16px 20px;
+  border-top: 1px solid var(--border);
+  font-size: 11px; color: var(--text-muted); line-height: 1.6;
+}
+.sidebar-footer a { color: var(--green-mid); text-decoration: none; }
+
+/* ── MAIN ── */
+.main {
+  margin-left: var(--nav-w);
+  margin-top: 3px;
+  flex: 1;
+  min-height: 100vh;
+}
+
+/* ── HERO ── */
+.hero {
+  background: #fff; border-bottom: 1px solid var(--border);
+  padding: 44px 48px 36px; position: relative; overflow: hidden;
+}
+.hero::after {
+  content: ''; position: absolute; right: -80px; top: -80px;
+  width: 360px; height: 360px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(67,233,123,.09) 0%, transparent 70%);
+  pointer-events: none;
+}
+.hero-eyebrow {
+  display: inline-flex; align-items: center; gap: 7px;
+  font-family: 'DM Sans', sans-serif; font-size: 11px; font-weight: 600;
+  color: var(--green-mid); letter-spacing: 2.5px; text-transform: uppercase;
+  background: #edfaf3; border: 1px solid #b7e8cb;
+  border-radius: 20px; padding: 4px 12px; margin-bottom: 16px;
+}
+.hero-eyebrow::before {
+  content: ''; width: 6px; height: 6px; border-radius: 50%;
+  background: var(--green-light); display: inline-block;
+}
+.hero-title {
+  font-size: clamp(24px, 3.5vw, 36px); font-weight: 900;
+  color: var(--text-main); letter-spacing: 3px; line-height: 1.2;
+  margin-bottom: 10px; position: relative; z-index: 1;
+}
+.hero-title span {
+  background: linear-gradient(90deg, var(--green-mid), var(--teal));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.hero-desc {
+  font-size: 14px; font-weight: 300; color: var(--text-sub);
+  line-height: 1.8; max-width: 560px; position: relative; z-index: 1;
+}
+.hero-pills {
+  display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px;
+  position: relative; z-index: 1;
+}
+.pill {
+  display: flex; align-items: center; gap: 6px;
+  background: var(--bg); border: 1px solid var(--border);
+  border-radius: 20px; padding: 5px 14px;
+  font-size: 12px; color: var(--text-sub);
+}
+.pill-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green-light); }
+
+/* ── CONTENT SECTIONS ── */
+.content { padding: 48px; display: flex; flex-direction: column; gap: 64px; }
+
+.section { scroll-margin-top: 32px; }
+
+.sec-header {
+  display: flex; align-items: center; gap: 14px; margin-bottom: 28px;
+}
+.sec-icon {
+  width: 48px; height: 48px; border-radius: 14px;
+  background: #edfaf3; border: 1px solid #c0ecd3;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 22px; flex-shrink: 0;
+}
+.sec-label-wrap { display: flex; flex-direction: column; gap: 2px; }
+.sec-eyebrow {
+  font-family: 'DM Sans', sans-serif; font-size: 10px; font-weight: 600;
+  color: var(--green-mid); letter-spacing: 2px; text-transform: uppercase;
+}
+.sec-title {
+  font-size: 20px; font-weight: 900; color: var(--text-main); letter-spacing: 2px;
+}
+.sec-divider {
+  flex: 1; height: 1px; background: var(--border);
+}
+
+/* ── CARDS ── */
+.cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; }
+
+.card {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: var(--radius); overflow: hidden;
+  box-shadow: var(--shadow); transition: transform .2s, box-shadow .2s;
+}
+.card:hover { transform: translateY(-3px); box-shadow: var(--shadow-hover); }
+.card-bar { height: 3px; }
+.b1{background:linear-gradient(90deg,#43e97b,#38f9d7)}
+.b2{background:linear-gradient(90deg,#18a558,#43e97b)}
+.b3{background:linear-gradient(90deg,#0bce75,#00e5cc)}
+.b4{background:linear-gradient(90deg,#38f9d7,#18a558)}
+.b5{background:linear-gradient(90deg,#2dc76d,#43e97b)}
+.b6{background:linear-gradient(90deg,#00c9a7,#38f9d7)}
+.b7{background:linear-gradient(90deg,#1db954,#0bce75)}
+
+.card-body { padding: 18px 20px 16px; }
+.card-icon-sm {
+  width: 36px; height: 36px; border-radius: 9px;
+  background: #edfaf3; border: 1px solid #c0ecd3;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 17px; margin-bottom: 10px;
+}
+.card-title-sm {
+  font-size: 14px; font-weight: 700; color: var(--text-main);
+  letter-spacing: .5px; margin-bottom: 6px; line-height: 1.3;
+}
+.card-desc-sm {
+  font-size: 12.5px; font-weight: 300; color: var(--text-sub); line-height: 1.7;
+}
+.card-tags { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 10px; }
+.tag {
+  font-size: 11px; color: var(--text-muted);
+  background: var(--bg); border: 1px solid var(--border);
+  border-radius: 8px; padding: 1px 7px;
+}
+
+/* ── INFO BLOCK ── */
+.info-block {
+  background: #fff; border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 24px 28px;
+  box-shadow: var(--shadow);
+}
+.info-block + .info-block { margin-top: 14px; }
+
+.info-block-header {
+  display: flex; align-items: center; gap: 10px; margin-bottom: 14px;
+}
+.info-block-icon {
+  width: 34px; height: 34px; border-radius: 9px;
+  background: #edfaf3; border: 1px solid #c0ecd3;
+  display: flex; align-items: center; justify-content: center; font-size: 16px;
+}
+.info-block-title {
+  font-size: 14px; font-weight: 700; color: var(--text-main); letter-spacing: .5px;
+}
+.info-block-desc {
+  font-size: 13px; font-weight: 300; color: var(--text-sub); line-height: 1.8;
+}
+
+/* ── FLOW STEPS ── */
+.flow-steps { display: flex; flex-direction: column; gap: 0; }
+.flow-step {
+  display: flex; gap: 16px; align-items: flex-start;
+  position: relative;
+}
+.flow-step:not(:last-child)::after {
+  content: ''; position: absolute; left: 19px; top: 38px;
+  width: 2px; bottom: -16px;
+  background: linear-gradient(180deg, var(--green-light), transparent);
+}
+.flow-step { padding-bottom: 24px; }
+.flow-step:last-child { padding-bottom: 0; }
+.step-node {
+  width: 38px; height: 38px; border-radius: 50%; flex-shrink: 0;
+  background: linear-gradient(135deg, #43e97b, #38f9d7);
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 700;
+  color: var(--green-dark); box-shadow: 0 0 0 5px rgba(67,233,123,.12);
+  position: relative; z-index: 1;
+}
+.step-content { flex: 1; padding-top: 6px; }
+.step-title { font-size: 14px; font-weight: 700; color: var(--text-main); margin-bottom: 4px; }
+.step-desc { font-size: 12.5px; font-weight: 300; color: var(--text-sub); line-height: 1.7; }
+
+/* ── ASSESSMENT TABLE ── */
+.assess-table { width: 100%; border-collapse: collapse; }
+.assess-table th {
+  background: #edfaf3; font-family: 'DM Sans', sans-serif;
+  font-size: 11px; font-weight: 600; color: var(--green-mid);
+  letter-spacing: 1.5px; text-transform: uppercase;
+  padding: 10px 16px; text-align: left; border-bottom: 2px solid var(--border);
+}
+.assess-table td {
+  padding: 12px 16px; font-size: 13px; color: var(--text-sub);
+  border-bottom: 1px solid var(--border); vertical-align: middle;
+}
+.assess-table tr:last-child td { border-bottom: none; }
+.assess-table tr:hover td { background: #f8fdf9; }
+.assess-badge {
+  display: inline-flex; align-items: center; gap: 4px;
+  font-size: 11px; font-weight: 600; border-radius: 12px; padding: 2px 10px;
+}
+.ab-mc  { background: rgba(67,233,123,.12); border: 1px solid #b7e8cb; color: var(--green-dark); }
+.ab-ref { background: rgba(56,249,215,.12); border: 1px solid #b7e8cb; color: #0d6e3a; }
+.ab-prac{ background: #edfaf3; border: 1px solid #b7e8cb; color: var(--green-dark); }
+.weight-bar-wrap { display: flex; align-items: center; gap: 8px; }
+.weight-bar { height: 5px; border-radius: 3px; background: linear-gradient(90deg,#43e97b,#38f9d7); }
+.weight-num { font-family: 'DM Sans',sans-serif; font-size: 12px; font-weight: 700; color: var(--green-dark); white-space: nowrap; }
+
+/* ── MEDIA GRID ── */
+.media-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 14px; }
+.media-card {
+  background: #fff; border: 1px solid var(--border);
+  border-radius: 12px; padding: 18px 18px 14px;
+  box-shadow: var(--shadow); display: flex; flex-direction: column; gap: 8px;
+}
+.media-icon {
+  font-size: 24px; margin-bottom: 2px;
+}
+.media-title { font-size: 13px; font-weight: 700; color: var(--text-main); }
+.media-desc { font-size: 12px; font-weight: 300; color: var(--text-sub); line-height: 1.6; }
+.media-purpose {
+  font-size: 11px; color: var(--green-mid);
+  background: #edfaf3; border: 1px solid #b7e8cb;
+  border-radius: 8px; padding: 2px 8px; align-self: flex-start; margin-top: 2px;
+}
+
+/* ── DESIGN MODEL ── */
+.model-row { display: flex; gap: 16px; flex-wrap: wrap; }
+.model-phase {
+  flex: 1; min-width: 160px;
+  background: #fff; border: 1px solid var(--border);
+  border-radius: 12px; padding: 18px 16px;
+  box-shadow: var(--shadow); display: flex; flex-direction: column; gap: 6px;
+}
+.model-phase-num {
+  font-family: 'DM Sans', sans-serif; font-size: 10px; font-weight: 600;
+  color: var(--green-mid); letter-spacing: 2px; text-transform: uppercase;
+}
+.model-phase-title { font-size: 14px; font-weight: 700; color: var(--text-main); }
+.model-phase-desc { font-size: 12px; font-weight: 300; color: var(--text-sub); line-height: 1.6; }
+.model-arrow {
+  display: flex; align-items: center; justify-content: center;
+  color: var(--green-light); font-size: 20px; flex-shrink: 0; padding-top: 16px;
+}
+
+.footer-note {
+  text-align: center; padding: 12px 48px 36px;
+  font-size: 12px; color: var(--text-muted); letter-spacing: 1px;
+  border-top: 1px solid var(--border);
+}
+.footer-note a { color: var(--green-mid); text-decoration: none; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 768px) {
+  .sidebar { transform: translateX(-100%); transition: transform .3s; }
+  .sidebar.open { transform: translateX(0); }
+  .main { margin-left: 0; }
+  .hero { padding: 32px 20px 24px; }
+  .content { padding: 28px 20px; gap: 48px; }
+  .mobile-nav-toggle {
+    display: flex; position: fixed; top: 12px; left: 12px; z-index: 150;
+    width: 36px; height: 36px; background: #fff; border: 1px solid var(--border);
+    border-radius: 9px; align-items: center; justify-content: center;
+    cursor: pointer; box-shadow: var(--shadow);
+  }
+}
+@media (min-width: 769px) {
+  .mobile-nav-toggle { display: none; }
+}
+</style>
+</head>
+<body>
+<div class="top-bar"></div>
+
+<!-- Mobile toggle -->
+<div class="mobile-nav-toggle" onclick="toggleSidebar()" title="選單">☰</div>
+
+<!-- ── SIDEBAR ── -->
+<nav class="sidebar" id="sidebar">
+  <div class="sidebar-logo">
+    <div class="logo-badge">Nutrilab</div>
+    <div class="sidebar-title">食育<span>實驗室</span></div>
+  </div>
+
+  <div class="nav-list">
+    <div class="nav-section-label">課程說明</div>
+
+    <a class="nav-item active" href="#scope" onclick="setActive(this)">
+      <div class="nav-icon">📋</div>課程範疇
+    </a>
+    <a class="nav-item" href="#media" onclick="setActive(this)">
+      <div class="nav-icon">🎬</div>多媒體融合
+    </a>
+    <a class="nav-item" href="#design" onclick="setActive(this)">
+      <div class="nav-icon">🧩</div>教學設計
+    </a>
+
+    <div class="nav-section-label">評量與學習</div>
+
+    <a class="nav-item" href="#materials" onclick="setActive(this)">
+      <div class="nav-icon">📚</div>課程教材
+    </a>
+    <a class="nav-item" href="#assessment" onclick="setActive(this)">
+      <div class="nav-icon">📝</div>測驗與評量
+    </a>
+  </div>
+
+  <div class="sidebar-footer">
+    中國文化大學<br>
+    <a href="https://www.pccu.edu.tw" target="_blank">pccu.edu.tw</a>
+  </div>
+</nav>
+
+<!-- ── MAIN ── -->
+<main class="main">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-eyebrow">食育實驗室 · Nutrilab</div>
+    <h1 class="hero-title">課程說明<br><span>營養教育與食育推廣</span></h1>
+    <p class="hero-desc">本頁整合課程範疇、多媒體設計、教學策略、教材資源與評量方式，提供教師與學習者完整的課程導覽。</p>
+    <div class="hero-pills">
+      <div class="pill"><span class="pill-dot"></span>共 6 單元</div>
+      <div class="pill"><span class="pill-dot"></span>每單元 2 小時</div>
+      <div class="pill"><span class="pill-dot"></span>適合大學部學生</div>
+      <div class="pill"><span class="pill-dot"></span>混合式教學設計</div>
+    </div>
+  </section>
+
+  <div class="content">
+
+    <!-- ── 1. 課程範疇 ── -->
+    <section class="section" id="scope">
+      <div class="sec-header">
+        <div class="sec-icon">📋</div>
+        <div class="sec-label-wrap">
+          <span class="sec-eyebrow">Course Scope</span>
+          <h2 class="sec-title">課程範疇</h2>
+        </div>
+        <div class="sec-divider"></div>
+      </div>
+
+      <div class="cards-grid">
+        <div class="card">
+          <div class="card-bar b1"></div>
+          <div class="card-body">
+            <div class="card-icon-sm">🔬</div>
+            <div class="card-title-sm">基礎營養學</div>
+            <div class="card-desc-sm">三大巨量營養素、維生素、礦物質的化學結構與生理功能，建立系統性的營養素知識架構。</div>
+            <div class="card-tags"><span class="tag">醣類</span><span class="tag">蛋白質</span><span class="tag">脂肪</span></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-bar b2"></div>
+          <div class="card-body">
+            <div class="card-icon-sm">👶</div>
+            <div class="card-title-sm">生命週期營養</div>
+            <div class="card-desc-sm">從嬰幼兒、青少年、孕期到高齡，各生命階段的特殊營養需求與飲食建議。</div>
+            <div class="card-tags"><span class="tag">嬰幼兒</span><span class="tag">孕期</span><span class="tag">高齡</span></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-bar b3"></div>
+          <div class="card-body">
+            <div class="card-icon-sm">🥗</div>
+            <div class="card-title-sm">食物與飲食設計</div>
+            <div class="card-desc-sm">六大類食物的營養組成、選購原則，以及如何設計個人化的均衡飲食計畫。</div>
+            <div class="card-tags"><span class="tag">六大類食物</span><span class="tag">均衡飲食</span></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-bar b4"></div>
+          <div class="card-body">
+            <div class="card-icon-sm">🏥</div>
+            <div class="card-title-sm">疾病預防與飲食</div>
+            <div class="card-desc-sm">慢性病、代謝症候群與飲食的雙向關係，學習以飲食輔助預防及控制常見疾病。</div>
+            <div class="card-tags"><span class="tag">慢性病</span><span class="tag">抗氧化</span><span class="tag">腸道健康</span></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-bar b5"></div>
+          <div class="card-body">
+            <div class="card-icon-sm">🌱</div>
+            <div class="card-title-sm">食育推廣概念</div>
+            <div class="card-desc-sm">食育的定義與核心理念，從個人飲食行為改變到社區食育推廣的實踐策略。</div>
+            <div class="card-tags"><span class="tag">食育</span><span class="tag">行為改變</span><span class="tag">社區</span></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-bar b6"></div>
+          <div class="card-body">
+            <div class="card-icon-sm">🍽️</div>
+            <div class="card-title-sm">實作與應用</div>
+            <div class="card-desc-sm">健康餐盤規劃、食品標示判讀、一週飲食計畫設計，落實「知道」到「做到」。</div>
+            <div class="card-tags"><span class="tag">健康餐盤</span><span class="tag">實作</span><span class="tag">計畫設計</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── 2. 多媒體融合 ── -->
+    <section class="section" id="media">
+      <div class="sec-header">
+        <div class="sec-icon">🎬</div>
+        <div class="sec-label-wrap">
+          <span class="sec-eyebrow">Multimedia Integration</span>
+          <h2 class="sec-title">多媒體融合</h2>
+        </div>
+        <div class="sec-divider"></div>
+      </div>
+
+      <div class="info-block" style="margin-bottom:20px">
+        <div class="info-block-header">
+          <div class="info-block-icon">💡</div>
+          <div class="info-block-title">融合設計理念</div>
+        </div>
+        <div class="info-block-desc">
+          本課程採用多元媒體形式相互搭配，以影音資料建立概念、互動工具強化理解、圖表素材輔助記憶，三者相互補充，降低單一媒體的認知負擔，提升整體學習成效。
+        </div>
+      </div>
+
+      <div class="media-grid">
+        <div class="media-card">
+          <div class="media-icon">🎥</div>
+          <div class="media-title">教學影片</div>
+          <div class="media-desc">每單元 8–12 分鐘的主題影片，搭配字幕與章節標記，可反覆觀看重點片段。</div>
+          <div class="media-purpose">建立核心概念</div>
+        </div>
+        <div class="media-card">
+          <div class="media-icon">📊</div>
+          <div class="media-title">互動圖表</div>
+          <div class="media-desc">營養素比較、食物份量換算等互動式視覺化工具，學習者可自行調整參數探索。</div>
+          <div class="media-purpose">深化理解與比較</div>
+        </div>
+        <div class="media-card">
+          <div class="media-icon">🖼️</div>
+          <div class="media-title">圖解投影片</div>
+          <div class="media-desc">每單元配套圖解講義，重要概念以視覺化方式呈現，可下載列印隨堂對照。</div>
+          <div class="media-purpose">輔助筆記與複習</div>
+        </div>
+        <div class="media-card">
+          <div class="media-icon">🎙️</div>
+          <div class="media-title">Podcast 延伸</div>
+          <div class="media-desc">每單元搭配 15 分鐘音頻內容，適合通勤或非視覺學習情境下的延伸閱聽。</div>
+          <div class="media-purpose">彈性延伸學習</div>
+        </div>
+        <div class="media-card">
+          <div class="media-icon">🧪</div>
+          <div class="media-title">模擬情境</div>
+          <div class="media-desc">飲食日記分析、菜單設計模擬，讓學習者在情境中練習應用所學知識。</div>
+          <div class="media-purpose">實境應用練習</div>
+        </div>
+        <div class="media-card">
+          <div class="media-icon">💬</div>
+          <div class="media-title">討論社群</div>
+          <div class="media-desc">每單元設有討論提問區，教師定期回覆並整理共同疑問，形成同儕學習社群。</div>
+          <div class="media-purpose">同儕互動與反思</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── 3. 教學設計 ── -->
+    <section class="section" id="design">
+      <div class="sec-header">
+        <div class="sec-icon">🧩</div>
+        <div class="sec-label-wrap">
+          <span class="sec-eyebrow">Instructional Design</span>
+          <h2 class="sec-title">教學設計</h2>
+        </div>
+        <div class="sec-divider"></div>
+      </div>
+
+      <div class="info-block" style="margin-bottom:20px">
+        <div class="info-block-header">
+          <div class="info-block-icon">🗺️</div>
+          <div class="info-block-title">設計模型：ADDIE</div>
+        </div>
+        <div class="info-block-desc">本課程依循 ADDIE 模型進行系統化設計，確保教學目標、學習活動與評量方式三者一致對齊。</div>
+      </div>
+
+      <div class="model-row" style="margin-bottom:28px">
+        <div class="model-phase">
+          <div class="model-phase-num">A · Analysis</div>
+          <div class="model-phase-title">分析</div>
+          <div class="model-phase-desc">分析學習者的先備知識、課程需求與學習情境，確立教學目標。</div>
+        </div>
+        <div class="model-arrow">→</div>
+        <div class="model-phase">
+          <div class="model-phase-num">D · Design</div>
+          <div class="model-phase-title">設計</div>
+          <div class="model-phase-desc">規劃課程架構、媒體組合與評量策略，產出課程藍圖。</div>
+        </div>
+        <div class="model-arrow">→</div>
+        <div class="model-phase">
+          <div class="model-phase-num">D · Development</div>
+          <div class="model-phase-title">開發</div>
+          <div class="model-phase-desc">製作教學影片、互動教材與測驗題組，進行內部試測。</div>
+        </div>
+        <div class="model-arrow">→</div>
+        <div class="model-phase">
+          <div class="model-phase-num">I · Implementation</div>
+          <div class="model-phase-title">實施</div>
+          <div class="model-phase-desc">部署至學習平台，開放學習者選修，教師同步監控進度。</div>
+        </div>
+        <div class="model-arrow">→</div>
+        <div class="model-phase">
+          <div class="model-phase-num">E · Evaluation</div>
+          <div class="model-phase-title">評鑑</div>
+          <div class="model-phase-desc">蒐集學習成效數據與學習者回饋，持續優化課程設計。</div>
+        </div>
+      </div>
+
+      <div class="info-block">
+        <div class="info-block-header">
+          <div class="info-block-icon">⚡</div>
+          <div class="info-block-title">每單元教學流程</div>
+        </div>
+        <div style="margin-top:12px">
+          <div class="flow-steps">
+            <div class="flow-step">
+              <div class="step-node">1</div>
+              <div class="step-content">
+                <div class="step-title">課前預習（10 分鐘）</div>
+                <div class="step-desc">觀看短片或閱讀預習素材，觸發先備知識，帶著問題進入課程。</div>
+              </div>
+            </div>
+            <div class="flow-step">
+              <div class="step-node">2</div>
+              <div class="step-content">
+                <div class="step-title">核心概念講授（40 分鐘）</div>
+                <div class="step-desc">教師影片搭配圖解投影片，系統性介紹本單元核心知識，設置三個以上的互動問答節點。</div>
+              </div>
+            </div>
+            <div class="flow-step">
+              <div class="step-node">3</div>
+              <div class="step-content">
+                <div class="step-title">情境練習（30 分鐘）</div>
+                <div class="step-desc">透過案例分析或模擬任務，讓學習者在真實情境中應用所學，強化遷移能力。</div>
+              </div>
+            </div>
+            <div class="flow-step">
+              <div class="step-node">4</div>
+              <div class="step-content">
+                <div class="step-title">測驗與自評（20 分鐘）</div>
+                <div class="step-desc">完成本單元測驗，系統立即提供詳解回饋，引導學習者對照學習目標進行自我評估。</div>
+              </div>
+            </div>
+            <div class="flow-step">
+              <div class="step-node">5</div>
+              <div class="step-content">
+                <div class="step-title">反思與討論（20 分鐘）</div>
+                <div class="step-desc">在討論區回應本單元反思提問，閱讀同儕想法，形成更深層的理解與連結。</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── 4. 課程教材 ── -->
+    <section class="section" id="materials">
+      <div class="sec-header">
+        <div class="sec-icon">📚</div>
+        <div class="sec-label-wrap">
+          <span class="sec-eyebrow">Course Materials</span>
+          <h2 class="sec-title">課程教材</h2>
+        </div>
+        <div class="sec-divider"></div>
+      </div>
+
+      <div class="cards-grid">
+        <div class="card">
+          <div class="card-bar b1"></div>
+          <div class="card-body">
+            <div class="card-icon-sm">📄</div>
+            <div class="card-title-sm">單元講義 PDF</div>
+            <div class="card-desc-sm">每單元提供可下載的圖解講義，包含重點摘要、關鍵名詞對照表與延伸閱讀建議。</div>
+            <div class="card-tags"><span class="tag">可下載</span><span class="tag">可列印</span></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-bar b2"></div>
+          <div class="card-body">
+            <div class="card-icon-sm">🎬</div>
+            <div class="card-title-sm">教學影片庫</div>
+            <div class="card-desc-sm">6 單元共 42 支短片（每支 8–12 分鐘），全數附有中文字幕，可調速播放。</div>
+            <div class="card-tags"><span class="tag">附字幕</span><span class="tag">可調速</span></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-bar b3"></div>
+          <div class="card-body">
+            <div class="card-icon-sm">📊</div>
+            <div class="card-title-sm">互動計算工具</div>
+            <div class="card-desc-sm">熱量估算、營養素攝取量計算、BMI 與健康體重計算等線上互動工具。</div>
+            <div class="card-tags"><span class="tag">線上工具</span><span class="tag">即時計算</span></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-bar b4"></div>
+          <div class="card-body">
+            <div class="card-icon-sm">📖</div>
+            <div class="card-title-sm">延伸閱讀資料庫</div>
+            <div class="card-desc-sm">精選期刊文章、政府衛教資源、食品標示範例，依單元主題分類整理。</div>
+            <div class="card-tags"><span class="tag">學術資源</span><span class="tag">衛教素材</span></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-bar b5"></div>
+          <div class="card-body">
+            <div class="card-icon-sm">📝</div>
+            <div class="card-title-sm">學習筆記模板</div>
+            <div class="card-desc-sm">提供結構化的筆記模板，引導學習者整理重點、記錄疑問，培養主動學習習慣。</div>
+            <div class="card-tags"><span class="tag">可列印</span><span class="tag">結構化</span></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-bar b6"></div>
+          <div class="card-body">
+            <div class="card-icon-sm">🍱</div>
+            <div class="card-title-sm">實作工作單</div>
+            <div class="card-desc-sm">飲食記錄表、健康餐盤設計單、一週飲食計畫表，作為期末實作評量的操作素材。</div>
+            <div class="card-tags"><span class="tag">實作評量</span><span class="tag">可下載</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── 5. 測驗與評量 ── -->
+    <section class="section" id="assessment">
+      <div class="sec-header">
+        <div class="sec-icon">📝</div>
+        <div class="sec-label-wrap">
+          <span class="sec-eyebrow">Assessment</span>
+          <h2 class="sec-title">測驗與評量</h2>
+        </div>
+        <div class="sec-divider"></div>
+      </div>
+
+      <div class="info-block" style="margin-bottom:20px">
+        <div class="info-block-header">
+          <div class="info-block-icon">🎯</div>
+          <div class="info-block-title">評量設計理念</div>
+        </div>
+        <div class="info-block-desc">
+          本課程採用「形成性＋總結性」雙軌評量策略。形成性評量貫穿每個單元，即時提供學習回饋；總結性評量於課程末段確認整體學習成效。兩者並重，兼顧過程與結果。
+        </div>
+      </div>
+
+      <div class="info-block" style="margin-bottom:20px">
+        <div class="info-block-header">
+          <div class="info-block-icon">📊</div>
+          <div class="info-block-title">成績配比</div>
+        </div>
+        <div style="overflow-x:auto;margin-top:4px">
+          <table class="assess-table">
+            <thead>
+              <tr>
+                <th>評量項目</th>
+                <th>形式</th>
+                <th>時機</th>
+                <th>佔分比重</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>單元隨堂測驗</td>
+                <td><span class="assess-badge ab-mc">選擇題</span></td>
+                <td>每單元結束後</td>
+                <td>
+                  <div class="weight-bar-wrap">
+                    <div class="weight-bar" style="width:90px"></div>
+                    <span class="weight-num">30%</span>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>反思討論回應</td>
+                <td><span class="assess-badge ab-ref">問答題</span></td>
+                <td>每單元反思區</td>
+                <td>
+                  <div class="weight-bar-wrap">
+                    <div class="weight-bar" style="width:60px"></div>
+                    <span class="weight-num">20%</span>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>期中綜合測驗</td>
+                <td><span class="assess-badge ab-mc">選擇題</span></td>
+                <td>第 3 單元後</td>
+                <td>
+                  <div class="weight-bar-wrap">
+                    <div class="weight-bar" style="width:60px"></div>
+                    <span class="weight-num">20%</span>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>飲食計畫實作</td>
+                <td><span class="assess-badge ab-prac">實作任務</span></td>
+                <td>第 6 單元</td>
+                <td>
+                  <div class="weight-bar-wrap">
+                    <div class="weight-bar" style="width:90px"></div>
+                    <span class="weight-num">30%</span>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="cards-grid">
+        <div class="card">
+          <div class="card-bar b1"></div>
+          <div class="card-body">
+            <div class="card-icon-sm">✅</div>
+            <div class="card-title-sm">單元隨堂測驗</div>
+            <div class="card-desc-sm">每單元 10 題選擇題，完成後即時顯示詳解，可重複作答至滿分，採最高分計算。</div>
+            <div class="card-tags"><span class="tag">即時回饋</span><span class="tag">可重作</span></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-bar b3"></div>
+          <div class="card-body">
+            <div class="card-icon-sm">💬</div>
+            <div class="card-title-sm">反思討論</div>
+            <div class="card-desc-sm">每單元一道開放式反思題，要求學習者結合個人經驗回應，並閱讀至少兩位同學的回應。</div>
+            <div class="card-tags"><span class="tag">開放式</span><span class="tag">同儕互動</span></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-bar b4"></div>
+          <div class="card-body">
+            <div class="card-icon-sm">📋</div>
+            <div class="card-title-sm">期中綜合測驗</div>
+            <div class="card-desc-sm">涵蓋前三單元的 20 題選擇題與 2 題簡答，測驗視窗開放 72 小時，限時 45 分鐘完成。</div>
+            <div class="card-tags"><span class="tag">限時</span><span class="tag">不可重作</span></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-bar b7"></div>
+          <div class="card-body">
+            <div class="card-icon-sm">🍱</div>
+            <div class="card-title-sm">飲食計畫實作</div>
+            <div class="card-desc-sm">設計個人一週均衡飲食計畫，含食物份量計算、營養素分析與設計說明，繳交 PDF 報告。</div>
+            <div class="card-tags"><span class="tag">期末實作</span><span class="tag">PDF 繳交</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div><!-- end .content -->
+
+  <div class="footer-note">
+    食育實驗室 · Nutrilab &nbsp;｜&nbsp; 中國文化大學 &nbsp;
+    <a href="https://www.pccu.edu.tw" target="_blank">pccu.edu.tw</a>
+  </div>
+</main>
+
+<script>
+function setActive(el) {
+  document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+  el.classList.add('active');
+}
+
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('open');
+}
+
+// Highlight nav on scroll
+const sections = ['scope','media','design','materials','assessment'];
+const navItems = document.querySelectorAll('.nav-item');
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      navItems.forEach(n => n.classList.remove('active'));
+      const match = document.querySelector(`.nav-item[href="#${entry.target.id}"]`);
+      if (match) match.classList.add('active');
+    }
+  });
+}, { threshold: 0.4 });
+
+sections.forEach(id => {
+  const el = document.getElementById(id);
+  if (el) observer.observe(el);
+});
+</script>
+</body>
+</html>
