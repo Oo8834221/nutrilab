@@ -20,6 +20,92 @@
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
+  /* =========================
+   RWD 響應式設計
+   ========================= */
+
+/* 平板 */
+@media (max-width: 1024px) {
+  .hero {
+    padding: 28px 20px;
+  }
+
+  .path-section {
+    padding: 24px 20px;
+  }
+
+  .topnav {
+    padding: 0 20px;
+  }
+}
+
+/* 手機 */
+@media (max-width: 768px) {
+
+  .topnav {
+    flex-direction: column;
+    height: auto;
+    gap: 8px;
+    padding: 10px 16px;
+  }
+
+  .hero {
+    padding: 20px 16px;
+  }
+
+  .hero-title {
+    font-size: 20px;
+    letter-spacing: 1px;
+  }
+
+  .hero-desc {
+    font-size: 12px;
+  }
+
+  .path-section {
+    padding: 16px 12px;
+  }
+
+  /* 卡片改成直向 */
+  .path-item {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .node {
+    align-self: flex-start;
+  }
+
+  .card {
+    width: 100%;
+  }
+
+  /* 登入卡片 */
+  .login-card {
+    padding: 24px 18px;
+  }
+
+  /* user email 隱藏（避免擠） */
+  .user-email {
+    display: none;
+  }
+}
+
+/* 超小手機 */
+@media (max-width: 480px) {
+  .hero-title {
+    font-size: 18px;
+  }
+
+  .card-inner {
+    padding: 12px;
+  }
+
+  .card-title {
+    font-size: 13px;
+  }
+}
+
   body {
     font-family: 'Noto Sans TC', 'Microsoft JhengHei', sans-serif;
     background: #eef6f1;
