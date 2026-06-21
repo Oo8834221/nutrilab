@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>何為營養學？</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600;700&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --green-50: #EAF3DE;
+    --green-100: #C0DD97;
+    --green-200: #97C459;
+    --green-400: #639922;
+    --green-600: #3B6D11;
+    --green-800: #27500A;
+    --teal-50: #E1F5EE;
+    --teal-100: #9FE1CB;
+    --teal-400: #1D9E75;
+    --teal-600: #0F6E56;
+    --teal-800: #085041;
+    --amber-50: #FAEEDA;
+    --amber-100: #FAC775;
+    --amber-400: #BA7517;
+    --amber-600: #854F0B;
+    --amber-800: #633806;
+    --coral-50: #FAECE7;
+    --coral-100: #F5C4B3;
+    --coral-400: #D85A30;
+    --coral-600: #993C1D;
+    --coral-800: #712B13;
+    --purple-50: #EEEDFE;
+    --purple-100: #CECBF6;
+    --purple-400: #7F77DD;
+    --purple-600: #534AB7;
+    --purple-800: #3C3489;
+    --gray-100: #D3D1C7;
+    --gray-400: #888780;
+    --gray-600: #5F5E5A;
+    --text: #1a1a1a;
+    --text-muted: #5a5a5a;
+    --bg: #fafaf8;
+    --white: #ffffff;
+  }
+
+  body {
+    font-family: 'Noto Sans TC', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.8;
+  }
+
+  /* Hero */
+  .hero {
+    background: var(--green-800);
+    color: white;
+    padding: 80px 40px 60px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 300px; height: 300px;
+    border-radius: 50%;
+    background: var(--green-600);
+    opacity: 0.35;
+  }
+  .hero::after {
+    content: '';
+    position: absolute;
+    bottom: -80px; left: -40px;
+    width: 220px; height: 220px;
+    border-radius: 50%;
+    background: var(--green-600);
+    opacity: 0.25;
+  }
+  .hero-eyebrow {
+    font-size: 13px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--green-100);
+    margin-bottom: 16px;
+    font-weight: 500;
+    position: relative; z-index: 1;
+  }
+  .hero h1 {
+    font-family: 'Noto Serif TC', serif;
+    font-size: clamp(36px, 6vw, 64px);
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 20px;
+    position: relative; z-index: 1;
+  }
+  .hero p {
+    font-size: 17px;
+    color: var(--green-100);
+    max-width: 560px;
+    margin: 0 auto;
+    position: relative; z-index: 1;
+  }
+
+  /* Nav dots */
+  .section-nav {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    padding: 24px;
+    background: var(--white);
+    border-bottom: 1px solid var(--gray-100);
+    flex-wrap: wrap;
+  }
+  .section-nav a {
+    font-size: 13px;
+    color: var(--text-muted);
+    text-decoration: none;
+    padding: 6px 14px;
+    border-radius: 20px;
+    border: 1px solid var(--gray-100);
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+  .section-nav a:hover {
+    background: var(--green-50);
+    color: var(--green-600);
+    border-color: var(--green-100);
+  }
+
+  /* Sections */
+  .section {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 64px 32px;
+    border-bottom: 1px solid var(--gray-100);
+  }
+  .section:last-child { border-bottom: none; }
+
+  .section-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--green-600);
+    background: var(--green-50);
+    padding: 4px 12px;
+    border-radius: 4px;
+    margin-bottom: 16px;
+  }
+  .section h2 {
+    font-family: 'Noto Serif TC', serif;
+    font-size: clamp(24px, 4vw, 36px);
+    font-weight: 700;
+    line-height: 1.3;
+    color: var(--text);
+    margin-bottom: 20px;
+  }
+  .lead {
+    font-size: 17px;
+    color: var(--text-muted);
+    margin-bottom: 32px;
+    line-height: 1.9;
+  }
+
+  /* Cards grid */
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 16px;
+    margin-top: 24px;
+  }
+  .card {
+    background: var(--white);
+    border: 1px solid var(--gray-100);
+    border-radius: 12px;
+    padding: 24px 20px;
+  }
+  .card-icon {
+    width: 44px; height: 44px;
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px;
+    margin-bottom: 14px;
+  }
+  .card h3 {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 8px;
+  }
+  .card p {
+    font-size: 14px;
+    color: var(--text-muted);
+    line-height: 1.7;
+  }
+
+  /* Calorie section */
+  .calorie-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 12px;
+    margin: 24px 0;
+  }
+  .cal-card {
+    border-radius: 12px;
+    padding: 20px 16px;
+    text-align: center;
+  }
+  .cal-card .label {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .cal-card .number {
+    font-family: 'Noto Serif TC', serif;
+    font-size: 32px;
+    font-weight: 700;
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  .cal-card .sub {
+    font-size: 12px;
+    margin-top: 4px;
+  }
+
+  .green-card { background: var(--green-50); }
+  .green-card .label { color: var(--green-600); }
+  .green-card .number { color: var(--green-800); }
+  .green-card .sub { color: var(--green-600); }
+
+  .teal-card { background: var(--teal-50); }
+  .teal-card .label { color: var(--teal-600); }
+  .teal-card .number { color: var(--teal-800); }
+  .teal-card .sub { color: var(--teal-600); }
+
+  .amber-card { background: var(--amber-50); }
+  .amber-card .label { color: var(--amber-600); }
+  .amber-card .number { color: var(--amber-800); }
+  .amber-card .sub { color: var(--amber-600); }
+
+  .coral-card { background: var(--coral-50); }
+  .coral-card .label { color: var(--coral-600); }
+  .coral-card .number { color: var(--coral-800); }
+  .coral-card .sub { color: var(--coral-600); }
+
+  /* Macros bar */
+  .macro-bar-wrap { margin: 28px 0; }
+  .macro-label-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-bottom: 6px;
+  }
+  .macro-bar {
+    height: 16px;
+    border-radius: 8px;
+    display: flex;
+    overflow: hidden;
+    margin-bottom: 12px;
+  }
+  .macro-bar span {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 700;
+    color: white;
+  }
+  .bar-carb { background: var(--green-400); }
+  .bar-protein { background: var(--teal-400); }
+  .bar-fat { background: var(--amber-400); }
+
+  .macro-legend {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-top: 8px;
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    color: var(--text-muted);
+  }
+  .legend-dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+  }
+
+  /* Balanced diet */
+  .balance-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 12px;
+    margin-top: 24px;
+  }
+  .balance-item {
+    padding: 18px 16px;
+    border-radius: 12px;
+    text-align: center;
+  }
+  .balance-item .emoji { font-size: 28px; margin-bottom: 10px; }
+  .balance-item h4 { font-size: 14px; font-weight: 700; margin-bottom: 4px; }
+  .balance-item p { font-size: 12px; line-height: 1.5; }
+
+  /* Pyramid */
+  .pyramid-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+    margin: 32px 0;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .pyramid-level {
+    display: flex;
+    align-items: center;
+    border-radius: 8px;
+    padding: 10px 20px;
+    margin-bottom: 4px;
+    transition: transform 0.15s;
+    cursor: default;
+  }
+  .pyramid-level:hover { transform: scale(1.02); }
+  .pyramid-level .p-emoji { font-size: 18px; margin-right: 10px; }
+  .pyramid-level .p-name { font-weight: 700; font-size: 13px; min-width: 80px; }
+  .pyramid-level .p-desc { font-size: 12px; margin-left: 8px; }
+
+  .p1 { width: 100%; background: var(--green-50); }
+  .p1 .p-name { color: var(--green-800); }
+  .p1 .p-desc { color: var(--green-600); }
+  .p2 { width: 88%; background: var(--teal-50); }
+  .p2 .p-name { color: var(--teal-800); }
+  .p2 .p-desc { color: var(--teal-600); }
+  .p3 { width: 76%; background: var(--amber-50); }
+  .p3 .p-name { color: var(--amber-800); }
+  .p3 .p-desc { color: var(--amber-600); }
+  .p4 { width: 64%; background: var(--coral-50); }
+  .p4 .p-name { color: var(--coral-800); }
+  .p4 .p-desc { color: var(--coral-600); }
+  .p5 { width: 52%; background: var(--purple-50); }
+  .p5 .p-name { color: var(--purple-800); }
+  .p5 .p-desc { color: var(--purple-600); }
+  .p6 { width: 38%; background: #FEF3E2; justify-content: center; }
+  .p6 .p-name { color: #7c4500; font-size: 12px; min-width: unset; }
+
+  /* DRI table */
+  .dri-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+    margin-top: 24px;
+  }
+  .dri-table th {
+    background: var(--green-800);
+    color: white;
+    padding: 12px 14px;
+    text-align: left;
+    font-weight: 600;
+    font-size: 13px;
+  }
+  .dri-table td {
+    padding: 11px 14px;
+    border-bottom: 1px solid var(--gray-100);
+    color: var(--text);
+  }
+  .dri-table tr:nth-child(even) td { background: var(--green-50); }
+  .dri-table tr:hover td { background: var(--teal-50); }
+  .badge {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 4px;
+  }
+  .badge-green { background: var(--green-50); color: var(--green-800); }
+  .badge-teal { background: var(--teal-50); color: var(--teal-800); }
+  .badge-amber { background: var(--amber-50); color: var(--amber-800); }
+
+  /* Supplements */
+  .supp-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 16px;
+    margin-top: 24px;
+  }
+  .supp-card {
+    background: var(--white);
+    border: 1px solid var(--gray-100);
+    border-radius: 12px;
+    padding: 20px;
+    border-left: 4px solid;
+  }
+  .supp-card h4 {
+    font-size: 15px;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+  .supp-card p { font-size: 13px; color: var(--text-muted); line-height: 1.6; }
+  .supp-card .tag {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 4px;
+    margin-bottom: 10px;
+  }
+  .supp-green { border-left-color: var(--green-400); }
+  .supp-green h4 { color: var(--green-800); }
+  .supp-green .tag { background: var(--green-50); color: var(--green-600); }
+  .supp-teal { border-left-color: var(--teal-400); }
+  .supp-teal h4 { color: var(--teal-800); }
+  .supp-teal .tag { background: var(--teal-50); color: var(--teal-600); }
+  .supp-amber { border-left-color: var(--amber-400); }
+  .supp-amber h4 { color: var(--amber-800); }
+  .supp-amber .tag { background: var(--amber-50); color: var(--amber-600); }
+  .supp-coral { border-left-color: var(--coral-400); }
+  .supp-coral h4 { color: var(--coral-800); }
+  .supp-coral .tag { background: var(--coral-50); color: var(--coral-600); }
+  .supp-purple { border-left-color: var(--purple-400); }
+  .supp-purple h4 { color: var(--purple-800); }
+  .supp-purple .tag { background: var(--purple-50); color: var(--purple-600); }
+
+  /* Warning box */
+  .warning-box {
+    background: var(--amber-50);
+    border: 1px solid var(--amber-100);
+    border-left: 4px solid var(--amber-400);
+    border-radius: 8px;
+    padding: 16px 20px;
+    margin-top: 24px;
+    font-size: 14px;
+    color: var(--amber-800);
+    line-height: 1.7;
+  }
+  .warning-box strong { color: var(--amber-600); }
+
+  /* Footer */
+  footer {
+    background: var(--green-800);
+    color: var(--green-100);
+    text-align: center;
+    padding: 32px;
+    font-size: 13px;
+    line-height: 1.8;
+  }
+  footer strong { color: white; }
+
+  /* Responsive */
+  @media (max-width: 600px) {
+    .hero { padding: 60px 24px 48px; }
+    .section { padding: 48px 20px; }
+    .pyramid-level .p-desc { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Hero -->
+<header class="hero">
+  <p class="hero-eyebrow">科學 · 健康 · 生活</p>
+  <h1>何為營養學？</h1>
+  <p>了解食物如何滋養身體，掌握飲食科學的核心知識，邁向更健康的生活方式。</p>
+</header>
+
+<!-- Navigation -->
+<nav class="section-nav">
+  <a href="#purpose">營養學目的</a>
+  <a href="#calories">每日熱量</a>
+  <a href="#balanced">均衡飲食</a>
+  <a href="#pyramid">食品金字塔</a>
+  <a href="#dri">飲食攝取基準</a>
+  <a href="#supplements">補給品</a>
+</nav>
+
+<!-- 1. 目的 -->
+<section class="section" id="purpose">
+  <span class="section-tag">01 — 基礎概念</span>
+  <h2>營養學的目的</h2>
+  <p class="lead">
+    營養學（Nutritional Science）是一門研究食物中的營養素如何被人體攝取、消化、吸收、代謝與利用的科學，旨在維持生命、促進健康、預防疾病。
+  </p>
+  <div class="cards">
+    <div class="card">
+      <div class="card-icon" style="background:var(--green-50);">🔬</div>
+      <h3>科學研究</h3>
+      <p>探討食物成分與人體生理機能的關係，建立飲食與健康的科學依據。</p>
+    </div>
+    <div class="card">
+      <div class="card-icon" style="background:var(--teal-50);">🛡️</div>
+      <h3>疾病預防</h3>
+      <p>透過合理飲食降低慢性病風險，如糖尿病、心血管疾病、骨質疏鬆症。</p>
+    </div>
+    <div class="card">
+      <div class="card-icon" style="background:var(--amber-50);">⚡</div>
+      <h3>維持機能</h3>
+      <p>確保身體獲得足夠能量與必需營養素，維持正常生長發育與生理運作。</p>
+    </div>
+    <div class="card">
+      <div class="card-icon" style="background:var(--coral-50);">🌱</div>
+      <h3>促進健康</h3>
+      <p>制定科學化的飲食建議，協助個人和族群達到最佳健康狀態。</p>
+    </div>
+  </div>
+</section>
+
+<!-- 2. 熱量 -->
+<section class="section" id="calories">
+  <span class="section-tag">02 — 能量需求</span>
+  <h2>一天所需的熱量</h2>
+  <p class="lead">
+    每日熱量需求因年齡、性別、體重、身高及活動量而異。以下為一般成人的參考值，單位為大卡（kcal）。
+  </p>
+
+  <div class="calorie-grid">
+    <div class="cal-card green-card">
+      <div class="label">男性（輕度活動）</div>
+      <div class="number">2,000</div>
+      <div class="sub">〜 2,500 kcal/日</div>
+    </div>
+    <div class="cal-card teal-card">
+      <div class="label">女性（輕度活動）</div>
+      <div class="number">1,600</div>
+      <div class="sub">〜 2,000 kcal/日</div>
+    </div>
+    <div class="cal-card amber-card">
+      <div class="label">男性（高強度運動）</div>
+      <div class="number">3,000</div>
+      <div class="sub">〜 3,500 kcal/日</div>
+    </div>
+    <div class="cal-card coral-card">
+      <div class="label">女性（高強度運動）</div>
+      <div class="number">2,400</div>
+      <div class="sub">〜 2,800 kcal/日</div>
+    </div>
+  </div>
+
+  <p style="font-size:14px; color:var(--text-muted); margin-bottom:20px;">
+    三大巨量營養素（醣類、蛋白質、脂肪）的建議熱量比例如下：
+  </p>
+  <div class="macro-bar-wrap">
+    <div class="macro-label-row">
+      <span>醣類 50–65%</span>
+      <span>蛋白質 10–20%</span>
+      <span>脂肪 20–35%</span>
+    </div>
+    <div class="macro-bar">
+      <span class="bar-carb" style="width:58%;">58%</span>
+      <span class="bar-protein" style="width:15%;">15%</span>
+      <span class="bar-fat" style="width:27%;">27%</span>
+    </div>
+    <div class="macro-legend">
+      <div class="legend-item"><div class="legend-dot" style="background:var(--green-400);"></div>醣類（每克 4 kcal）</div>
+      <div class="legend-item"><div class="legend-dot" style="background:var(--teal-400);"></div>蛋白質（每克 4 kcal）</div>
+      <div class="legend-item"><div class="legend-dot" style="background:var(--amber-400);"></div>脂肪（每克 9 kcal）</div>
+    </div>
+  </div>
+</section>
+
+<!-- 3. 均衡飲食 -->
+<section class="section" id="balanced">
+  <span class="section-tag">03 — 飲食基準</span>
+  <h2>均衡飲食的基準</h2>
+  <p class="lead">
+    均衡飲食強調各大類食物的適量攝取，確保身體獲得所有必需的營養素，同時避免過多或過少的飲食偏差。
+  </p>
+  <div class="balance-grid">
+    <div class="balance-item" style="background:var(--green-50);">
+      <div class="emoji">🌾</div>
+      <h4 style="color:var(--green-800);">全穀雜糧類</h4>
+      <p style="color:var(--green-600);">每日 1.5–4 碗，提供醣類與膳食纖維</p>
+    </div>
+    <div class="balance-item" style="background:var(--teal-50);">
+      <div class="emoji">🐟</div>
+      <h4 style="color:var(--teal-800);">豆魚蛋肉類</h4>
+      <p style="color:var(--teal-600);">每日 3–8 份，優質蛋白質來源</p>
+    </div>
+    <div class="balance-item" style="background:var(--amber-50);">
+      <div class="emoji">🥛</div>
+      <h4 style="color:var(--amber-800);">乳品類</h4>
+      <p style="color:var(--amber-600);">每日 1.5–2 杯，補充鈣質與維生素 D</p>
+    </div>
+    <div class="balance-item" style="background:var(--coral-50);">
+      <div class="emoji">🥦</div>
+      <h4 style="color:var(--coral-800);">蔬菜類</h4>
+      <p style="color:var(--coral-600);">每日 3–5 份，富含維生素與礦物質</p>
+    </div>
+    <div class="balance-item" style="background:var(--purple-50);">
+      <div class="emoji">🍎</div>
+      <h4 style="color:var(--purple-800);">水果類</h4>
+      <p style="color:var(--purple-600);">每日 2–4 份，天然糖分與抗氧化物</p>
+    </div>
+    <div class="balance-item" style="background:#FEF3E2;">
+      <div class="emoji">🫒</div>
+      <h4 style="color:#7c4500;">油脂與堅果</h4>
+      <p style="color:#a05a00;">每日 3–7 茶匙，必需脂肪酸</p>
+    </div>
+  </div>
+</section>
+
+<!-- 4. 食品金字塔 -->
+<section class="section" id="pyramid">
+  <span class="section-tag">04 — 視覺指南</span>
+  <h2>食品金字塔</h2>
+  <p class="lead">
+    食品金字塔（Food Pyramid）以視覺化方式呈現各類食物的建議攝取比例——底層佔最大比例，頂端應最少攝取。
+  </p>
+
+  <div class="pyramid-wrap">
+    <!-- 頂端 -->
+    <div class="pyramid-level p6">
+      <span class="p-emoji">🧂</span>
+      <span class="p-name">油、鹽、糖 ── 少用</span>
+    </div>
+    <div class="pyramid-level p5">
+      <span class="p-emoji">🍬</span>
+      <span class="p-name" style="min-width:90px;">油脂與堅果</span>
+      <span class="p-desc">每日 3–7 茶匙，選優質油脂</span>
+    </div>
+    <div class="pyramid-level p4">
+      <span class="p-emoji">🍎</span>
+      <span class="p-name" style="min-width:90px;">水果類</span>
+      <span class="p-desc">每日 2–4 份，攝取多樣色彩</span>
+    </div>
+    <div class="pyramid-level p3">
+      <span class="p-emoji">🥛</span>
+      <span class="p-name" style="min-width:90px;">乳品 / 豆魚蛋肉</span>
+      <span class="p-desc">每日適量，蛋白質與鈣的來源</span>
+    </div>
+    <div class="pyramid-level p2">
+      <span class="p-emoji">🥦</span>
+      <span class="p-name" style="min-width:90px;">蔬菜類</span>
+      <span class="p-desc">每日 3–5 份，深色蔬菜優先</span>
+    </div>
+    <!-- 底部 -->
+    <div class="pyramid-level p1">
+      <span class="p-emoji">🌾</span>
+      <span class="p-name" style="min-width:90px;">全穀雜糧</span>
+      <span class="p-desc">每餐主食，以全穀類為主，提供基礎能量</span>
+    </div>
+  </div>
+
+  <p style="font-size:13px; color:var(--text-muted); text-align:center; margin-top:8px;">
+    ▲ 金字塔由底部往頂端，攝取量應逐漸遞減
+  </p>
+</section>
+
+<!-- 5. 飲食攝取基準 -->
+<section class="section" id="dri">
+  <span class="section-tag">05 — 科學標準</span>
+  <h2>飲食攝取基準（DRIs）</h2>
+  <p class="lead">
+    飲食攝取基準（Dietary Reference Intakes，DRIs）是衛生主管機關依據科學研究制定的每日建議攝取量，包含以下四個指標：
+  </p>
+
+  <table class="dri-table">
+    <thead>
+      <tr>
+        <th>指標名稱</th>
+        <th>英文縮寫</th>
+        <th>說明</th>
+        <th>類型</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>估計平均需求量</strong></td>
+        <td>EAR</td>
+        <td>滿足 50% 健康人口需求的最低攝取量</td>
+        <td><span class="badge badge-teal">評估指標</span></td>
+      </tr>
+      <tr>
+        <td><strong>建議攝取量</strong></td>
+        <td>RDA</td>
+        <td>滿足 97–98% 健康人口需求的每日攝取量</td>
+        <td><span class="badge badge-green">目標值</span></td>
+      </tr>
+      <tr>
+        <td><strong>足夠攝取量</strong></td>
+        <td>AI</td>
+        <td>當 RDA 無法確立時，以觀察健康族群的攝取量為基準</td>
+        <td><span class="badge badge-green">替代目標</span></td>
+      </tr>
+      <tr>
+        <td><strong>上限攝取量</strong></td>
+        <td>UL</td>
+        <td>每日攝取的最高安全量，超過可能造成健康風險</td>
+        <td><span class="badge badge-amber">安全上限</span></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="cards" style="margin-top:24px;">
+    <div class="card">
+      <div class="card-icon" style="background:var(--teal-50);">💊</div>
+      <h3>鈣質（成人）</h3>
+      <p>RDA：1,000 mg/日<br>UL：2,500 mg/日<br>主要來源：乳製品、豆腐、深綠蔬菜</p>
+    </div>
+    <div class="card">
+      <div class="card-icon" style="background:var(--amber-50);">☀️</div>
+      <h3>維生素 D</h3>
+      <p>RDA：600 IU/日（15 µg）<br>UL：4,000 IU/日<br>主要來源：日曬、魚類、強化食品</p>
+    </div>
+    <div class="card">
+      <div class="card-icon" style="background:var(--green-50);">🩸</div>
+      <h3>鐵（女性）</h3>
+      <p>RDA：15 mg/日<br>UL：40 mg/日<br>主要來源：紅肉、豆類、深色蔬菜</p>
+    </div>
+  </div>
+</section>
+
+<!-- 6. 補給品 -->
+<section class="section" id="supplements">
+  <span class="section-tag">06 — 補充與攝取</span>
+  <h2>營養攝取及補給品</h2>
+  <p class="lead">
+    理想上，人體所需的所有營養素應透過均衡飲食獲得。然而，某些族群或特殊情況下，補充品（supplements）可作為飲食的輔助，但需謹慎使用。
+  </p>
+
+  <div class="supp-grid">
+    <div class="supp-card supp-green">
+      <div class="tag">巨量營養素</div>
+      <h4>蛋白質補充品</h4>
+      <p>如乳清蛋白、植物蛋白粉，適合運動後肌肉修復，每日建議 1.2–2.0 g/kg 體重。</p>
+    </div>
+    <div class="supp-card supp-teal">
+      <div class="tag">脂溶性維生素</div>
+      <h4>維生素 A、D、E、K</h4>
+      <p>需隨脂肪一起攝取才能被吸收，過量補充有積毒風險，尤其維生素 A 與 D。</p>
+    </div>
+    <div class="supp-card supp-amber">
+      <div class="tag">水溶性維生素</div>
+      <h4>維生素 B 群 & C</h4>
+      <p>多餘量可由尿液排出，相對安全，但超高劑量仍可能造成不適，B6 過量可引起神經症狀。</p>
+    </div>
+    <div class="supp-card supp-coral">
+      <div class="tag">礦物質</div>
+      <h4>鈣、鐵、鋅、鎂</h4>
+      <p>礦物質之間有競爭吸收的關係，如鈣與鐵。建議在醫師或營養師指導下補充。</p>
+    </div>
+    <div class="supp-card supp-purple">
+      <div class="tag">機能性成分</div>
+      <h4>Omega-3、益生菌、葉黃素</h4>
+      <p>具特定健康功能，如 Omega-3 支持心血管，益生菌調整腸道菌叢，葉黃素保護視力。</p>
+    </div>
+    <div class="supp-card supp-green">
+      <div class="tag">特殊需求族群</div>
+      <h4>葉酸、鐵（孕婦）</h4>
+      <p>孕期前三個月建議每日補充 400–600 µg 葉酸，預防神經管缺陷；鐵質需求同步提升。</p>
+    </div>
+  </div>
+
+  <div class="warning-box">
+    ⚠️ <strong>重要提醒：</strong>補給品無法取代真正的食物。天然食物中含有數百種微量成分（植化素、纖維、輔因子等），這些往往無法透過補充品重現。在選用任何補充品前，建議諮詢<strong>醫師或合格營養師</strong>，以避免過量攝取或與藥物產生交互作用。
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <p><strong>何為營養學？</strong> — 科學飲食指南</p>
+  <p style="margin-top:8px; opacity:0.7;">本頁內容僅供教育參考，不作為醫療診斷或治療建議。<br>實際飲食需求因人而異，請尋求專業醫療或營養諮詢。</p>
+</footer>
+
+</body>
+</html>

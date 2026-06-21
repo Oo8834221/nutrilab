@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<title>疾病及營養關係</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@500;700;900&family=Noto+Sans+TC:wght@400;500;700&family=Space+Mono:wght@400;700&display=swap');
+
+  :root{
+    --bg:#EFEDE6;
+    --ink:#23272B;
+    --paper:#FAFAF7;
+    --line:#D2D0C5;
+    --red:#A4392E;
+    --teal:#3C6E64;
+  }
+
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'Noto Sans TC', sans-serif;
+    line-height:1.7;
+  }
+
+  /* ===== HERO ===== */
+  .hero{
+    padding:90px 6vw 70px;
+    background:var(--ink);
+    color:var(--paper);
+  }
+  .hero .eyebrow{
+    font-family:'Space Mono', monospace;
+    font-size:13px; letter-spacing:.25em; text-transform:uppercase;
+    color:#D88A6E; margin-bottom:20px;
+  }
+  .hero h1{
+    font-family:'Noto Serif TC', serif;
+    font-weight:900;
+    font-size:clamp(38px, 6.5vw, 76px);
+    line-height:1.15;
+  }
+  .hero p.lead{
+    max-width:600px; margin-top:22px; font-size:17px; color:#C9C6BC;
+  }
+
+  .chart-row{
+    margin-top:48px;
+    display:flex; gap:0; flex-wrap:wrap;
+    border-top:1px solid #444;
+  }
+  .chart-row a{
+    flex:1 1 100px;
+    text-decoration:none;
+    color:#D9D6CC;
+    font-size:13px;
+    padding:14px 10px;
+    border-right:1px solid #444;
+    border-bottom:1px solid #444;
+    transition:background .15s, color .15s;
+    text-align:center;
+  }
+  .chart-row a:hover{ background:#3A3D38; color:#fff; }
+  .chart-row a b{ display:block; font-family:'Noto Serif TC',serif; font-size:16px; margin-bottom:2px;}
+
+  /* ===== DISEASE CARD ===== */
+  .case{
+    margin:0 6vw;
+    border-bottom:1.5px solid var(--line);
+    padding:60px 0;
+    display:grid;
+    grid-template-columns:280px 1fr;
+    gap:48px;
+    scroll-margin-top:20px;
+  }
+  @media(max-width:840px){
+    .case{ grid-template-columns:1fr; gap:20px; padding:44px 0;}
+  }
+
+  .case-head .no{
+    font-family:'Space Mono',monospace;
+    font-size:12px; color:var(--accent);
+    letter-spacing:.1em;
+  }
+  .case-head h2{
+    font-family:'Noto Serif TC',serif;
+    font-weight:900;
+    font-size:38px;
+    margin-top:6px;
+    color:var(--ink);
+  }
+  .case-head .en{
+    font-family:'Space Mono',monospace;
+    font-size:12px; color:#8A8676; margin-top:6px;
+  }
+  .case-head .tag{
+    display:inline-block; margin-top:18px;
+    border:1px solid var(--accent);
+    color:var(--accent);
+    font-size:12px;
+    padding:4px 12px;
+    border-radius:20px;
+  }
+
+  .case-body h3{
+    font-family:'Noto Serif TC',serif;
+    font-size:14px; font-weight:700;
+    text-transform:uppercase; letter-spacing:.08em;
+    color:var(--accent);
+    margin-top:26px; margin-bottom:8px;
+    display:flex; align-items:center; gap:8px;
+  }
+  .case-body h3:first-child{ margin-top:0; }
+  .case-body h3::before{
+    content:""; width:18px; height:2px; background:var(--accent); display:inline-block;
+  }
+  .case-body p, .case-body ul{
+    font-size:15.5px; color:#3A3A33; max-width:680px;
+  }
+  .case-body ul{ padding-left:20px; }
+  .case-body li{ margin-bottom:4px; }
+
+  .two-col{
+    display:grid; grid-template-columns:1fr 1fr; gap:24px; margin-top:6px;
+  }
+  @media(max-width:600px){ .two-col{grid-template-columns:1fr;} }
+  .col-box{
+    border:1px solid var(--line);
+    background:var(--paper);
+    padding:14px 16px;
+    border-radius:4px;
+  }
+  .col-box.eat h4{ color:var(--teal); }
+  .col-box.avoid h4{ color:var(--red); }
+  .col-box h4{
+    font-size:13px; font-weight:700; margin-bottom:6px;
+  }
+  .col-box ul{ padding-left:18px; font-size:14px; }
+
+  /* per-disease accent colors */
+  #dm{--accent:#B5662B;}
+  #htn{--accent:#A4392E;}
+  #lipid{--accent:#8A6D2E;}
+  #gout{--accent:#7A4F8A;}
+  #liver{--accent:#5C7A4A;}
+  #kidney{--accent:#3E6B8A;}
+  #allergy{--accent:#B33D6E;}
+  #dysphagia{--accent:#6E6E50;}
+  #exercise{--accent:#3C6E64;}
+
+  footer{
+    padding:50px 6vw 30px;
+    font-family:'Space Mono',monospace;
+    font-size:12px; color:#8A8676; text-align:center;
+  }
+</style>
+</head>
+<body>
+
+<section class="hero">
+  <div class="eyebrow">營養治療 · 疾病管理</div>
+  <h1>疾病<br>及營養關係</h1>
+  <p class="lead">飲食是疾病管理中最日常、也最關鍵的一環。以下整理九種常見疾病與營養障礙的飲食原則,作為臨床照護與日常飲食調整的參考。</p>
+
+  <div class="chart-row">
+    <a href="#dm"><b>糖尿病</b>飲食控糖</a>
+    <a href="#htn"><b>高血壓</b>限鈉飲食</a>
+    <a href="#lipid"><b>血脂異常</b>控油降脂</a>
+    <a href="#gout"><b>高尿酸血症</b>低普林</a>
+    <a href="#liver"><b>肝臟疾病</b>護肝飲食</a>
+    <a href="#kidney"><b>腎臟疾病</b>低蛋白限磷鉀</a>
+    <a href="#allergy"><b>食物過敏</b>排除飲食</a>
+    <a href="#dysphagia"><b>運動障礙症候群</b>質地調整</a>
+    <a href="#exercise"><b>運動療法</b>營養搭配</a>
+  </div>
+</section>
+
+<!-- 糖尿病 -->
+<section class="case" id="dm">
+  <div class="case-head">
+    <div class="no">01 / 09</div>
+    <h2>糖尿病</h2>
+    <div class="en">DIABETES MELLITUS</div>
+    <div class="tag">代謝性疾病</div>
+  </div>
+  <div class="case-body">
+    <h3>核心問題</h3>
+    <p>胰島素分泌不足或作用不良,導致血糖長期偏高,飲食目標是穩定血糖、避免劇烈波動。</p>
+
+    <h3>飲食原則</h3>
+    <ul>
+      <li>定時定量進食,控制每餐碳水化合物總量</li>
+      <li>選擇低升糖指數(低GI)食物,優先全穀雜糧</li>
+      <li>減少精緻糖與含糖飲料攝取</li>
+      <li>增加膳食纖維,延緩血糖上升速度</li>
+    </ul>
+
+    <div class="two-col">
+      <div class="col-box eat"><h4>建議</h4><ul><li>糙米、燕麥</li><li>豆類</li><li>非澱粉類蔬菜</li></ul></div>
+      <div class="col-box avoid"><h4>限制</h4><ul><li>含糖飲料</li><li>精緻甜點</li><li>白吐司、白米過量</li></ul></div>
+    </div>
+  </div>
+</section>
+
+<!-- 高血壓 -->
+<section class="case" id="htn">
+  <div class="case-head">
+    <div class="no">02 / 09</div>
+    <h2>高血壓</h2>
+    <div class="en">HYPERTENSION</div>
+    <div class="tag">心血管疾病</div>
+  </div>
+  <div class="case-body">
+    <h3>核心問題</h3>
+    <p>血壓持續高於正常值,長期可能造成心臟、腦血管與腎臟損傷,飲食目標是減少鈉攝取、增加鉀攝取。</p>
+
+    <h3>飲食原則</h3>
+    <ul>
+      <li>採用得舒飲食(DASH),強調蔬果、全穀與低脂乳品</li>
+      <li>每日鈉攝取控制在2400毫克以下</li>
+      <li>減少加工食品、醃漬物與調味料用量</li>
+      <li>適度增加富含鉀、鈣、鎂的食物</li>
+    </ul>
+
+    <div class="two-col">
+      <div class="col-box eat"><h4>建議</h4><ul><li>新鮮蔬果</li><li>低脂乳品</li><li>未加工堅果</li></ul></div>
+      <div class="col-box avoid"><h4>限制</h4><ul><li>醃漬食品</li><li>加工肉品</li><li>速食、罐頭湯</li></ul></div>
+    </div>
+  </div>
+</section>
+
+<!-- 血脂異常 -->
+<section class="case" id="lipid">
+  <div class="case-head">
+    <div class="no">03 / 09</div>
+    <h2>血脂異常</h2>
+    <div class="en">DYSLIPIDEMIA</div>
+    <div class="tag">代謝性疾病</div>
+  </div>
+  <div class="case-body">
+    <h3>核心問題</h3>
+    <p>血液中膽固醇或三酸甘油酯異常升高,增加動脈粥狀硬化與心血管疾病風險。</p>
+
+    <h3>飲食原則</h3>
+    <ul>
+      <li>減少飽和脂肪與反式脂肪攝取,以不飽和脂肪取代</li>
+      <li>增加水溶性膳食纖維,有助降低膽固醇</li>
+      <li>限制精緻糖與酒精,降低三酸甘油酯</li>
+      <li>每週攝取深海魚類補充omega-3脂肪酸</li>
+    </ul>
+
+    <div class="two-col">
+      <div class="col-box eat"><h4>建議</h4><ul><li>深海魚類</li><li>燕麥、豆類</li><li>橄欖油</li></ul></div>
+      <div class="col-box avoid"><h4>限制</h4><ul><li>油炸食物</li><li>動物內臟</li><li>奶油、酥皮類點心</li></ul></div>
+    </div>
+  </div>
+</section>
+
+<!-- 高尿酸血症 -->
+<section class="case" id="gout">
+  <div class="case-head">
+    <div class="no">04 / 09</div>
+    <h2>高尿酸血症</h2>
+    <div class="en">HYPERURICEMIA / GOUT</div>
+    <div class="tag">代謝性疾病</div>
+  </div>
+  <div class="case-body">
+    <h3>核心問題</h3>
+    <p>血液中尿酸濃度過高,結晶沉積於關節可能引發痛風發作,飲食目標是降低普林攝取與促進尿酸排除。</p>
+
+    <h3>飲食原則</h3>
+    <ul>
+      <li>避免高普林食物,如內臟、濃肉湯、帶殼海鮮</li>
+      <li>足量飲水,促進尿酸隨尿液排出</li>
+      <li>限制酒精,尤其是啤酒</li>
+      <li>避免攝取過多果糖,以免影響尿酸代謝</li>
+    </ul>
+
+    <div class="two-col">
+      <div class="col-box eat"><h4>建議</h4><ul><li>低脂乳品</li><li>蛋類</li><li>大量蔬菜</li></ul></div>
+      <div class="col-box avoid"><h4>限制</h4><ul><li>動物內臟</li><li>濃湯、火鍋湯底</li><li>啤酒、含糖飲料</li></ul></div>
+    </div>
+  </div>
+</section>
+
+<!-- 肝臟疾病 -->
+<section class="case" id="liver">
+  <div class="case-head">
+    <div class="no">05 / 09</div>
+    <h2>肝臟疾病</h2>
+    <div class="en">LIVER DISEASE</div>
+    <div class="tag">器官功能障礙</div>
+  </div>
+  <div class="case-body">
+    <h3>核心問題</h3>
+    <p>肝臟是代謝中樞,功能受損時影響蛋白質、脂肪與藥物代謝,飲食需依肝功能狀態個別調整。</p>
+
+    <h3>飲食原則</h3>
+    <ul>
+      <li>一般肝病患者需足夠熱量與優質蛋白質,避免肌肉流失</li>
+      <li>肝硬化合併肝性腦病時需限制蛋白質攝取</li>
+      <li>避免酒精,減少肝臟額外負擔</li>
+      <li>少量多餐,降低單次代謝壓力</li>
+    </ul>
+
+    <div class="two-col">
+      <div class="col-box eat"><h4>建議</h4><ul><li>優質蛋白(蛋、魚)</li><li>足夠熱量</li><li>新鮮蔬果</li></ul></div>
+      <div class="col-box avoid"><h4>限制</h4><ul><li>酒精</li><li>高油脂飲食</li><li>生食(免疫力低下者)</li></ul></div>
+    </div>
+  </div>
+</section>
+
+<!-- 腎臟疾病 -->
+<section class="case" id="kidney">
+  <div class="case-head">
+    <div class="no">06 / 09</div>
+    <h2>腎臟疾病</h2>
+    <div class="en">RENAL DISEASE</div>
+    <div class="tag">器官功能障礙</div>
+  </div>
+  <div class="case-body">
+    <h3>核心問題</h3>
+    <p>腎功能下降影響代謝廢物排除與電解質平衡,飲食需依腎功能分期調整蛋白質、磷、鉀與鈉攝取。</p>
+
+    <h3>飲食原則</h3>
+    <ul>
+      <li>依腎功能分期調整蛋白質攝取量,避免過量增加腎臟負擔</li>
+      <li>限制磷與鉀攝取,避免電解質失衡</li>
+      <li>限制鈉攝取,控制水分與血壓</li>
+      <li>透析患者需依醫囑提高蛋白質攝取以補充流失</li>
+    </ul>
+
+    <div class="two-col">
+      <div class="col-box eat"><h4>建議</h4><ul><li>優質低磷蛋白質</li><li>白米飯</li><li>適量蔬果(依鉀限制調整)</li></ul></div>
+      <div class="col-box avoid"><h4>限制</h4><ul><li>內臟、堅果(高磷)</li><li>香蕉、馬鈴薯(高鉀)</li><li>加工食品(高鈉磷)</li></ul></div>
+    </div>
+  </div>
+</section>
+
+<!-- 食物過敏 -->
+<section class="case" id="allergy">
+  <div class="case-head">
+    <div class="no">07 / 09</div>
+    <h2>食物過敏</h2>
+    <div class="en">FOOD ALLERGY</div>
+    <div class="tag">免疫反應</div>
+  </div>
+  <div class="case-body">
+    <h3>核心問題</h3>
+    <p>免疫系統對特定食物蛋白質產生異常反應,輕則皮膚搔癢,重則可能引發過敏性休克。</p>
+
+    <h3>飲食原則</h3>
+    <ul>
+      <li>確認過敏原後,完全排除該食物及其衍生製品</li>
+      <li>詳閱食品標示,留意交叉污染風險</li>
+      <li>排除飲食期間需注意營養替代,避免營養缺乏</li>
+      <li>外食時主動告知店家過敏項目</li>
+    </ul>
+
+    <div class="two-col">
+      <div class="col-box eat"><h4>常見替代</h4><ul><li>植物奶替代牛奶</li><li>米製品替代麵粉</li><li>其他蛋白質來源</li></ul></div>
+      <div class="col-box avoid"><h4>常見過敏原</h4><ul><li>牛奶、雞蛋</li><li>花生、堅果</li><li>甲殼類、小麥</li></ul></div>
+    </div>
+  </div>
+</section>
+
+<!-- 運動障礙症候群 -->
+<section class="case" id="dysphagia">
+  <div class="case-head">
+    <div class="no">08 / 09</div>
+    <h2>運動障礙症候群</h2>
+    <div class="en">DYSPHAGIA / SARCOPENIA</div>
+    <div class="tag">功能退化</div>
+  </div>
+  <div class="case-body">
+    <h3>核心問題</h3>
+    <p>常見於高齡或神經肌肉疾病患者,表現為吞嚥困難或肌肉量與肌力下降(肌少症),影響進食安全與營養攝取。</p>
+
+    <h3>飲食原則</h3>
+    <ul>
+      <li>依吞嚥能力調整食物質地,如糊狀、軟質或一口大小</li>
+      <li>避免乾硬、黏稠或易嗆咳的食物</li>
+      <li>確保足夠熱量與優質蛋白質,延緩肌肉流失</li>
+      <li>必要時搭配增稠劑調整液體濃稠度</li>
+    </ul>
+
+    <div class="two-col">
+      <div class="col-box eat"><h4>建議</h4><ul><li>軟質蛋白質(蒸蛋、魚肉泥)</li><li>稠粥、勾芡湯品</li><li>高熱量營養補充品</li></ul></div>
+      <div class="col-box avoid"><h4>限制</h4><ul><li>乾硬堅果類</li><li>稀薄液體(易嗆咳)</li><li>黏牙食物(麻糬)</li></ul></div>
+    </div>
+  </div>
+</section>
+
+<!-- 運動療法 -->
+<section class="case" id="exercise">
+  <div class="case-head">
+    <div class="no">09 / 09</div>
+    <h2>運動療法</h2>
+    <div class="en">EXERCISE THERAPY</div>
+    <div class="tag">營養搭配</div>
+  </div>
+  <div class="case-body">
+    <h3>核心觀念</h3>
+    <p>運動是慢性病管理與肌肉保留的重要一環,搭配適當營養補充能提升運動效果並加速恢復。</p>
+
+    <h3>飲食搭配原則</h3>
+    <ul>
+      <li>運動前1-2小時補充易消化的碳水化合物,提供能量</li>
+      <li>運動後30-60分鐘內補充蛋白質與碳水化合物,幫助肌肉修復</li>
+      <li>運動期間與後續注意水分與電解質補充</li>
+      <li>慢性病患者運動前應評估身體狀況,搭配個人化飲食調整</li>
+    </ul>
+
+    <div class="two-col">
+      <div class="col-box eat"><h4>運動前</h4><ul><li>香蕉、全麥吐司</li><li>適量水分</li></ul></div>
+      <div class="col-box eat"><h4>運動後</h4><ul><li>雞胸肉、豆漿</li><li>電解質補充</li></ul></div>
+    </div>
+  </div>
+</section>
+
+<footer>糖尿病 · 高血壓 · 血脂異常 · 高尿酸血症 · 肝臟疾病 · 腎臟疾病 · 食物過敏 · 運動障礙症候群 · 運動療法 · 資料僅供衛教參考</footer>
+
+</body>
+</html>

@@ -1,0 +1,998 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>食物及營養</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600;700&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --green-50:#EAF3DE;--green-100:#C0DD97;--green-200:#97C459;--green-400:#639922;--green-600:#3B6D11;--green-800:#27500A;
+  --teal-50:#E1F5EE;--teal-100:#9FE1CB;--teal-200:#5DCAA5;--teal-400:#1D9E75;--teal-600:#0F6E56;--teal-800:#085041;
+  --amber-50:#FAEEDA;--amber-100:#FAC775;--amber-200:#EF9F27;--amber-400:#BA7517;--amber-600:#854F0B;--amber-800:#633806;
+  --coral-50:#FAECE7;--coral-100:#F5C4B3;--coral-200:#F0997B;--coral-400:#D85A30;--coral-600:#993C1D;--coral-800:#712B13;
+  --blue-50:#E6F1FB;--blue-100:#B5D4F4;--blue-200:#85B7EB;--blue-400:#378ADD;--blue-600:#185FA5;--blue-800:#0C447C;
+  --purple-50:#EEEDFE;--purple-100:#CECBF6;--purple-200:#AFA9EC;--purple-400:#7F77DD;--purple-600:#534AB7;--purple-800:#3C3489;
+  --pink-50:#FBEAF0;--pink-100:#F4C0D1;--pink-200:#ED93B1;--pink-400:#D4537E;--pink-600:#993556;--pink-800:#72243E;
+  --gray-50:#F1EFE8;--gray-100:#D3D1C7;--gray-200:#B4B2A9;--gray-400:#888780;--gray-600:#5F5E5A;--gray-800:#444441;
+  --text:#1a1a1a;--text-muted:#5a5a5a;--bg:#fafaf8;--white:#ffffff;
+}
+
+body { font-family:'Noto Sans TC',sans-serif; background:var(--bg); color:var(--text); line-height:1.8; }
+
+/* ── HERO ── */
+.hero {
+  background: #0f2918;
+  padding: 76px 40px 60px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.hero-blob {
+  position: absolute; border-radius: 50%; pointer-events: none;
+}
+.b1{width:400px;height:400px;background:#27500A;opacity:.3;top:-120px;left:-80px;}
+.b2{width:280px;height:280px;background:#085041;opacity:.35;bottom:-70px;right:-40px;}
+.b3{width:180px;height:180px;background:#639922;opacity:.2;top:20px;right:160px;}
+.hero-eyebrow {
+  font-size:12px;letter-spacing:3px;text-transform:uppercase;
+  color:var(--green-100);margin-bottom:16px;position:relative;z-index:1;
+}
+.hero h1 {
+  font-family:'Noto Serif TC',serif;
+  font-size:clamp(38px,6vw,66px);font-weight:700;color:#fff;
+  line-height:1.15;margin-bottom:16px;position:relative;z-index:1;
+}
+.hero p {
+  font-size:16px;color:var(--green-100);
+  max-width:520px;margin:0 auto;position:relative;z-index:1;
+}
+
+/* ── CATEGORY NAV ── */
+.cat-nav {
+  display:flex;overflow-x:auto;gap:0;
+  background:var(--white);border-bottom:1px solid var(--gray-100);
+  scrollbar-width:none;
+}
+.cat-nav::-webkit-scrollbar{display:none;}
+.cat-btn {
+  flex:0 0 auto;display:flex;flex-direction:column;align-items:center;
+  padding:14px 22px;text-decoration:none;border-bottom:3px solid transparent;
+  margin-bottom:-1px;transition:all .2s;cursor:pointer;min-width:110px;
+}
+.cat-btn:hover{background:var(--gray-50);}
+.cat-btn .cb-icon{font-size:22px;margin-bottom:5px;}
+.cat-btn .cb-label{font-size:11px;color:var(--text-muted);font-weight:500;white-space:nowrap;}
+
+/* ── SECTION WRAPPER ── */
+.food-section {
+  max-width:940px;margin:0 auto;padding:68px 32px;
+  border-bottom:1px solid var(--gray-100);
+}
+.food-section:last-child{border-bottom:none;}
+
+.sec-header{display:flex;align-items:flex-start;gap:18px;margin-bottom:28px;}
+.sec-icon{
+  width:60px;height:60px;border-radius:14px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:28px;flex-shrink:0;
+}
+.sec-meta{}
+.sec-tag{
+  display:inline-block;font-size:11px;font-weight:700;
+  letter-spacing:2px;text-transform:uppercase;
+  padding:3px 10px;border-radius:4px;margin-bottom:8px;
+}
+.sec-meta h2{
+  font-family:'Noto Serif TC',serif;
+  font-size:clamp(22px,3.5vw,30px);font-weight:700;
+}
+.sec-intro{
+  font-size:15px;color:var(--text-muted);line-height:1.9;
+  margin-bottom:32px;padding-left:14px;border-left:3px solid;border-radius:0 4px 4px 0;
+}
+
+/* ── FOOD CARDS GRID ── */
+.food-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(270px,1fr));
+  gap:18px;
+  margin-bottom:28px;
+}
+.food-card{
+  background:var(--white);border:1px solid var(--gray-100);
+  border-radius:14px;overflow:hidden;
+  transition:box-shadow .15s;
+}
+.food-card:hover{box-shadow:0 4px 16px rgba(0,0,0,.07);}
+.fc-header{
+  padding:18px 18px 14px;
+  display:flex;align-items:center;gap:14px;
+  border-bottom:1px solid var(--gray-100);
+}
+.fc-emoji{font-size:32px;flex-shrink:0;}
+.fc-title{}
+.fc-name{font-size:17px;font-weight:700;margin-bottom:3px;}
+.fc-sub{font-size:12px;color:var(--text-muted);}
+.fc-body{padding:16px 18px;}
+.fc-desc{font-size:13px;color:var(--text-muted);line-height:1.7;margin-bottom:14px;}
+
+/* Nutrient bars */
+.nb-row{display:flex;align-items:center;gap:8px;margin-bottom:7px;}
+.nb-label{font-size:11px;color:var(--text-muted);width:64px;flex-shrink:0;font-weight:500;}
+.nb-track{flex:1;height:7px;border-radius:4px;background:var(--gray-50);overflow:hidden;}
+.nb-fill{height:100%;border-radius:4px;}
+.nb-val{font-size:11px;font-weight:700;min-width:36px;text-align:right;flex-shrink:0;}
+
+/* Nutrient pills */
+.pill-row{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px;}
+.n-pill{
+  font-size:11px;font-weight:600;padding:4px 10px;
+  border-radius:20px;border:1px solid;
+}
+
+/* ── HIGHLIGHT BOX ── */
+.highlight-box{
+  border-radius:10px;padding:16px 20px;
+  font-size:13px;line-height:1.7;
+  border:1px solid;display:flex;gap:10px;align-items:flex-start;
+  margin-top:6px;
+}
+.hb-icon{font-size:18px;flex-shrink:0;}
+
+/* ── COOKING SECTION SPECIAL ── */
+.cooking-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+  gap:14px;margin-top:24px;
+}
+.ck-card{
+  border-radius:12px;padding:20px 18px;border:1px solid;
+}
+.ck-card .ck-icon{font-size:24px;margin-bottom:10px;}
+.ck-card h4{font-size:14px;font-weight:700;margin-bottom:8px;}
+.ck-card p{font-size:13px;line-height:1.6;}
+.ck-card ul{list-style:none;margin-top:8px;display:flex;flex-direction:column;gap:5px;}
+.ck-card ul li{font-size:12px;padding-left:14px;position:relative;}
+.ck-card ul li::before{content:'·';position:absolute;left:4px;font-weight:700;}
+
+/* ── NUTRIENT TABLE ── */
+.nt{width:100%;border-collapse:collapse;font-size:13px;margin-top:20px;}
+.nt th{padding:10px 14px;text-align:left;font-weight:600;font-size:12px;letter-spacing:.5px;}
+.nt td{padding:10px 14px;border-bottom:1px solid var(--gray-100);}
+.nt tr:nth-child(even) td{background:var(--gray-50);}
+.nt tr:hover td{background:var(--blue-50);}
+
+/* ── RESPONSIVE ── */
+@media(max-width:600px){
+  .hero{padding:56px 20px 48px;}
+  .food-section{padding:52px 18px;}
+  .sec-header{flex-direction:column;gap:10px;}
+  .food-grid{grid-template-columns:1fr;}
+}
+
+/* ════ COLOR THEMES ════ */
+
+/* 1 Vegetables — green */
+#veg .sec-icon{background:var(--green-50);}
+#veg .sec-tag{background:var(--green-50);color:var(--green-600);}
+#veg .sec-meta h2{color:var(--green-800);}
+#veg .sec-intro{border-color:var(--green-200);}
+#veg .cat-btn-veg{border-bottom-color:var(--green-400);}
+#veg .fc-header{background:var(--green-50);}
+#veg .fc-name{color:var(--green-800);}
+#veg .nb-fill{background:var(--green-400);}
+#veg .nb-val{color:var(--green-600);}
+#veg .n-pill{background:var(--green-50);border-color:var(--green-100);color:var(--green-800);}
+#veg .highlight-box{background:var(--green-50);border-color:var(--green-100);color:var(--green-800);}
+
+/* 2 Grains — amber */
+#grain .sec-icon{background:var(--amber-50);}
+#grain .sec-tag{background:var(--amber-50);color:var(--amber-600);}
+#grain .sec-meta h2{color:var(--amber-800);}
+#grain .sec-intro{border-color:var(--amber-200);}
+#grain .fc-header{background:var(--amber-50);}
+#grain .fc-name{color:var(--amber-800);}
+#grain .nb-fill{background:var(--amber-400);}
+#grain .nb-val{color:var(--amber-600);}
+#grain .n-pill{background:var(--amber-50);border-color:var(--amber-100);color:var(--amber-800);}
+#grain .highlight-box{background:var(--amber-50);border-color:var(--amber-100);color:var(--amber-800);}
+
+/* 3 Seafood — teal / blue */
+#seafood .sec-icon{background:var(--teal-50);}
+#seafood .sec-tag{background:var(--teal-50);color:var(--teal-600);}
+#seafood .sec-meta h2{color:var(--teal-800);}
+#seafood .sec-intro{border-color:var(--teal-200);}
+#seafood .fc-header{background:var(--teal-50);}
+#seafood .fc-name{color:var(--teal-800);}
+#seafood .nb-fill{background:var(--teal-400);}
+#seafood .nb-val{color:var(--teal-600);}
+#seafood .n-pill{background:var(--teal-50);border-color:var(--teal-100);color:var(--teal-800);}
+#seafood .highlight-box{background:var(--teal-50);border-color:var(--teal-100);color:var(--teal-800);}
+
+/* 4 Meat — coral */
+#meat .sec-icon{background:var(--coral-50);}
+#meat .sec-tag{background:var(--coral-50);color:var(--coral-600);}
+#meat .sec-meta h2{color:var(--coral-800);}
+#meat .sec-intro{border-color:var(--coral-200);}
+#meat .fc-header{background:var(--coral-50);}
+#meat .fc-name{color:var(--coral-800);}
+#meat .nb-fill{background:var(--coral-400);}
+#meat .nb-val{color:var(--coral-600);}
+#meat .n-pill{background:var(--coral-50);border-color:var(--coral-100);color:var(--coral-800);}
+#meat .highlight-box{background:var(--coral-50);border-color:var(--coral-100);color:var(--coral-800);}
+
+/* 5 Eggs & Dairy — blue */
+#dairy .sec-icon{background:var(--blue-50);}
+#dairy .sec-tag{background:var(--blue-50);color:var(--blue-600);}
+#dairy .sec-meta h2{color:var(--blue-800);}
+#dairy .sec-intro{border-color:var(--blue-200);}
+#dairy .fc-header{background:var(--blue-50);}
+#dairy .fc-name{color:var(--blue-800);}
+#dairy .nb-fill{background:var(--blue-400);}
+#dairy .nb-val{color:var(--blue-600);}
+#dairy .n-pill{background:var(--blue-50);border-color:var(--blue-100);color:var(--blue-800);}
+#dairy .highlight-box{background:var(--blue-50);border-color:var(--blue-100);color:var(--blue-800);}
+
+/* 6 Cooking — purple */
+#cooking .sec-icon{background:var(--purple-50);}
+#cooking .sec-tag{background:var(--purple-50);color:var(--purple-600);}
+#cooking .sec-meta h2{color:var(--purple-800);}
+#cooking .sec-intro{border-color:var(--purple-200);}
+#cooking .highlight-box{background:var(--purple-50);border-color:var(--purple-100);color:var(--purple-800);}
+
+#cooking .ck-card:nth-child(1){background:var(--green-50);border-color:var(--green-100);}
+#cooking .ck-card:nth-child(1) h4{color:var(--green-800);}
+#cooking .ck-card:nth-child(1) p,#cooking .ck-card:nth-child(1) li{color:var(--green-600);}
+#cooking .ck-card:nth-child(1) li::before{color:var(--green-400);}
+
+#cooking .ck-card:nth-child(2){background:var(--teal-50);border-color:var(--teal-100);}
+#cooking .ck-card:nth-child(2) h4{color:var(--teal-800);}
+#cooking .ck-card:nth-child(2) p,#cooking .ck-card:nth-child(2) li{color:var(--teal-600);}
+#cooking .ck-card:nth-child(2) li::before{color:var(--teal-400);}
+
+#cooking .ck-card:nth-child(3){background:var(--amber-50);border-color:var(--amber-100);}
+#cooking .ck-card:nth-child(3) h4{color:var(--amber-800);}
+#cooking .ck-card:nth-child(3) p,#cooking .ck-card:nth-child(3) li{color:var(--amber-600);}
+#cooking .ck-card:nth-child(3) li::before{color:var(--amber-400);}
+
+#cooking .ck-card:nth-child(4){background:var(--coral-50);border-color:var(--coral-100);}
+#cooking .ck-card:nth-child(4) h4{color:var(--coral-800);}
+#cooking .ck-card:nth-child(4) p,#cooking .ck-card:nth-child(4) li{color:var(--coral-600);}
+#cooking .ck-card:nth-child(4) li::before{color:var(--coral-400);}
+
+#cooking .ck-card:nth-child(5){background:var(--blue-50);border-color:var(--blue-100);}
+#cooking .ck-card:nth-child(5) h4{color:var(--blue-800);}
+#cooking .ck-card:nth-child(5) p,#cooking .ck-card:nth-child(5) li{color:var(--blue-600);}
+#cooking .ck-card:nth-child(5) li::before{color:var(--blue-400);}
+
+#cooking .ck-card:nth-child(6){background:var(--purple-50);border-color:var(--purple-100);}
+#cooking .ck-card:nth-child(6) h4{color:var(--purple-800);}
+#cooking .ck-card:nth-child(6) p,#cooking .ck-card:nth-child(6) li{color:var(--purple-600);}
+#cooking .ck-card:nth-child(6) li::before{color:var(--purple-400);}
+
+/* footer */
+footer{
+  background:#0f2918;color:var(--green-100);
+  text-align:center;padding:36px 24px;
+  font-size:13px;line-height:1.9;
+}
+footer strong{color:white;}
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="hero-blob b1"></div>
+  <div class="hero-blob b2"></div>
+  <div class="hero-blob b3"></div>
+  <p class="hero-eyebrow">Food & Nutrition Science</p>
+  <h1>食物及營養</h1>
+  <p>從蔬果到海鮮、從穀豆到肉蛋，深入了解每一種食材背後的營養密碼，讓每一口飲食都成為健康的選擇。</p>
+</header>
+
+<!-- CATEGORY NAV -->
+<nav class="cat-nav">
+  <a class="cat-btn" href="#veg"><div class="cb-icon">🥦</div><span class="cb-label">蔬果類</span></a>
+  <a class="cat-btn" href="#grain"><div class="cb-icon">🌾</div><span class="cb-label">穀豆類</span></a>
+  <a class="cat-btn" href="#seafood"><div class="cb-icon">🐟</div><span class="cb-label">海鮮海藻</span></a>
+  <a class="cat-btn" href="#meat"><div class="cb-icon">🥩</div><span class="cb-label">肉類</span></a>
+  <a class="cat-btn" href="#dairy"><div class="cb-icon">🥚</div><span class="cb-label">蛋乳類</span></a>
+  <a class="cat-btn" href="#cooking"><div class="cb-icon">🍳</div><span class="cb-label">調理及營養</span></a>
+</nav>
+
+
+<!-- ══════════════════════════════════════ -->
+<!-- 1. 蔬菜葷類水果                         -->
+<!-- ══════════════════════════════════════ -->
+<section class="food-section" id="veg">
+  <div class="sec-header">
+    <div class="sec-icon">🥦</div>
+    <div class="sec-meta">
+      <span class="sec-tag">01 — 蔬菜葷類水果</span>
+      <h2>蔬菜・菌菇・水果的營養</h2>
+    </div>
+  </div>
+  <p class="sec-intro">
+    蔬菜、菌菇與水果是植化素（Phytochemicals）、膳食纖維、維生素與礦物質的天然寶庫。多樣化的顏色代表不同種類的抗氧化成分，建議每日攝取多種顏色的蔬果，以獲得最廣泛的營養保護。
+  </p>
+
+  <div class="food-grid">
+
+    <!-- 番茄 -->
+    <div class="food-card">
+      <div class="fc-header">
+        <div class="fc-emoji">🍅</div>
+        <div class="fc-title">
+          <div class="fc-name">番茄</div>
+          <div class="fc-sub">Tomato｜每 100g 熱量約 19 kcal</div>
+        </div>
+      </div>
+      <div class="fc-body">
+        <p class="fc-desc">番茄富含茄紅素（Lycopene），是強效脂溶性抗氧化劑，加熱烹調後茄紅素的生物利用率比生食提高 2–3 倍，是少數熟食更健康的蔬果之一。</p>
+        <div class="nb-row"><span class="nb-label">茄紅素</span><div class="nb-track"><div class="nb-fill" style="width:90%"></div></div><span class="nb-val">3.0 mg</span></div>
+        <div class="nb-row"><span class="nb-label">維生素 C</span><div class="nb-track"><div class="nb-fill" style="width:65%"></div></div><span class="nb-val">19 mg</span></div>
+        <div class="nb-row"><span class="nb-label">鉀</span><div class="nb-track"><div class="nb-fill" style="width:55%"></div></div><span class="nb-val">237 mg</span></div>
+        <div class="nb-row"><span class="nb-label">葉酸</span><div class="nb-track"><div class="nb-fill" style="width:30%"></div></div><span class="nb-val">22 µg</span></div>
+        <div class="pill-row">
+          <span class="n-pill">茄紅素</span>
+          <span class="n-pill">維生素 C</span>
+          <span class="n-pill">β-胡蘿蔔素</span>
+          <span class="n-pill">鉀</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 香菇 -->
+    <div class="food-card">
+      <div class="fc-header">
+        <div class="fc-emoji">🍄</div>
+        <div class="fc-title">
+          <div class="fc-name">香菇</div>
+          <div class="fc-sub">Shiitake｜每 100g 熱量約 34 kcal</div>
+        </div>
+      </div>
+      <div class="fc-body">
+        <p class="fc-desc">香菇含有獨特的香菇多醣（Lentinan）與麥角固醇（前維生素 D₂），曬乾後維生素 D 含量大幅提升。是少數能提供維生素 D 的植物性食材，對素食者尤為珍貴。</p>
+        <div class="nb-row"><span class="nb-label">β-葡聚糖</span><div class="nb-track"><div class="nb-fill" style="width:85%"></div></div><span class="nb-val">高含量</span></div>
+        <div class="nb-row"><span class="nb-label">維生素 D₂</span><div class="nb-track"><div class="nb-fill" style="width:70%"></div></div><span class="nb-val">0.4 µg</span></div>
+        <div class="nb-row"><span class="nb-label">維生素 B2</span><div class="nb-track"><div class="nb-fill" style="width:55%"></div></div><span class="nb-val">0.22 mg</span></div>
+        <div class="nb-row"><span class="nb-label">鉀</span><div class="nb-track"><div class="nb-fill" style="width:60%"></div></div><span class="nb-val">290 mg</span></div>
+        <div class="pill-row">
+          <span class="n-pill">香菇多醣</span>
+          <span class="n-pill">維生素 D₂</span>
+          <span class="n-pill">葉酸</span>
+          <span class="n-pill">膳食纖維</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 蘋果 -->
+    <div class="food-card">
+      <div class="fc-header">
+        <div class="fc-emoji">🍎</div>
+        <div class="fc-title">
+          <div class="fc-name">蘋果</div>
+          <div class="fc-sub">Apple｜每 100g 熱量約 54 kcal</div>
+        </div>
+      </div>
+      <div class="fc-body">
+        <p class="fc-desc">「一天一蘋果，醫生遠離我」有科學根據——蘋果富含槲皮素（Quercetin）與果膠（Pectin），前者具抗炎抗氧化作用，後者是水溶性纖維，有助降低膽固醇與穩定血糖。</p>
+        <div class="nb-row"><span class="nb-label">果膠纖維</span><div class="nb-track"><div class="nb-fill" style="width:75%"></div></div><span class="nb-val">2.4 g</span></div>
+        <div class="nb-row"><span class="nb-label">維生素 C</span><div class="nb-track"><div class="nb-fill" style="width:40%"></div></div><span class="nb-val">6 mg</span></div>
+        <div class="nb-row"><span class="nb-label">槲皮素</span><div class="nb-track"><div class="nb-fill" style="width:65%"></div></div><span class="nb-val">4.4 mg</span></div>
+        <div class="nb-row"><span class="nb-label">鉀</span><div class="nb-track"><div class="nb-fill" style="width:45%"></div></div><span class="nb-val">107 mg</span></div>
+        <div class="pill-row">
+          <span class="n-pill">槲皮素</span>
+          <span class="n-pill">果膠</span>
+          <span class="n-pill">兒茶素</span>
+          <span class="n-pill">維生素 C</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="highlight-box">
+    <span class="hb-icon">💡</span>
+    <div>蔬果的植化素多集中於外皮，建議連皮食用（如番茄、蘋果）並以流水輕輕刷洗。番茄以橄欖油拌炒可提升茄紅素吸收率；香菇在陽光下曬 15 分鐘，維生素 D 含量可增加數倍。</div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════ -->
+<!-- 2. 穀類豆類                             -->
+<!-- ══════════════════════════════════════ -->
+<section class="food-section" id="grain">
+  <div class="sec-header">
+    <div class="sec-icon">🌾</div>
+    <div class="sec-meta">
+      <span class="sec-tag">02 — 穀類豆類</span>
+      <h2>穀類・豆類的營養</h2>
+    </div>
+  </div>
+  <p class="sec-intro">
+    全穀類與豆類是複合型醣類、植物性蛋白質、B 群維生素與礦物質的主要來源。相較於精緻澱粉，全穀類保留了麩皮與胚芽，含有更豐富的膳食纖維與微量營養素，是維持血糖穩定的關鍵食材。
+  </p>
+
+  <div class="food-grid">
+
+    <!-- 糙米 -->
+    <div class="food-card">
+      <div class="fc-header">
+        <div class="fc-emoji">🍚</div>
+        <div class="fc-title">
+          <div class="fc-name">糙米</div>
+          <div class="fc-sub">Brown Rice｜每 100g（熟）約 111 kcal</div>
+        </div>
+      </div>
+      <div class="fc-body">
+        <p class="fc-desc">糙米保留米糠層與胚芽，膳食纖維為白米的 3 倍，鎂、磷、B 群維生素也顯著高於白米。其較低的升糖指數（GI≈55）有助維持飯後血糖穩定，適合糖尿病友與減重者。</p>
+        <div class="nb-row"><span class="nb-label">膳食纖維</span><div class="nb-track"><div class="nb-fill" style="width:80%"></div></div><span class="nb-val">1.8 g</span></div>
+        <div class="nb-row"><span class="nb-label">維生素 B1</span><div class="nb-track"><div class="nb-fill" style="width:70%"></div></div><span class="nb-val">0.16 mg</span></div>
+        <div class="nb-row"><span class="nb-label">鎂</span><div class="nb-track"><div class="nb-fill" style="width:65%"></div></div><span class="nb-val">43 mg</span></div>
+        <div class="nb-row"><span class="nb-label">鋅</span><div class="nb-track"><div class="nb-fill" style="width:50%"></div></div><span class="nb-val">0.6 mg</span></div>
+        <div class="pill-row">
+          <span class="n-pill">膳食纖維</span>
+          <span class="n-pill">維生素 B1</span>
+          <span class="n-pill">γ-米糠醇</span>
+          <span class="n-pill">鎂</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 蕎麥粉 -->
+    <div class="food-card">
+      <div class="fc-header">
+        <div class="fc-emoji">🌿</div>
+        <div class="fc-title">
+          <div class="fc-name">蕎麥粉</div>
+          <div class="fc-sub">Buckwheat Flour｜每 100g 約 339 kcal</div>
+        </div>
+      </div>
+      <div class="fc-body">
+        <p class="fc-desc">蕎麥不是真正的穀類，而是假穀物（Pseudocereal），天然無麩質，富含蘆丁（Rutin）——一種類黃酮，有助強化微血管、抗發炎。其胺基酸組成優於大多數穀物，離胺酸含量特別突出。</p>
+        <div class="nb-row"><span class="nb-label">蛋白質</span><div class="nb-track"><div class="nb-fill" style="width:85%"></div></div><span class="nb-val">12.6 g</span></div>
+        <div class="nb-row"><span class="nb-label">蘆丁</span><div class="nb-track"><div class="nb-fill" style="width:90%"></div></div><span class="nb-val">豐富</span></div>
+        <div class="nb-row"><span class="nb-label">膳食纖維</span><div class="nb-track"><div class="nb-fill" style="width:70%"></div></div><span class="nb-val">10 g</span></div>
+        <div class="nb-row"><span class="nb-label">鎂</span><div class="nb-track"><div class="nb-fill" style="width:75%"></div></div><span class="nb-val">251 mg</span></div>
+        <div class="pill-row">
+          <span class="n-pill">蘆丁</span>
+          <span class="n-pill">完全蛋白質</span>
+          <span class="n-pill">無麩質</span>
+          <span class="n-pill">D-手性肌醇</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 大豆 -->
+    <div class="food-card">
+      <div class="fc-header">
+        <div class="fc-emoji">🫘</div>
+        <div class="fc-title">
+          <div class="fc-name">大豆</div>
+          <div class="fc-sub">Soybean｜每 100g 約 422 kcal（乾）</div>
+        </div>
+      </div>
+      <div class="fc-body">
+        <p class="fc-desc">大豆是植物性食物中唯一的完全蛋白質（含所有必需胺基酸），大豆異黃酮（Isoflavones）具類雌激素活性，有助緩解更年期症狀並可能降低乳癌風險。大豆卵磷脂則是重要的磷脂質來源。</p>
+        <div class="nb-row"><span class="nb-label">蛋白質</span><div class="nb-track"><div class="nb-fill" style="width:95%"></div></div><span class="nb-val">36 g</span></div>
+        <div class="nb-row"><span class="nb-label">異黃酮</span><div class="nb-track"><div class="nb-fill" style="width:85%"></div></div><span class="nb-val">豐富</span></div>
+        <div class="nb-row"><span class="nb-label">鈣</span><div class="nb-track"><div class="nb-fill" style="width:55%"></div></div><span class="nb-val">277 mg</span></div>
+        <div class="nb-row"><span class="nb-label">鐵</span><div class="nb-track"><div class="nb-fill" style="width:70%"></div></div><span class="nb-val">15.7 mg</span></div>
+        <div class="pill-row">
+          <span class="n-pill">完全蛋白質</span>
+          <span class="n-pill">大豆異黃酮</span>
+          <span class="n-pill">卵磷脂</span>
+          <span class="n-pill">Omega-3</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 紅豆 -->
+    <div class="food-card">
+      <div class="fc-header">
+        <div class="fc-emoji">❤️</div>
+        <div class="fc-title">
+          <div class="fc-name">紅豆</div>
+          <div class="fc-sub">Adzuki Bean｜每 100g（熟）約 128 kcal</div>
+        </div>
+      </div>
+      <div class="fc-body">
+        <p class="fc-desc">紅豆是高蛋白低脂的優質豆類，富含葉酸與鐵質，對女性與孕婦特別有益。豐富的皂素（Saponin）與花青素（Anthocyanin）賦予其抗氧化與降血脂的功能，傳統漢方也用於利水消腫。</p>
+        <div class="nb-row"><span class="nb-label">蛋白質</span><div class="nb-track"><div class="nb-fill" style="width:75%"></div></div><span class="nb-val">7.6 g</span></div>
+        <div class="nb-row"><span class="nb-label">膳食纖維</span><div class="nb-track"><div class="nb-fill" style="width:85%"></div></div><span class="nb-val">7.3 g</span></div>
+        <div class="nb-row"><span class="nb-label">葉酸</span><div class="nb-track"><div class="nb-fill" style="width:70%"></div></div><span class="nb-val">130 µg</span></div>
+        <div class="nb-row"><span class="nb-label">鐵</span><div class="nb-track"><div class="nb-fill" style="width:60%"></div></div><span class="nb-val">2.0 mg</span></div>
+        <div class="pill-row">
+          <span class="n-pill">花青素</span>
+          <span class="n-pill">皂素</span>
+          <span class="n-pill">葉酸</span>
+          <span class="n-pill">膳食纖維</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="highlight-box">
+    <span class="hb-icon">💡</span>
+    <div>豆類含有植酸（Phytic acid），會抑制鐵、鋅等礦物質的吸收。浸泡後換水再煮，或搭配含維生素 C 的食物一起食用，可有效提升礦物質生物利用率。糙米建議浸泡 6–8 小時再炊煮，口感更佳且可減少植酸影響。</div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════ -->
+<!-- 3. 海鮮類海藻類                         -->
+<!-- ══════════════════════════════════════ -->
+<section class="food-section" id="seafood">
+  <div class="sec-header">
+    <div class="sec-icon">🐟</div>
+    <div class="sec-meta">
+      <span class="sec-tag">03 — 海鮮類・海藻類</span>
+      <h2>海鮮・蜆・海藻的營養</h2>
+    </div>
+  </div>
+  <p class="sec-intro">
+    海洋食材是 Omega-3 脂肪酸、碘、硒、鋅與維生素 B12 的頂級來源。海藻類更是海洋礦物質的濃縮體，含有陸地食物中罕見的碘與褐藻多醣，具備獨特的保健功能。
+  </p>
+
+  <div class="food-grid">
+
+    <!-- 沙丁魚 -->
+    <div class="food-card">
+      <div class="fc-header">
+        <div class="fc-emoji">🐠</div>
+        <div class="fc-title">
+          <div class="fc-name">沙丁魚</div>
+          <div class="fc-sub">Sardine｜每 100g 約 208 kcal</div>
+        </div>
+      </div>
+      <div class="fc-body">
+        <p class="fc-desc">沙丁魚是 EPA 與 DHA 含量最高的小型魚類之一，體積小、壽命短、汞蓄積量極低，是最安全且實惠的 Omega-3 來源。連骨食用時鈣質含量媲美乳製品，維生素 D 與 B12 也極為豐富。</p>
+        <div class="nb-row"><span class="nb-label">EPA+DHA</span><div class="nb-track"><div class="nb-fill" style="width:95%"></div></div><span class="nb-val">2.2 g</span></div>
+        <div class="nb-row"><span class="nb-label">蛋白質</span><div class="nb-track"><div class="nb-fill" style="width:85%"></div></div><span class="nb-val">24.6 g</span></div>
+        <div class="nb-row"><span class="nb-label">維生素 D</span><div class="nb-track"><div class="nb-fill" style="width:80%"></div></div><span class="nb-val">4.8 µg</span></div>
+        <div class="nb-row"><span class="nb-label">鈣（連骨）</span><div class="nb-track"><div class="nb-fill" style="width:75%"></div></div><span class="nb-val">382 mg</span></div>
+        <div class="pill-row">
+          <span class="n-pill">EPA / DHA</span>
+          <span class="n-pill">維生素 D</span>
+          <span class="n-pill">維生素 B12</span>
+          <span class="n-pill">硒</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 真鰈 -->
+    <div class="food-card">
+      <div class="fc-header">
+        <div class="fc-emoji">🐡</div>
+        <div class="fc-title">
+          <div class="fc-name">真鰈（比目魚）</div>
+          <div class="fc-sub">Flatfish｜每 100g 約 96 kcal</div>
+        </div>
+      </div>
+      <div class="fc-body">
+        <p class="fc-desc">真鰈是高蛋白、極低脂的白身魚，蛋白質消化吸收率高達 97%，是術後恢復、高齡者及消化功能弱者的理想蛋白質來源。含有豐富的牛磺酸（Taurine），有助護肝、穩定視力與強化心肌功能。</p>
+        <div class="nb-row"><span class="nb-label">蛋白質</span><div class="nb-track"><div class="nb-fill" style="width:90%"></div></div><span class="nb-val">20.9 g</span></div>
+        <div class="nb-row"><span class="nb-label">脂肪</span><div class="nb-track"><div class="nb-fill" style="width:15%"></div></div><span class="nb-val">1.4 g</span></div>
+        <div class="nb-row"><span class="nb-label">牛磺酸</span><div class="nb-track"><div class="nb-fill" style="width:70%"></div></div><span class="nb-val">豐富</span></div>
+        <div class="nb-row"><span class="nb-label">鉀</span><div class="nb-track"><div class="nb-fill" style="width:55%"></div></div><span class="nb-val">440 mg</span></div>
+        <div class="pill-row">
+          <span class="n-pill">高蛋白低脂</span>
+          <span class="n-pill">牛磺酸</span>
+          <span class="n-pill">維生素 D</span>
+          <span class="n-pill">鉀</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 蜆 -->
+    <div class="food-card">
+      <div class="fc-header">
+        <div class="fc-emoji">🦪</div>
+        <div class="fc-title">
+          <div class="fc-name">蜆（蛤仔）</div>
+          <div class="fc-sub">Clam｜每 100g 約 64 kcal</div>
+        </div>
+      </div>
+      <div class="fc-body">
+        <p class="fc-desc">蜆的維生素 B12 含量極為驚人——每 100g 含量高達 68 µg，是成人每日需求量的 28 倍。同時富含鐵質、鋅與牛磺酸，是護肝的明星食材。傳統以蜆湯解酒，現代研究也支持其對肝臟的保護作用。</p>
+        <div class="nb-row"><span class="nb-label">維生素 B12</span><div class="nb-track"><div class="nb-fill" style="width:100%"></div></div><span class="nb-val">68 µg</span></div>
+        <div class="nb-row"><span class="nb-label">鐵</span><div class="nb-track"><div class="nb-fill" style="width:85%"></div></div><span class="nb-val">7.5 mg</span></div>
+        <div class="nb-row"><span class="nb-label">鋅</span><div class="nb-track"><div class="nb-fill" style="width:70%"></div></div><span class="nb-val">2.1 mg</span></div>
+        <div class="nb-row"><span class="nb-label">牛磺酸</span><div class="nb-track"><div class="nb-fill" style="width:90%"></div></div><span class="nb-val">豐富</span></div>
+        <div class="pill-row">
+          <span class="n-pill">維生素 B12 ×28</span>
+          <span class="n-pill">鐵</span>
+          <span class="n-pill">牛磺酸</span>
+          <span class="n-pill">鋅</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 海帶芽 -->
+    <div class="food-card">
+      <div class="fc-header">
+        <div class="fc-emoji">🌿</div>
+        <div class="fc-title">
+          <div class="fc-name">海帶芽</div>
+          <div class="fc-sub">Wakame｜每 100g（乾）約 186 kcal</div>
+        </div>
+      </div>
+      <div class="fc-body">
+        <p class="fc-desc">海帶芽是碘的頂級來源，每 100g 乾重碘含量可達 10,000 µg 以上（成人每日需求 150 µg）。獨有的褐藻醣膠（Fucoidan）具抗炎、抗腫瘤與調節免疫的研究潛力，同時是低熱量、高礦物質的超級食材。</p>
+        <div class="nb-row"><span class="nb-label">碘</span><div class="nb-track"><div class="nb-fill" style="width:100%"></div></div><span class="nb-val">極豐富</span></div>
+        <div class="nb-row"><span class="nb-label">褐藻醣膠</span><div class="nb-track"><div class="nb-fill" style="width:85%"></div></div><span class="nb-val">豐富</span></div>
+        <div class="nb-row"><span class="nb-label">鈣</span><div class="nb-track"><div class="nb-fill" style="width:70%"></div></div><span class="nb-val">788 mg</span></div>
+        <div class="nb-row"><span class="nb-label">鎂</span><div class="nb-track"><div class="nb-fill" style="width:65%"></div></div><span class="nb-val">107 mg</span></div>
+        <div class="pill-row">
+          <span class="n-pill">碘</span>
+          <span class="n-pill">褐藻醣膠</span>
+          <span class="n-pill">褐藻素</span>
+          <span class="n-pill">鈣・鎂</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="highlight-box">
+    <span class="hb-icon">⚠️</span>
+    <div>海帶芽碘含量極高，每日攝取不宜過多（乾重約 1–2g 為宜），甲狀腺功能異常者須諮詢醫師。海鮮類應購買新鮮或冷凍品，避免長時間常溫存放造成組胺（Histamine）蓄積，引發類過敏反應。</div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════ -->
+<!-- 4. 肉類                                 -->
+<!-- ══════════════════════════════════════ -->
+<section class="food-section" id="meat">
+  <div class="sec-header">
+    <div class="sec-icon">🥩</div>
+    <div class="sec-meta">
+      <span class="sec-tag">04 — 肉類</span>
+      <h2>牛肉・豬肉・雞肉・肝臟的營養</h2>
+    </div>
+  </div>
+  <p class="sec-intro">
+    肉類是血基質鐵（Heme Iron）、完全蛋白質、鋅與 B 群維生素的優質來源，血基質鐵的吸收率（15–35%）遠高於植物性非血基質鐵（2–10%）。選擇不同部位與種類，可在獲取營養的同時控制飽和脂肪攝取量。
+  </p>
+
+  <div class="food-grid">
+
+    <!-- 牛肉 -->
+    <div class="food-card">
+      <div class="fc-header">
+        <div class="fc-emoji">🐄</div>
+        <div class="fc-title">
+          <div class="fc-name">牛肉</div>
+          <div class="fc-sub">Beef（瘦腰肉）｜每 100g 約 150 kcal</div>
+        </div>
+      </div>
+      <div class="fc-body">
+        <p class="fc-desc">牛肉是血基質鐵與鋅含量最高的常見肉類，每 100g 瘦牛肉提供成人每日鐵需求的 14%、鋅需求的 40%。所含的肌酸（Creatine）支持肌肉能量代謝，對運動表現有正面影響。</p>
+        <div class="nb-row"><span class="nb-label">蛋白質</span><div class="nb-track"><div class="nb-fill" style="width:90%"></div></div><span class="nb-val">26 g</span></div>
+        <div class="nb-row"><span class="nb-label">鐵</span><div class="nb-track"><div class="nb-fill" style="width:80%"></div></div><span class="nb-val">2.7 mg</span></div>
+        <div class="nb-row"><span class="nb-label">鋅</span><div class="nb-track"><div class="nb-fill" style="width:85%"></div></div><span class="nb-val">6.2 mg</span></div>
+        <div class="nb-row"><span class="nb-label">維生素 B12</span><div class="nb-track"><div class="nb-fill" style="width:75%"></div></div><span class="nb-val">2.6 µg</span></div>
+        <div class="pill-row">
+          <span class="n-pill">血基質鐵</span>
+          <span class="n-pill">鋅</span>
+          <span class="n-pill">維生素 B12</span>
+          <span class="n-pill">肌酸</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 豬肉 -->
+    <div class="food-card">
+      <div class="fc-header">
+        <div class="fc-emoji">🐷</div>
+        <div class="fc-title">
+          <div class="fc-name">豬肉</div>
+          <div class="fc-sub">Pork（里肌肉）｜每 100g 約 143 kcal</div>
+        </div>
+      </div>
+      <div class="fc-body">
+        <p class="fc-desc">豬肉是 B 群維生素的最佳來源，維生素 B1（硫胺素）含量在所有肉類中最高，每 100g 可提供成人每日需求的 60% 以上。B1 是葡萄糖代謝的關鍵輔酶，對神經系統功能與能量代謝不可或缺。</p>
+        <div class="nb-row"><span class="nb-label">蛋白質</span><div class="nb-track"><div class="nb-fill" style="width:85%"></div></div><span class="nb-val">22 g</span></div>
+        <div class="nb-row"><span class="nb-label">維生素 B1</span><div class="nb-track"><div class="nb-fill" style="width:90%"></div></div><span class="nb-val">0.9 mg</span></div>
+        <div class="nb-row"><span class="nb-label">維生素 B6</span><div class="nb-track"><div class="nb-fill" style="width:70%"></div></div><span class="nb-val">0.5 mg</span></div>
+        <div class="nb-row"><span class="nb-label">鋅</span><div class="nb-track"><div class="nb-fill" style="width:55%"></div></div><span class="nb-val">2.9 mg</span></div>
+        <div class="pill-row">
+          <span class="n-pill">維生素 B1</span>
+          <span class="n-pill">維生素 B6</span>
+          <span class="n-pill">菸鹼酸</span>
+          <span class="n-pill">鋅</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 雞肉 -->
+    <div class="food-card">
+      <div class="fc-header">
+        <div class="fc-emoji">🐔</div>
+        <div class="fc-title">
+          <div class="fc-name">雞肉</div>
+          <div class="fc-sub">Chicken（雞胸肉）｜每 100g 約 113 kcal</div>
+        </div>
+      </div>
+      <div class="fc-body">
+        <p class="fc-desc">雞胸肉是所有肉類中蛋白質密度最高、脂肪含量最低的選擇（蛋白質 24g：脂肪 1.2g），是健身族群與減重期的首選蛋白質來源。含有豐富的菸鹼酸（Niacin）與色胺酸，有助合成血清素，支持情緒穩定。</p>
+        <div class="nb-row"><span class="nb-label">蛋白質</span><div class="nb-track"><div class="nb-fill" style="width:92%"></div></div><span class="nb-val">24.0 g</span></div>
+        <div class="nb-row"><span class="nb-label">脂肪</span><div class="nb-track"><div class="nb-fill" style="width:10%"></div></div><span class="nb-val">1.2 g</span></div>
+        <div class="nb-row"><span class="nb-label">菸鹼酸</span><div class="nb-track"><div class="nb-fill" style="width:80%"></div></div><span class="nb-val">13.7 mg</span></div>
+        <div class="nb-row"><span class="nb-label">磷</span><div class="nb-track"><div class="nb-fill" style="width:65%"></div></div><span class="nb-val">220 mg</span></div>
+        <div class="pill-row">
+          <span class="n-pill">高蛋白低脂</span>
+          <span class="n-pill">菸鹼酸</span>
+          <span class="n-pill">色胺酸</span>
+          <span class="n-pill">維生素 B6</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 肝臟 -->
+    <div class="food-card">
+      <div class="fc-header">
+        <div class="fc-emoji">🫀</div>
+        <div class="fc-title">
+          <div class="fc-name">肝臟（豬肝）</div>
+          <div class="fc-sub">Liver｜每 100g 約 131 kcal</div>
+        </div>
+      </div>
+      <div class="fc-body">
+        <p class="fc-desc">肝臟是地球上營養密度最高的食物之一，每 100g 豬肝含有維生素 A（超過每日建議量 6 倍）、維生素 B12（超過 26 倍）、鐵（超過 3 倍）。但正因為如此，建議每週食用不超過 1–2 次，以避免維生素 A 過量累積。</p>
+        <div class="nb-row"><span class="nb-label">維生素 A</span><div class="nb-track"><div class="nb-fill" style="width:100%"></div></div><span class="nb-val">13,000 µg</span></div>
+        <div class="nb-row"><span class="nb-label">維生素 B12</span><div class="nb-track"><div class="nb-fill" style="width:100%"></div></div><span class="nb-val">26× 需求</span></div>
+        <div class="nb-row"><span class="nb-label">鐵</span><div class="nb-track"><div class="nb-fill" style="width:95%"></div></div><span class="nb-val">13 mg</span></div>
+        <div class="nb-row"><span class="nb-label">葉酸</span><div class="nb-track"><div class="nb-fill" style="width:90%"></div></div><span class="nb-val">212 µg</span></div>
+        <div class="pill-row">
+          <span class="n-pill">維生素 A</span>
+          <span class="n-pill">維生素 B12</span>
+          <span class="n-pill">血基質鐵</span>
+          <span class="n-pill">葉酸</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="highlight-box">
+    <span class="hb-icon">⚠️</span>
+    <div>肝臟每週食用以 1–2 次為限，孕婦因維生素 A 過量可能影響胎兒發育，建議每週不超過 1 次且份量適中。加工肉品（培根、火腿、香腸）因含有亞硝酸鹽，世界衛生組織已列為一類致癌物（Group 1），應盡量減少攝取。</div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════ -->
+<!-- 5. 蛋乳類                               -->
+<!-- ══════════════════════════════════════ -->
+<section class="food-section" id="dairy">
+  <div class="sec-header">
+    <div class="sec-icon">🥚</div>
+    <div class="sec-meta">
+      <span class="sec-tag">05 — 蛋乳類</span>
+      <h2>雞蛋・牛奶・優格的營養</h2>
+    </div>
+  </div>
+  <p class="sec-intro">
+    蛋與乳製品是自然界中蛋白質品質最高的食材群，提供完整必需胺基酸、脂溶性維生素與鈣質。發酵乳製品（優格、克菲爾）更含有活性益生菌，對腸道微生物相的健康有直接正面的影響。
+  </p>
+
+  <div class="food-grid">
+
+    <!-- 雞蛋 -->
+    <div class="food-card">
+      <div class="fc-header">
+        <div class="fc-emoji">🥚</div>
+        <div class="fc-title">
+          <div class="fc-name">雞蛋</div>
+          <div class="fc-sub">Egg｜每顆（約 60g）約 85 kcal</div>
+        </div>
+      </div>
+      <div class="fc-body">
+        <p class="fc-desc">雞蛋被稱為「蛋白質的黃金標準（Gold Standard）」，生物價（BV=100）為所有天然食物之最。蛋黃富含膽鹼（Choline）——大腦神經傳導物質乙醯膽鹼的前體，對記憶與認知功能至關重要。葉黃素與玉米黃素則保護視網膜。</p>
+        <div class="nb-row"><span class="nb-label">蛋白質</span><div class="nb-track"><div class="nb-fill" style="width:90%"></div></div><span class="nb-val">12.4 g</span></div>
+        <div class="nb-row"><span class="nb-label">膽鹼</span><div class="nb-track"><div class="nb-fill" style="width:80%"></div></div><span class="nb-val">294 mg</span></div>
+        <div class="nb-row"><span class="nb-label">維生素 D</span><div class="nb-track"><div class="nb-fill" style="width:55%"></div></div><span class="nb-val">1.1 µg</span></div>
+        <div class="nb-row"><span class="nb-label">葉黃素</span><div class="nb-track"><div class="nb-fill" style="width:70%"></div></div><span class="nb-val">252 µg</span></div>
+        <div class="pill-row">
+          <span class="n-pill">完全蛋白質 BV100</span>
+          <span class="n-pill">膽鹼</span>
+          <span class="n-pill">葉黃素</span>
+          <span class="n-pill">維生素 B12</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 牛奶 -->
+    <div class="food-card">
+      <div class="fc-header">
+        <div class="fc-emoji">🥛</div>
+        <div class="fc-title">
+          <div class="fc-name">牛奶</div>
+          <div class="fc-sub">Milk（全脂）｜每 240ml 約 149 kcal</div>
+        </div>
+      </div>
+      <div class="fc-body">
+        <p class="fc-desc">牛奶是鈣質最容易取得且吸收率最高的食物來源，乳糖能促進鈣在腸道的吸收。乳清蛋白（Whey protein）是支鏈胺基酸（BCAA）最豐富的天然蛋白，消化速度快，是運動後肌肉修復的黃金蛋白質。</p>
+        <div class="nb-row"><span class="nb-label">鈣</span><div class="nb-track"><div class="nb-fill" style="width:90%"></div></div><span class="nb-val">276 mg</span></div>
+        <div class="nb-row"><span class="nb-label">蛋白質</span><div class="nb-track"><div class="nb-fill" style="width:70%"></div></div><span class="nb-val">8 g</span></div>
+        <div class="nb-row"><span class="nb-label">維生素 B12</span><div class="nb-track"><div class="nb-fill" style="width:60%"></div></div><span class="nb-val">1.1 µg</span></div>
+        <div class="nb-row"><span class="nb-label">磷</span><div class="nb-track"><div class="nb-fill" style="width:65%"></div></div><span class="nb-val">222 mg</span></div>
+        <div class="pill-row">
+          <span class="n-pill">高鈣</span>
+          <span class="n-pill">乳清蛋白</span>
+          <span class="n-pill">維生素 D（強化）</span>
+          <span class="n-pill">鉀</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 優格 -->
+    <div class="food-card">
+      <div class="fc-header">
+        <div class="fc-emoji">🫙</div>
+        <div class="fc-title">
+          <div class="fc-name">優格</div>
+          <div class="fc-sub">Yogurt（原味全脂）｜每 100g 約 61 kcal</div>
+        </div>
+      </div>
+      <div class="fc-body">
+        <p class="fc-desc">優格透過乳酸菌發酵，乳糖含量比牛奶減少約 25–50%，乳糖不耐症者通常可耐受。活性益生菌（如嗜熱鏈球菌、保加利亞乳酸桿菌）有助調節腸道菌叢，增強免疫力，並改善便秘。鈣質吸收率亦優於牛奶。</p>
+        <div class="nb-row"><span class="nb-label">鈣</span><div class="nb-track"><div class="nb-fill" style="width:85%"></div></div><span class="nb-val">183 mg</span></div>
+        <div class="nb-row"><span class="nb-label">益生菌</span><div class="nb-track"><div class="nb-fill" style="width:90%"></div></div><span class="nb-val">活菌豐富</span></div>
+        <div class="nb-row"><span class="nb-label">蛋白質</span><div class="nb-track"><div class="nb-fill" style="width:65%"></div></div><span class="nb-val">3.5 g</span></div>
+        <div class="nb-row"><span class="nb-label">維生素 B2</span><div class="nb-track"><div class="nb-fill" style="width:55%"></div></div><span class="nb-val">0.14 mg</span></div>
+        <div class="pill-row">
+          <span class="n-pill">益生菌</span>
+          <span class="n-pill">鈣</span>
+          <span class="n-pill">低乳糖</span>
+          <span class="n-pill">維生素 B2</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="highlight-box">
+    <span class="hb-icon">💡</span>
+    <div>雞蛋每日攝取建議：健康成人每日 1–2 顆全蛋為宜，完整保留蛋黃以獲取膽鹼與葉黃素。選購優格時，以「成分僅含生乳與乳酸菌」的原味無糖優格為最佳，避免含糖量過高的加工優格稀釋其健康效益。</div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════ -->
+<!-- 6. 調理及營養                           -->
+<!-- ══════════════════════════════════════ -->
+<section class="food-section" id="cooking">
+  <div class="sec-header">
+    <div class="sec-icon">🍳</div>
+    <div class="sec-meta">
+      <span class="sec-tag">06 — 調理及營養</span>
+      <h2>烹調方式對營養的影響</h2>
+    </div>
+  </div>
+  <p class="sec-intro">
+    食材的選擇固然重要，烹調方式同樣深刻影響最終攝取到的營養素含量。正確的烹調方式可以提升某些營養素的生物利用率，同時保護熱敏感維生素，並避免有害物質的產生。
+  </p>
+
+  <div class="cooking-grid">
+
+    <div class="ck-card">
+      <div class="ck-icon">♨️</div>
+      <h4>蒸・水煮（最佳保存）</h4>
+      <p>最溫和的加熱方式，維生素 C 損失最少，蛋白質消化率提升，脂溶性維生素保留率高。</p>
+      <ul>
+        <li>水溶性維生素（B 群、C）損失約 15–25%</li>
+        <li>不添加額外油脂，適合控制熱量</li>
+        <li>蔬菜建議短時間蒸煮（3–5 分鐘）</li>
+        <li>最適食材：蔬菜、魚類、蛋類</li>
+      </ul>
+    </div>
+
+    <div class="ck-card">
+      <div class="ck-icon">🫒</div>
+      <h4>炒・油脂加熱（提升吸收）</h4>
+      <p>適量油脂有助脂溶性維生素（A、D、E、K）及茄紅素、β-胡蘿蔔素的吸收，提升生物利用率。</p>
+      <ul>
+        <li>番茄炒蛋：茄紅素吸收率提升 2–3 倍</li>
+        <li>紅蘿蔔加油炒：β-胡蘿蔔素吸收倍增</li>
+        <li>使用發煙點高的油（酪梨油、精製橄欖油）</li>
+        <li>維生素 C 因高溫損失較大（30–40%）</li>
+      </ul>
+    </div>
+
+    <div class="ck-card">
+      <div class="ck-icon">🔥</div>
+      <h4>烤・燒烤（高溫注意）</h4>
+      <p>高溫烤製可增加香氣（梅納反應），但過高溫度（>200°C）可能產生有害物質。</p>
+      <ul>
+        <li>肉類烤焦部位含多環芳香烴（PAH）</li>
+        <li>建議溫度控制在 200°C 以下</li>
+        <li>避免炭火直接接觸肉類，減少脂肪滴落</li>
+        <li>搭配蔬菜可補充抗氧化物，降低風險</li>
+      </ul>
+    </div>
+
+    <div class="ck-card">
+      <div class="ck-icon">🫕</div>
+      <h4>燉・慢煮（礦物質溶出）</h4>
+      <p>長時間燉煮使礦物質溶入湯汁，膠原蛋白轉化為明膠，蛋白質更易消化吸收。</p>
+      <ul>
+        <li>骨湯含鈣、磷、鎂等礦物質</li>
+        <li>加醋可促進骨鈣溶出（提升 5–10 倍）</li>
+        <li>長時間加熱使 B 群維生素損失較多</li>
+        <li>最適食材：骨肉類、根莖蔬菜、豆類</li>
+      </ul>
+    </div>
+
+    <div class="ck-card">
+      <div class="ck-icon">🥗</div>
+      <h4>生食・涼拌（保留最完整）</h4>
+      <p>無加熱損失，保留最完整的熱敏感維生素（C、葉酸），酵素活性不受破壞。</p>
+      <ul>
+        <li>維生素 C、葉酸幾乎完整保留</li>
+        <li>部分食物生食反而妨礙吸收（如生蛋白含抗生素蛋白）</li>
+        <li>蔬菜加醋或檸檬汁涼拌，維生素 C 更穩定</li>
+        <li>需注意食品衛生安全，避免生食污染</li>
+      </ul>
+    </div>
+
+    <div class="ck-card">
+      <div class="ck-icon">🧂</div>
+      <h4>發酵・醃漬（創造新營養）</h4>
+      <p>發酵過程中微生物合成維生素 K2、B12，並提升礦物質的生物利用率，益生菌具腸道健康效益。</p>
+      <ul>
+        <li>味噌・泡菜：益生菌、維生素 K2</li>
+        <li>納豆：維生素 K2 含量為食物之冠</li>
+        <li>發酵可分解植酸，礦物質吸收率提升</li>
+        <li>注意醃漬品鈉含量高，不宜過量食用</li>
+      </ul>
+    </div>
+
+  </div>
+
+  <div style="margin-top:28px;">
+    <p style="font-size:14px;font-weight:700;color:var(--purple-800);margin-bottom:14px;">各烹調方式的維生素保存率比較（相對 %）</p>
+    <table class="nt">
+      <thead style="background:var(--purple-800);">
+        <tr>
+          <th style="color:white;">烹調方式</th>
+          <th style="color:white;">維生素 C</th>
+          <th style="color:white;">B 群</th>
+          <th style="color:white;">脂溶性維生素</th>
+          <th style="color:white;">礦物質</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>生食</td><td>100%</td><td>100%</td><td>100%</td><td>100%</td></tr>
+        <tr><td>蒸（短時間）</td><td>75–85%</td><td>75–85%</td><td>90–95%</td><td>90–95%</td></tr>
+        <tr><td>水煮</td><td>55–75%</td><td>60–80%</td><td>85–95%</td><td>70–85%（溶入湯中）</td></tr>
+        <tr><td>快炒</td><td>60–75%</td><td>70–80%</td><td>↑ 吸收率提升</td><td>90–95%</td></tr>
+        <tr><td>烤（200°C）</td><td>50–65%</td><td>60–75%</td><td>80–90%</td><td>90–95%</td></tr>
+        <tr><td>油炸</td><td>40–55%</td><td>50–65%</td><td>↑↑ 大量增加</td><td>85–90%</td></tr>
+        <tr><td>微波</td><td>70–80%</td><td>70–85%</td><td>90–95%</td><td>90–95%</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="highlight-box" style="margin-top:20px;">
+    <span class="hb-icon">🌟</span>
+    <div>沒有最好的烹調方式，只有最適合的搭配。善用多元烹調：生食保留維生素 C、蒸煮減少油脂、炒製提升脂溶性吸收、發酵創造益生菌——多樣化的烹調方式是最全面獲取營養的策略。</div>
+  </div>
+</section>
+
+
+<footer>
+  <p><strong>食物及營養</strong> — 認識每一口食物的營養密碼</p>
+  <p style="margin-top:8px;opacity:.65;">本頁營養數據參考衛福部食品成分資料庫及 USDA FoodData Central，數值為一般參考值，實際含量因品種、產地與烹調方式而有所差異。<br>如有特殊健康需求，請諮詢醫師或合格營養師。</p>
+</footer>
+
+</body>
+</html>
