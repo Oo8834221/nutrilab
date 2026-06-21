@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>食育實驗室 — 學習路徑</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;700;900&family=DM+Sans:wght@400;500;600;700&display=swap');
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#f2fbf6;--bg-card:#ffffff;--border:#d1f0df;
+  --green-dark:#0d6e3a;--green-mid:#18a558;--green-light:#43e97b;--teal:#38f9d7;
+  --text-main:#0d2d1a;--text-sub:#4a7a60;--text-muted:#8aad9b;
+  --shadow:0 4px 24px rgba(24,165,88,0.08);--shadow-hover:0 12px 36px rgba(24,165,88,0.16);
+  --radius:16px;
+}
+body{background:var(--bg);font-family:'Noto Sans TC','Microsoft JhengHei',sans-serif;color:var(--text-main);margin:0}
+
+/* ── TOP BAR ── */
+.top-bar{height:3px;background:linear-gradient(90deg,#43e97b,#38f9d7,#43e97b,#0bce75,#43e97b);background-size:300% 100%;animation:waveBar 4s linear infinite}
+@keyframes waveBar{0%{background-position:0% 50%}100%{background-position:300% 50%}}
+
+/* ── LOGIN PAGE ── */
+#login-page{
+  min-height:100vh;display:flex;align-items:center;justify-content:center;
+  background:var(--bg);padding:24px;
+}
+.login-card{
+  background:#fff;border:1px solid var(--border);border-radius:24px;
+  box-shadow:var(--shadow-hover);padding:40px 36px;width:100%;max-width:400px;
+  position:relative;overflow:hidden;
+}
+.login-card::before{
+  content:'';position:absolute;right:-80px;top:-80px;
+  width:240px;height:240px;border-radius:50%;
+  background:radial-gradient(circle,rgba(67,233,123,.1) 0%,transparent 70%);
+  pointer-events:none;
+}
+.login-eyebrow{
+  display:inline-flex;align-items:center;gap:6px;
+  font-family:'DM Sans',sans-serif;font-size:10px;font-weight:600;
+  color:var(--green-mid);letter-spacing:2px;text-transform:uppercase;
+  background:#edfaf3;border:1px solid #b7e8cb;border-radius:20px;
+  padding:3px 10px;margin-bottom:14px;
+}
+.login-eyebrow::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--green-light);display:inline-block}
+.login-title{font-size:22px;font-weight:900;color:var(--text-main);letter-spacing:2px;line-height:1.3;margin-bottom:4px}
+.login-title span{background:linear-gradient(90deg,var(--green-mid),var(--teal));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.login-desc{font-size:13px;font-weight:300;color:var(--text-sub);line-height:1.7;margin-bottom:28px}
+
+.tab-row{display:flex;gap:0;background:#f0faf4;border-radius:10px;padding:3px;margin-bottom:24px}
+.tab{flex:1;padding:7px;text-align:center;font-size:12px;font-weight:600;color:var(--text-muted);border-radius:8px;cursor:pointer;transition:all .2s;font-family:'DM Sans',sans-serif;letter-spacing:.5px}
+.tab.active{background:#fff;color:var(--green-dark);box-shadow:0 2px 8px rgba(24,165,88,.1)}
+
+.form-group{display:flex;flex-direction:column;gap:6px;margin-bottom:14px}
+.form-label{font-size:12px;font-weight:600;color:var(--text-sub);letter-spacing:.5px}
+.form-input{
+  padding:10px 14px;border:1px solid var(--border);border-radius:10px;
+  font-size:13px;color:var(--text-main);background:#fff;
+  font-family:'Noto Sans TC',sans-serif;outline:none;
+  transition:border-color .2s,box-shadow .2s;
+}
+.form-input:focus{border-color:var(--green-light);box-shadow:0 0 0 3px rgba(67,233,123,.12)}
+.form-input::placeholder{color:var(--text-muted)}
+
+.btn-primary{
+  width:100%;padding:12px;border:none;border-radius:12px;cursor:pointer;
+  background:linear-gradient(90deg,var(--green-mid),#0bce75);
+  color:#fff;font-size:14px;font-weight:700;letter-spacing:1px;
+  font-family:'Noto Sans TC',sans-serif;
+  transition:opacity .2s,transform .15s;margin-top:6px;
+}
+.btn-primary:hover{opacity:.9;transform:translateY(-1px)}
+.btn-primary:active{transform:translateY(0)}
+.btn-primary:disabled{opacity:.6;cursor:not-allowed;transform:none}
+
+.form-error{font-size:12px;color:#e05252;background:#fff5f5;border:1px solid #fdd;border-radius:8px;padding:8px 12px;margin-top:8px;display:none}
+.form-error.show{display:block}
+.form-success{font-size:12px;color:var(--green-dark);background:#edfaf3;border:1px solid #b7e8cb;border-radius:8px;padding:8px 12px;margin-top:8px;display:none}
+.form-success.show{display:block}
+
+/* ── MAIN APP ── */
+#app-page{display:none}
+
+/* TOP NAV */
+.topnav{
+  background:#fff;border-bottom:1px solid var(--border);
+  padding:0 40px;height:52px;display:flex;align-items:center;justify-content:space-between;
+  position:sticky;top:3px;z-index:50;
+}
+.topnav-left{display:flex;align-items:center;gap:10px}
+.topnav-logo{font-size:14px;font-weight:900;color:var(--text-main);letter-spacing:2px}
+.topnav-logo span{background:linear-gradient(90deg,var(--green-mid),var(--teal));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.topnav-right{display:flex;align-items:center;gap:12px}
+.user-pill{
+  display:flex;align-items:center;gap:7px;
+  background:#edfaf3;border:1px solid #b7e8cb;border-radius:20px;
+  padding:4px 12px 4px 6px;
+}
+.user-avatar{
+  width:24px;height:24px;border-radius:50%;
+  background:linear-gradient(135deg,#43e97b,#38f9d7);
+  display:flex;align-items:center;justify-content:center;
+  font-size:11px;font-weight:700;color:var(--green-dark);
+}
+.user-email{font-size:12px;color:var(--text-sub);max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.btn-logout{
+  font-size:11px;color:var(--text-muted);background:none;
+  border:1px solid var(--border);border-radius:20px;padding:4px 12px;
+  cursor:pointer;transition:all .2s;font-family:'DM Sans',sans-serif;
+}
+.btn-logout:hover{color:var(--green-mid);border-color:var(--green-light)}
+
+/* HERO */
+.hero{background:#fff;border-bottom:1px solid var(--border);padding:36px 40px 28px;position:relative;overflow:hidden}
+.hero::after{content:'';position:absolute;right:-60px;top:-60px;width:280px;height:280px;border-radius:50%;background:radial-gradient(circle,rgba(67,233,123,.1) 0%,transparent 70%);pointer-events:none}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:7px;font-family:'DM Sans',sans-serif;font-size:11px;font-weight:600;color:var(--green-mid);letter-spacing:2.5px;text-transform:uppercase;background:#edfaf3;border:1px solid #b7e8cb;border-radius:20px;padding:4px 12px;margin-bottom:14px}
+.hero-eyebrow::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--green-light);display:inline-block}
+.hero-title{font-size:clamp(22px,3.5vw,32px);font-weight:900;color:var(--text-main);letter-spacing:3px;line-height:1.2;margin-bottom:8px;position:relative;z-index:1}
+.hero-title span{background:linear-gradient(90deg,var(--green-mid),var(--teal));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero-desc{font-size:13px;font-weight:300;color:var(--text-sub);line-height:1.8;max-width:500px;position:relative;z-index:1;margin-bottom:20px}
+
+/* PROGRESS */
+.progress-block{position:relative;z-index:1}
+.progress-header{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px}
+.progress-label{font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;color:var(--text-muted);letter-spacing:1.5px;text-transform:uppercase}
+.progress-count{font-family:'DM Sans',sans-serif;font-size:13px;font-weight:700;color:var(--green-dark)}
+.progress-track{height:8px;background:#e8f7ef;border-radius:4px;overflow:hidden}
+.progress-fill{height:100%;border-radius:4px;background:linear-gradient(90deg,#43e97b,#38f9d7);transition:width .5s cubic-bezier(.4,0,.2,1)}
+.progress-steps{display:flex;gap:4px;margin-top:6px}
+.progress-pip{flex:1;height:3px;border-radius:2px;background:#e8f7ef;transition:background .4s}
+.progress-pip.done{background:var(--green-mid)}
+.progress-pip.active{background:var(--green-light)}
+.hint{font-size:12px;color:var(--text-muted);margin-top:10px;display:flex;align-items:center;gap:6px}
+.hint::before{content:'👆';font-size:13px}
+
+/* SAVE TOAST */
+.save-toast{position:fixed;bottom:24px;right:24px;background:var(--green-dark);color:#fff;font-size:12px;padding:8px 16px;border-radius:20px;opacity:0;transform:translateY(8px);transition:opacity .3s,transform .3s;pointer-events:none;z-index:999;font-family:'DM Sans',sans-serif;letter-spacing:.5px}
+.save-toast.show{opacity:1;transform:translateY(0)}
+
+/* LOADING */
+.sync-indicator{font-size:11px;color:var(--text-muted);margin-top:8px;display:flex;align-items:center;gap:5px}
+.sync-dot{width:6px;height:6px;border-radius:50%;background:var(--green-light);animation:pulse 1.5s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+
+/* PATH */
+.path-section{padding:32px 40px 40px}
+.section-header{display:flex;align-items:center;gap:12px;margin-bottom:16px}
+.section-label{font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;color:var(--text-muted);letter-spacing:2px;text-transform:uppercase}
+.section-line{flex:1;height:1px;background:var(--border)}
+.legend{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:24px}
+.legend-item{display:flex;align-items:center;gap:5px;font-size:11.5px;color:var(--text-sub)}
+.ld{width:9px;height:9px;border-radius:50%}
+.ld-done{background:var(--green-mid)}
+.ld-active{background:linear-gradient(135deg,#43e97b,#38f9d7)}
+.ld-none{background:#d0d0cc;border:1.5px solid #bbb}
+
+.path-wrap{position:relative;display:flex;flex-direction:column;gap:0}
+.spine{position:absolute;left:31px;top:22px;bottom:22px;width:2px;background:linear-gradient(180deg,#43e97b,#38f9d7,#18a558,#0bce75,#43e97b);background-size:100% 300%;animation:spinePulse 6s linear infinite;border-radius:2px;z-index:0}
+@keyframes spinePulse{0%{background-position:0% 0%}100%{background-position:0% 300%}}
+
+.path-item{display:flex;align-items:flex-start;gap:20px;position:relative;z-index:1;padding-bottom:16px}
+.path-item:last-child{padding-bottom:0}
+.node{width:44px;height:44px;border-radius:50%;background:#fff;border:2px solid #c8e8d4;display:flex;align-items:center;justify-content:center;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:700;color:var(--text-muted);position:relative;z-index:2;flex-shrink:0;transition:all .3s ease}
+.node.active{background:linear-gradient(135deg,#43e97b,#38f9d7);border-color:transparent;color:#0d6e3a;box-shadow:0 0 0 6px rgba(67,233,123,.18)}
+.node.done{background:var(--green-mid);border-color:transparent;color:#fff;box-shadow:0 0 0 4px rgba(24,165,88,.15)}
+
+.card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);flex:1;cursor:pointer;transition:transform .22s,box-shadow .22s,border-color .22s;user-select:none}
+.card:hover{transform:translateY(-3px);box-shadow:var(--shadow-hover)}
+.card.active-card{border-color:#43e97b}
+.card.done-card{border-color:var(--green-mid)}
+.card-accent{height:3px}
+.a1{background:linear-gradient(90deg,#43e97b,#38f9d7)}
+.a2{background:linear-gradient(90deg,#18a558,#43e97b)}
+.a3{background:linear-gradient(90deg,#0bce75,#00e5cc)}
+.a4{background:linear-gradient(90deg,#38f9d7,#18a558)}
+.a6{background:linear-gradient(90deg,#00c9a7,#38f9d7)}
+.a7{background:linear-gradient(90deg,#1db954,#0bce75)}
+.card-inner{padding:16px 18px 14px}
+.card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:8px}
+.card-left{display:flex;align-items:center;gap:10px}
+.card-icon{width:38px;height:38px;border-radius:10px;background:#edfaf3;border:1px solid #c0ecd3;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.card-titles{display:flex;flex-direction:column;gap:2px}
+.card-unit{font-family:'DM Sans',sans-serif;font-size:10px;font-weight:600;color:var(--green-mid);letter-spacing:1.5px;text-transform:uppercase}
+.card-title{font-size:14px;font-weight:700;color:var(--text-main);letter-spacing:.5px;line-height:1.3}
+.card-right{display:flex;flex-direction:column;align-items:flex-end;gap:5px}
+.badge{font-family:'DM Sans',sans-serif;font-size:10px;font-weight:600;border-radius:20px;padding:2px 9px;white-space:nowrap;cursor:pointer}
+.badge-done{background:#edfaf3;border:1px solid #b7e8cb;color:var(--green-dark)}
+.badge-active{background:rgba(67,233,123,.12);border:1px solid #b7e8cb;color:var(--green-dark)}
+.badge-none{background:#f5f5f3;border:1px solid #e0e0db;color:#aaa}
+.expand-btn{font-size:10px;color:var(--text-muted);background:none;border:none;cursor:pointer;padding:0;transition:color .2s}
+.expand-btn:hover{color:var(--green-mid)}
+.detail{max-height:0;overflow:hidden;transition:max-height .35s cubic-bezier(.4,0,.2,1),opacity .3s;opacity:0}
+.detail.open{max-height:400px;opacity:1}
+.detail-inner{padding:0 0 12px;border-top:1px solid #eaf5ef;margin-top:10px;padding-top:12px}
+.detail-desc{font-size:12.5px;font-weight:300;color:var(--text-sub);line-height:1.7;margin-bottom:10px}
+.detail-points{list-style:none;display:flex;flex-direction:column;gap:5px}
+.detail-points li{display:flex;align-items:flex-start;gap:7px;font-size:12px;color:var(--text-sub);line-height:1.5}
+.detail-points li::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--green-light);flex-shrink:0;margin-top:5px}
+.card-meta{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.meta-tag{font-size:11px;color:var(--text-muted);background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:2px 8px}
+
+.footer-note{text-align:center;padding:16px 40px 32px;font-size:12px;color:var(--text-muted);letter-spacing:1px;border-top:1px solid var(--border)}
+.footer-note a{color:var(--green-mid);text-decoration:none}
+
+/* Loading overlay */
+#loading-overlay{position:fixed;inset:0;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:999;gap:12px}
+.loading-spinner{width:36px;height:36px;border:3px solid #d1f0df;border-top-color:var(--green-mid);border-radius:50%;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.loading-text{font-size:13px;color:var(--text-muted)}
+
+@media(max-width:600px){
+  .hero{padding:24px 16px 20px}
+  .path-section{padding:20px 16px 32px}
+  .topnav{padding:0 16px}
+  .user-email{display:none}
+}
+</style>
+</head>
+<body>
+<div class="top-bar"></div>
+<div class="save-toast" id="toast">✓ 進度已同步</div>
+
+<!-- Loading -->
+<div id="loading-overlay">
+  <div class="loading-spinner"></div>
+  <div class="loading-text">載入中…</div>
+</div>
+
+<!-- ── 登入頁 ── -->
+<div id="login-page">
+  <div class="login-card">
+    <div class="login-eyebrow">Nutrilab</div>
+    <div class="login-title">食育<span>實驗室</span></div>
+    <div class="login-desc">請登入以記錄你的學習進度</div>
+
+    <div class="tab-row">
+      <div class="tab active" id="tab-login" onclick="switchTab('login')">登入</div>
+      <div class="tab" id="tab-signup" onclick="switchTab('signup')">註冊</div>
+    </div>
+
+    <!-- 登入表單 -->
+    <div id="form-login">
+      <div class="form-group">
+        <label class="form-label">Email</label>
+        <input class="form-input" type="email" id="login-email" placeholder="your@email.com" autocomplete="email"/>
+      </div>
+      <div class="form-group">
+        <label class="form-label">密碼</label>
+        <input class="form-input" type="password" id="login-password" placeholder="請輸入密碼" autocomplete="current-password"/>
+      </div>
+      <div class="form-error" id="login-error"></div>
+      <button class="btn-primary" id="login-btn" onclick="handleLogin()">登入</button>
+    </div>
+
+    <!-- 註冊表單 -->
+    <div id="form-signup" style="display:none">
+      <div class="form-group">
+        <label class="form-label">Email</label>
+        <input class="form-input" type="email" id="signup-email" placeholder="your@email.com" autocomplete="email"/>
+      </div>
+      <div class="form-group">
+        <label class="form-label">密碼（至少 6 碼）</label>
+        <input class="form-input" type="password" id="signup-password" placeholder="設定密碼" autocomplete="new-password"/>
+      </div>
+      <div class="form-group">
+        <label class="form-label">確認密碼</label>
+        <input class="form-input" type="password" id="signup-password2" placeholder="再輸入一次" autocomplete="new-password"/>
+      </div>
+      <div class="form-error" id="signup-error"></div>
+      <div class="form-success" id="signup-success"></div>
+      <button class="btn-primary" id="signup-btn" onclick="handleSignup()">建立帳號</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── 主應用 ── -->
+<div id="app-page">
+  <!-- Top Nav -->
+  <nav class="topnav">
+    <div class="topnav-left">
+      <div class="topnav-logo">食育<span>實驗室</span></div>
+    </div>
+    <div class="topnav-right">
+      <div class="user-pill">
+        <div class="user-avatar" id="user-avatar">?</div>
+        <div class="user-email" id="user-email-display">-</div>
+      </div>
+      <button class="btn-logout" onclick="handleLogout()">登出</button>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-eyebrow">食育實驗室 · Nutrilab</div>
+    <h1 class="hero-title">學習路徑<br><span>從知識到實踐的營養地圖</span></h1>
+    <p class="hero-desc">點擊卡片展開內容；點擊右上角狀態徽章切換進度，進度會自動同步至雲端。</p>
+    <div class="progress-block">
+      <div class="progress-header">
+        <span class="progress-label">整體進度</span>
+        <span class="progress-count" id="prog-count">0 / 6 單元</span>
+      </div>
+      <div class="progress-track"><div class="progress-fill" id="prog-fill" style="width:0%"></div></div>
+      <div class="progress-steps">
+        <div class="progress-pip"></div><div class="progress-pip"></div><div class="progress-pip"></div>
+        <div class="progress-pip"></div><div class="progress-pip"></div><div class="progress-pip"></div>
+      </div>
+      <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-top:8px">
+        <div class="hint">點擊徽章切換：未開始 → 進行中 → 已完成</div>
+        <div class="sync-indicator" id="sync-indicator" style="display:none">
+          <div class="sync-dot"></div> 同步中…
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Path -->
+  <section class="path-section">
+    <div class="section-header">
+      <span class="section-label">課程單元</span>
+      <div class="section-line"></div>
+    </div>
+    <div class="legend">
+      <div class="legend-item"><div class="ld ld-done"></div>已完成</div>
+      <div class="legend-item"><div class="ld ld-active"></div>進行中</div>
+      <div class="legend-item"><div class="ld ld-none"></div>尚未開始</div>
+    </div>
+    <div class="path-wrap">
+      <div class="spine"></div>
+      <div id="units-container"></div>
+    </div>
+  </section>
+
+  <div class="footer-note">
+    食育實驗室 · Nutrilab &nbsp;｜&nbsp; 中國文化大學 &nbsp;
+    <a href="https://www.pccu.edu.tw" target="_blank">pccu.edu.tw</a>
+  </div>
+</div>
+
+<script>
+// ══════════════════════════════════════════
+//  ⚠️  請填入你的 Supabase 金鑰
+// ══════════════════════════════════════════
+const SUPABASE_URL = 'https://ttirquxydwfdrazhoxey.supabase.co'
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InR0aXJxdXh5ZHdmZHJhemhveGV5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE5ODcwMjMsImV4cCI6MjA5NzU2MzAyM30.M42dYwCZ9WwJtzsr2SOU7xCGmdK9llCDX4fUQrOymNg'
+// ══════════════════════════════════════════
+
+const { createClient } = supabase
+const sb = createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
+
+// ── 課程資料 ──
+const units = [
+  {icon:'🔬',accent:'a4',title:'所謂營養素',desc:'系統性認識三大巨量營養素的化學結構、生理功能與每日建議攝取量，建立完整的營養素知識架構。',points:['醣類分類：單糖、雙糖、多糖與膳食纖維的功能差異','蛋白質的必需胺基酸組成與生物利用率評估','脂肪的種類：飽和脂肪、不飽和脂肪、反式脂肪的健康影響'],tags:['醣類','蛋白質','脂肪','2 小時']},
+  {icon:'👶',accent:'a1',title:'生命階段及營養',desc:'從嬰幼兒到高齡長者，探討各生命階段的生理特徵與對應的營養需求，掌握不同時期的飲食建議。',points:['嬰幼兒與青少年的生長發育營養需求','孕期、哺乳期的關鍵營養素補充策略','更年期與老年期的飲食調整與預防退化'],tags:['嬰幼兒','孕期','高齡','2 小時']},
+  {icon:'⚗️',accent:'a6',title:'礦物質及其他',desc:'深入認識人體必需的礦物質，以及水、膳食纖維、植化素等其他不可忽視的重要營養成分。',points:['鈣、磷、鎂與骨骼、肌肉健康的關係','鐵、鋅、碘、硒的生理功能與缺乏症狀','植化素、益生元、益生菌的保健功效'],tags:['礦物質','植化素','益生菌','2 小時']},
+  {icon:'🥗',accent:'a3',title:'食物及營養',desc:'從食物的本質出發，認識六大類食物的營養組成，並了解選購與烹調方式如何影響營養價值。',points:['六大類食物的營養特性與代換份量','原型食物 vs. 加工食品的營養差異','不同烹調方式對營養素保留率的影響'],tags:['六大類食物','原型食物','烹調','2 小時']},
+  {icon:'🏥',accent:'a2',title:'疾病及營養關係',desc:'探討慢性病、代謝症候群與飲食的雙向關係，學習以飲食輔助預防及控制常見疾病。',points:['糖尿病、高血壓、高血脂的飲食原則','癌症風險與抗氧化飲食保護策略','腸道菌相、免疫力與飲食的關聯'],tags:['糖尿病','高血壓','腸道菌相','2 小時']},
+  {icon:'🍽️',accent:'a7',title:'我的健康餐盤',desc:'整合全課程所學，運用健康餐盤概念設計個人化每日飲食計畫，落實「知道」到「做到」的最後一里路。',points:['健康餐盤的食物比例與實際應用方式','依年齡、性別與活動量調整熱量需求','實作：規劃一週個人均衡飲食計畫'],tags:['健康餐盤','熱量計算','實作','2 小時']}
+]
+
+let state = [0,0,0,0,0,0]
+let expanded = [false,false,false,false,false,false]
+let currentUser = null
+let saveTimer = null
+
+// ── 初始化 ──
+async function init() {
+  const { data: { session } } = await sb.auth.getSession()
+  if (session) {
+    await enterApp(session.user)
+  } else {
+    showLogin()
+  }
+
+  sb.auth.onAuthStateChange(async (event, session) => {
+    if (event === 'SIGNED_IN') await enterApp(session.user)
+    if (event === 'SIGNED_OUT') showLogin()
+  })
+}
+
+function showLogin() {
+  document.getElementById('loading-overlay').style.display = 'none'
+  document.getElementById('login-page').style.display = 'flex'
+  document.getElementById('app-page').style.display = 'none'
+}
+
+async function enterApp(user) {
+  currentUser = user
+  document.getElementById('loading-overlay').style.display = 'none'
+  document.getElementById('login-page').style.display = 'none'
+  document.getElementById('app-page').style.display = 'block'
+
+  // 顯示使用者資訊
+  const email = user.email || ''
+  document.getElementById('user-email-display').textContent = email
+  document.getElementById('user-avatar').textContent = email.charAt(0).toUpperCase()
+
+  // 載入進度
+  await loadProgress()
+}
+
+// ── 進度 CRUD ──
+async function loadProgress() {
+  const { data, error } = await sb
+    .from('progress')
+    .select('unit_index, status')
+    .eq('user_id', currentUser.id)
+
+  if (data) {
+    state = [0,0,0,0,0,0]
+    data.forEach(row => {
+      if (row.unit_index >= 0 && row.unit_index < 6) {
+        state[row.unit_index] = row.status
+      }
+    })
+  }
+  render()
+}
+
+async function saveProgress(unitIndex, status) {
+  document.getElementById('sync-indicator').style.display = 'flex'
+
+  const { error } = await sb.from('progress').upsert({
+    user_id: currentUser.id,
+    unit_index: unitIndex,
+    status: status,
+    updated_at: new Date().toISOString()
+  }, { onConflict: 'user_id,unit_index' })
+
+  document.getElementById('sync-indicator').style.display = 'none'
+
+  if (!error) showToast()
+}
+
+// ── 登入 / 登出 ──
+async function handleLogin() {
+  const email = document.getElementById('login-email').value.trim()
+  const password = document.getElementById('login-password').value
+  const btn = document.getElementById('login-btn')
+  const errEl = document.getElementById('login-error')
+
+  errEl.classList.remove('show')
+  btn.disabled = true
+  btn.textContent = '登入中…'
+
+  const { error } = await sb.auth.signInWithPassword({ email, password })
+
+  btn.disabled = false
+  btn.textContent = '登入'
+
+  if (error) {
+    errEl.textContent = error.message.includes('Invalid') ? 'Email 或密碼錯誤，請再試一次' : error.message
+    errEl.classList.add('show')
+  }
+}
+
+async function handleSignup() {
+  const email = document.getElementById('signup-email').value.trim()
+  const password = document.getElementById('signup-password').value
+  const password2 = document.getElementById('signup-password2').value
+  const btn = document.getElementById('signup-btn')
+  const errEl = document.getElementById('signup-error')
+  const sucEl = document.getElementById('signup-success')
+
+  errEl.classList.remove('show')
+  sucEl.classList.remove('show')
+
+  if (password !== password2) {
+    errEl.textContent = '兩次密碼不一致'
+    errEl.classList.add('show')
+    return
+  }
+  if (password.length < 6) {
+    errEl.textContent = '密碼至少需要 6 個字元'
+    errEl.classList.add('show')
+    return
+  }
+
+  btn.disabled = true
+  btn.textContent = '建立中…'
+
+  const { error } = await sb.auth.signUp({ email, password })
+
+  btn.disabled = false
+  btn.textContent = '建立帳號'
+
+  if (error) {
+    errEl.textContent = error.message
+    errEl.classList.add('show')
+  } else {
+    sucEl.textContent = '帳號建立成功！請直接登入。'
+    sucEl.classList.add('show')
+    setTimeout(() => switchTab('login'), 1500)
+  }
+}
+
+async function handleLogout() {
+  await sb.auth.signOut()
+  state = [0,0,0,0,0,0]
+  expanded = [false,false,false,false,false,false]
+}
+
+// ── UI ──
+function switchTab(tab) {
+  document.getElementById('tab-login').classList.toggle('active', tab==='login')
+  document.getElementById('tab-signup').classList.toggle('active', tab==='signup')
+  document.getElementById('form-login').style.display = tab==='login'?'block':'none'
+  document.getElementById('form-signup').style.display = tab==='signup'?'block':'none'
+}
+
+function statusLabel(s) {
+  if(s===2) return {text:'✓ 已完成',cls:'badge-done'}
+  if(s===1) return {text:'▶ 進行中',cls:'badge-active'}
+  return {text:'○ 未開始',cls:'badge-none'}
+}
+function nodeClass(s){ return s===2?'done':s===1?'active':'' }
+function nodeLabel(i,s){ return s===2?'✓':String(i+1).padStart(2,'0') }
+
+function render() {
+  const c = document.getElementById('units-container')
+  c.innerHTML = units.map((u,i) => {
+    const s=state[i], sl=statusLabel(s), exp=expanded[i]
+    return `
+    <div class="path-item">
+      <div class="node ${nodeClass(s)}">${nodeLabel(i,s)}</div>
+      <div class="card ${s===2?'done-card':s===1?'active-card':''}" onclick="toggleExpand(${i})">
+        <div class="card-accent ${u.accent}"></div>
+        <div class="card-inner">
+          <div class="card-top">
+            <div class="card-left">
+              <div class="card-icon">${u.icon}</div>
+              <div class="card-titles">
+                <div class="card-unit">單元 ${String(i+1).padStart(2,'0')}</div>
+                <div class="card-title">${u.title}</div>
+              </div>
+            </div>
+            <div class="card-right">
+              <span class="badge ${sl.cls}" onclick="cycleStatus(event,${i})">${sl.text}</span>
+              <button class="expand-btn" onclick="toggleExpand(${i});event.stopPropagation()">${exp?'收起 ▲':'展開 ▼'}</button>
+            </div>
+          </div>
+          <div class="detail ${exp?'open':''}">
+            <div class="detail-inner">
+              <div class="detail-desc">${u.desc}</div>
+              <ul class="detail-points">${u.points.map(p=>`<li>${p}</li>`).join('')}</ul>
+              <div class="card-meta">${u.tags.map(t=>`<span class="meta-tag">${t}</span>`).join('')}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>`
+  }).join('')
+  updateProgress()
+}
+
+function cycleStatus(e,i) {
+  e.stopPropagation()
+  state[i] = (state[i]+1)%3
+  render()
+  saveProgress(i, state[i])
+}
+
+function toggleExpand(i) {
+  expanded[i] = !expanded[i]
+  render()
+}
+
+function updateProgress() {
+  const done = state.filter(s=>s===2).length
+  const pct = Math.round(done/6*100)
+  document.getElementById('prog-fill').style.width = pct+'%'
+  document.getElementById('prog-count').textContent = `${done} / 6 單元完成`
+  document.querySelectorAll('.progress-pip').forEach((p,i) => {
+    p.classList.remove('done','active')
+    if(state[i]===2) p.classList.add('done')
+    else if(state[i]===1) p.classList.add('active')
+  })
+}
+
+let toastTimer
+function showToast() {
+  const t = document.getElementById('toast')
+  t.classList.add('show')
+  clearTimeout(toastTimer)
+  toastTimer = setTimeout(()=>t.classList.remove('show'), 2000)
+}
+
+// Enter 鍵支援
+document.addEventListener('keydown', e => {
+  if (e.key !== 'Enter') return
+  const tab = document.getElementById('tab-login').classList.contains('active')
+  if (tab) handleLogin()
+  else handleSignup()
+})
+
+init()
+</script>
+</body>
+</html>
